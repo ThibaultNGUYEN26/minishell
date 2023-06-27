@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_loop.c                                   :+:      :+:    :+:   */
+/*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/27 20:32:18 by thibnguy         ###   ########.fr       */
+/*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
+/*   Updated: 2023/06/27 21:08:10 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_catch_input(char *input)
+void	ft_print_data(t_data *data)
 {
-	if (!input)
-		ft_ctrl_d();
-	else if (ft_strcmp(input, "exit") == 0)
-		ft_exit(input);
-	ft_lexer(input);
-}
-
-void	ft_minishell_loop(void)
-{
-	char	*input;
-	
-	input = NULL;
-	// disable_echo();
-	signal(SIGINT, ft_ctrl_c);
+	t_data *head = data;
 	while (1)
 	{
-		input = readline(PROMPT);
-        if (input && *input)
-            add_history(input);
-		ft_catch_input(input);
-		free(input);
-		input = NULL;
+		printf("%s\n", (data)->content);
+		if ((data)->next == head)
+			break;
+		data = (data)->next;
 	}
+	data = head;
+}
+
+t_data	*ft_lexer(char *input)
+{
+	t_data	*data;
+
+	data = ft_fill_data(input);
+	ft_print_data(data);
+	return (data);
 }

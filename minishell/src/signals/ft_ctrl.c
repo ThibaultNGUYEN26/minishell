@@ -6,16 +6,16 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:34:27 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/27 19:31:27 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:54:30 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_exit(t_input *input)
+void	ft_exit(char *input)
 {
 	printf("exit\n");
-	free(input->content);
+	free(input);
 	exit(0);
 }
 

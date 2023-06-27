@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:41:37 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/17 18:41:49 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:02:33 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strdup(char *s)
 	int		i;
 	char	*dup;
 
-	dup = malloc(ft_strlen(s) + 1);
+	dup = malloc(sizeof(char) * ft_strlen(s) + 1);
 	if (!dup)
 		return (NULL);
 	i = -1;

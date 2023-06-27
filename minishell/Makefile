@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/06/27 19:20:08 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/06/27 21:05:16 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,9 @@ OBJECTS		=	./bin
 INCLUDES	=	./includes
 
 SRCS		=	get_next_line/get_next_line.c \
+				lexer/ft_fill_data.c \
+				lexer/ft_lexer.c \
+				libft/ft_split.c \
 				libft/ft_strchr.c \
 				libft/ft_strcmp.c \
 				libft/ft_strdup.c \

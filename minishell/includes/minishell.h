@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/27 19:19:40 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/06/27 21:03:52 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,23 @@
 # include "colors.h"
 # include "defines.h"
 
-typedef struct s_input
+typedef struct s_data
 {
-	char	*content;
-	int		ctrl_c_status;
-}	t_input;
+	char			*content;
+	struct s_data	*next;
+	struct s_data	*prev;
+	int				ctrl_c_status;
+}	t_data;
 
 /* get_next_line */
 char	*get_next_line(const int fd);
 
+/* lexer */
+t_data	*ft_lexer(char *input);
+t_data	*ft_fill_data(char *input);
+
 /* libft */
+char	**ft_split(char *str, char *charset);
 char	*ft_strchr(char *s, int c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s);
@@ -44,7 +51,7 @@ int		ft_strlen(char *s);
 char	*ft_substr(char *s, int start, int len);
 
 /* signals */
-void	ft_exit(t_input *input);
+void	ft_exit(char *input);
 void	disable_echo(void);
 void	ft_ctrl_d(void);
 void	ft_ctrl_c(int sig);
