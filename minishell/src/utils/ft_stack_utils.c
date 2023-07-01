@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/01 10:01:29 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/01 10:05:25 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	addlast_node(t_data **stack, t_data *new_data)
 	(*stack)->prev = new_data;
 }
 
-
 void	ft_free_stack(t_data *data)
 {
 	t_data	*head;
@@ -61,4 +60,17 @@ void	ft_free_stack(t_data *data)
 	}
 	free(data->content);
 	free(data);
+}
+
+void	ft_print_data(t_data *data)
+{
+	t_data *head = data;
+	while (1)
+	{
+		printf("%s\n", (data)->content);
+		if ((data)->next == head)
+			break;
+		data = (data)->next;
+	}
+	data = head;
 }
