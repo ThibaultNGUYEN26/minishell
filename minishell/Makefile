@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/06/27 21:05:16 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/07/01 09:16:55 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRCS		=	get_next_line/get_next_line.c \
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 CINCLUDES	=	-I ${INCLUDES}
 
 BLACK		=	"\033[1;30m"
@@ -72,7 +72,7 @@ all: ${NAME} norminette
 
 ${NAME}: ${OBJS} ${OBJECTS}/${NAME}.o
 	@echo $(GREEN)"\n● Compilation of ${NAME}..."$(EOC)
-	@${CC} ${CFLAGS} -lreadline -ltermcap ${CINCLUDES} -o ${NAME} ${OBJS} ${OBJECTS}/${NAME}.o
+	@${CC} ${CFLAGS}  ${CINCLUDES} -o ${NAME} ${OBJS} ${OBJECTS}/${NAME}.o -lreadline
 
 norminette:
 	@norminette | grep "Error!" > /dev/null && echo $(WHITE)"● [Norminette]: "$(RED)"KO\n"$(EOC) || echo $(WHITE)"● [Norminette]: "$(GREEN)"OK\n"$(EOC)

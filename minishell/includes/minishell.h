@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/27 21:03:52 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/01 09:17:51 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
-# include <termios.h>
-# include <termcap.h>
 # include "colors.h"
 # include "defines.h"
 
@@ -52,9 +49,9 @@ char	*ft_substr(char *s, int start, int len);
 
 /* signals */
 void	ft_exit(char *input);
-void	disable_echo(void);
+// void	disable_echo(void);
 void	ft_ctrl_d(void);
-void	ft_ctrl_c(int sig);
+// void	ft_ctrl_c(int sig);
 
 /* utils */
 int		ft_welcome(void);

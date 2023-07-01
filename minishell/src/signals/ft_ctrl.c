@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:34:27 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/27 20:54:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/01 20:35:51 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_exit(char *input)
   * @param void 
   * @return void
   */
-void	disable_echo(void) 
+/* void	disable_echo(void) 
 {
 	struct termios term;
 
@@ -39,7 +39,7 @@ void	disable_echo(void)
 	term.c_cc[VTIME] = 0;       //버퍼 비우는 시간 (timeout)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 
-}
+} */
 
 void	ft_ctrl_d(void)
 {
@@ -47,13 +47,13 @@ void	ft_ctrl_d(void)
 	exit(0);
 }
 
-void	ft_ctrl_c(int sig)
+/* void	ft_ctrl_c(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\033[2D  \033[2D", 11);
 	write(STDOUT_FILENO, "\n" PROMPT, \
 		sizeof("\n" PROMPT) - 1);
-}
+} */
 
 void	ft_ctrl_slash()
 {
