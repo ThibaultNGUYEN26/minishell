@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/01 09:17:51 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/01 10:01:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	ft_ctrl_d(void);
 // void	ft_ctrl_c(int sig);
 
 /* utils */
+t_data	*ft_new_stack(char *content);
+void	addlast_node(t_data **stack, t_data *new_data);
+void	ft_free_stack(t_data *data);
 int		ft_welcome(void);
 void	ft_minishell_loop(void);
 

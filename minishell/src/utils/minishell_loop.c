@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/01 09:18:04 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/01 10:02:13 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static void	ft_catch_input(char *input)
 {
+	t_data	*data;
+
 	if (!input)
 		ft_ctrl_d();
 	else if (ft_strcmp(input, "exit") == 0)
 		ft_exit(input);
-	ft_lexer(input);
+	data = ft_lexer(input);
+	ft_free_stack(data);
 }
 
 void	ft_minishell_loop(void)

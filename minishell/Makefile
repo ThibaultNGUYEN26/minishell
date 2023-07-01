@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/07/01 09:16:55 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/07/01 10:00:53 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,11 +28,12 @@ SRCS		=	get_next_line/get_next_line.c \
 				signals/ft_ctrl.c \
 				utils/ft_welcome.c \
 				utils/minishell_loop.c \
+				utils/ft_stack_utils.c \
 
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g #-fsanitize=address
 CINCLUDES	=	-I ${INCLUDES}
 
 BLACK		=	"\033[1;30m"
