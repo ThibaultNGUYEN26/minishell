@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 15:17:32 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:40:12 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,19 @@ void	ft_free_stack(t_data *data)
   */
 void	ft_print_data(t_data *data)
 {
-	t_data *head = data;
+	t_data	*head;
+	int		i;
+
+	head = data;
+	i = 0;
 	while (1)
 	{
-		printf("%s\n", (data)->content);
+		printf("[%d] %s\n", i, (data)->content);
 		if ((data)->next == head)
 			break;
 		data = (data)->next;
+		i++;
 	}
 	data = head;
 }
+

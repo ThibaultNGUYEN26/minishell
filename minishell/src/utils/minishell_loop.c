@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 15:10:38 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:34:18 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_minishell_loop(void)
 	// signal(SIGINT, ft_ctrl_c);
 	while (1)
 	{
-		input = readline(PROMPT);
+		input = readline(GREEN PROMPT EOC);
 		add_history(input);
 		ft_catch_input(input);
 		free(input);

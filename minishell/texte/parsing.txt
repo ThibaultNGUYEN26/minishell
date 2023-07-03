@@ -1,0 +1,11 @@
+echo \tbonjour\t
+tbonjourt
+
+echo \\tbonjour\t
+\tbonjourt
+
+echo \
+>
+
+echo \\
+\

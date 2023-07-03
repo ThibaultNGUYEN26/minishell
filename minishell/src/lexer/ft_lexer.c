@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 15:19:12 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:34:28 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ t_data	*ft_lexer(char *input)
 	data = ft_fill_data(input);
 	// <<, <, >, >>, |, ', ", (, ), ;, <space>, <tab>, <newline>, (BONUS) &&, ||
 	// ft_tokenizer(data);
-	// ft_print_data(data);
+	ft_print_data(data);
 	return (data);
 }
