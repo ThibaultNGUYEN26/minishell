@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 14:53:02 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:10:38 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Input catcher and run lexer
+  * @param input
+  * @returns void
+  */
 static void	ft_catch_input(char *input)
 {
 	t_data	*data;
@@ -24,6 +29,11 @@ static void	ft_catch_input(char *input)
 	ft_free_stack(data);
 }
 
+/**
+  * Loop the user input and catch signals from it + history functionality.
+  * @param void
+  * @returns void
+  */
 void	ft_minishell_loop(void)
 {
 	char	*input;

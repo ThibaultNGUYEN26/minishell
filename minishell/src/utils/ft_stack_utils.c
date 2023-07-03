@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/01 10:05:25 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:17:32 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Malloc a linked list.
+  * @param content 
+  * @returns new
+  */
 t_data	*ft_new_stack(char *content)
 {
 	t_data	*new;
@@ -25,6 +30,12 @@ t_data	*ft_new_stack(char *content)
 	return (new);
 }
 
+/**
+  * Add element at end of linked list.
+  * @param stack
+  * @param new_data
+  * @returns void
+  */
 void	addlast_node(t_data **stack, t_data *new_data)
 {
 	if (*stack == NULL)
@@ -40,6 +51,11 @@ void	addlast_node(t_data **stack, t_data *new_data)
 	(*stack)->prev = new_data;
 }
 
+/**
+  * Free linked list.
+  * @param void 
+  * @returns data
+  */
 void	ft_free_stack(t_data *data)
 {
 	t_data	*head;
@@ -62,6 +78,11 @@ void	ft_free_stack(t_data *data)
 	free(data);
 }
 
+/**
+  * Print linked list.
+  * @param void
+  * @returns data
+  */
 void	ft_print_data(t_data *data)
 {
 	t_data *head = data;

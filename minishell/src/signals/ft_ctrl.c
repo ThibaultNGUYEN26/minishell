@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:34:27 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/01 20:35:51 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:18:46 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Print exit and shut down execution.
+  * @param input 
+  * @returns void
+  */
 void	ft_exit(char *input)
 {
 	printf("exit\n");
