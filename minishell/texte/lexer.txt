@@ -66,3 +66,13 @@ while i < strlen(input)
 return (data);
 
 DONC : le lexer doit split les tokens, separer ce qu'il y'a entre les quotes et gerer les $ en faisant en sorte que la liste avec les elements de la commande aie le resultat des variables d'env
+
+il faut changer tout
+while on est a un token mettre le token dans data
+si pas token tant qu'on est pas a token ou fin d'input mettre tout ce qu'il y'a dans data
+
+apres
+gerer les doubles quotes (parser) 
+et les dollars (expander)
+
+Ligne a suivre : LEXER -> PARSER -> EXPANDER -> EXECUTEUR

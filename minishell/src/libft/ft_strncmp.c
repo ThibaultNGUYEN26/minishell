@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/04 17:15:24 by thibnguy         ###   ########.fr       */
+/*   Created: 2023/07/04 17:19:44 by thibnguy          #+#    #+#             */
+/*   Updated: 2023/07/04 17:20:56 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char *argv[], char **envp)
+int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
-	(void)argc;
-	(void)argv;
-	ft_welcome();
-	ft_minishell_loop(envp);
-	return (0);
+	unsigned int	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n - 1)
+		i++;
+	return (s1[i] - s2[i]);
 }

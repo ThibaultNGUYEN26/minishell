@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/04 13:05:11 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:42:07 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_token
 char	*get_next_line(const int fd);
 
 /* lexer */
-t_data	*ft_lexer(char *input);
-t_data	*ft_fill_data(char *input);
+t_data	*ft_lexer(char *input, char **envp);
+t_data	*ft_fill_data(char *input, char **envp);
 
 /* libft */
 char	**ft_split(char *str, char *charset);
@@ -51,6 +51,7 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *s);
+int		ft_strncmp(char *s1, char *s2, unsigned int n);
 char	*ft_substr(char *s, int start, int len);
 
 /* signals */
@@ -65,6 +66,6 @@ void	addlast_node(t_data **stack, t_data *new_data);
 void	ft_free_stack(t_data *data);
 void	ft_print_data(t_data *data);
 int		ft_welcome(void);
-void	ft_minishell_loop(void);
+void	ft_minishell_loop(char **envp);
 
 #endif

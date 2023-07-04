@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/04 13:13:41 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/04 18:17:36 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
   * @param input
   * @returns void
   */
-static void	ft_catch_input(char *input)
+static void	ft_catch_input(char *input, char **envp)
 {
 	t_data	*data;
 
@@ -25,7 +25,7 @@ static void	ft_catch_input(char *input)
 		ft_ctrl_d();
 	else if (ft_strcmp(input, "exit") == 0)
 		ft_exit(input);
-	data = ft_lexer(input);
+	data = ft_lexer(input, envp);
 	ft_free_stack(data);
 }
 
@@ -34,7 +34,7 @@ static void	ft_catch_input(char *input)
   * @param void
   * @returns void
   */
-void	ft_minishell_loop(void)
+void	ft_minishell_loop(char **envp)
 {
 	char	*input;
 	
@@ -45,7 +45,7 @@ void	ft_minishell_loop(void)
 	{
 		input = readline(PROMPT);
 		add_history(input);
-		ft_catch_input(input);
+		ft_catch_input(input, envp);
 		free(input);
 		input = NULL;
 	}
