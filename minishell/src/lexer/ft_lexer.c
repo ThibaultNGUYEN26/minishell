@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 15:34:28 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:20:45 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 } */
 
 /**
-  * Define lists where all keywords are stocked.
+  * Define list where all keywords are stocked.
   * @param input
   * @returns data
   */
@@ -32,7 +32,7 @@ t_data	*ft_lexer(char *input)
 	t_data	*data;
 
 	data = ft_fill_data(input);
-	// <<, <, >, >>, |, ', ", (, ), ;, <space>, <tab>, <newline>, (BONUS) &&, ||
+	// <<, <, >, >>, |, ', ", <space>, (BONUS) &&, ||
 	// ft_tokenizer(data);
 	ft_print_data(data);
 	return (data);

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 15:34:37 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:05:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@
 typedef struct s_data
 {
 	char			*content;
+	int				exit_code;
 	struct s_data	*next;
 	struct s_data	*prev;
 	int				ctrl_c_status;
 }	t_data;
 
-// typedef struct s_
+typedef struct s_token
+{
+	char	*token;
+}	t_token;
 
 /* get_next_line */
 char	*get_next_line(const int fd);

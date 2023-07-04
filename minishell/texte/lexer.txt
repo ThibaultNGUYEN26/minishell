@@ -27,7 +27,7 @@ pour avoir : data =
 pour la commande : < input cat | "echo bonjour" = input
 
 il faut reussir a detecter les tokens, les commandes, les mots
-tel que liste des tokens : <<, <, >, >>, |, ', ", ;,et <space>, (BONUS) &&, ||
+tel que liste des tokens : <<, <, >, >>, |, ', ", <space>, (BONUS) &&, ||
 
 i = 0;
 while i < strlen(input)
