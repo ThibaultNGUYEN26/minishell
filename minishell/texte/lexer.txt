@@ -76,3 +76,13 @@ gerer les doubles quotes (parser)
 et les dollars (expander)
 
 Ligne a suivre : LEXER -> PARSER -> EXPANDER -> EXECUTEUR
+
+things to fix :
+
+echo $'allo' ou avec "" = allo
+my output : ""
+
+
+str
+split avec dollar et avec ' '
+
