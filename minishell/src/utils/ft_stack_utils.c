@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/03 15:40:12 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:46:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
   * @param content 
   * @returns new
   */
-t_data	*ft_new_stack(char *content)
+t_data	*ft_new_stack(char *content, char *token)
 {
 	t_data	*new;
 
@@ -27,6 +27,19 @@ t_data	*ft_new_stack(char *content)
 	new->next = new;
 	new->prev = new;
 	new->content = content;
+	if (token)
+	{
+		if (ft_strcmp(token, "|") == 0)
+			new->token = PIPE;
+		if (ft_strcmp(token, "<") == 0)
+			new->token = INPUT;
+		if (ft_strcmp(token, ">") == 0)
+			new->token = OUTPUT;
+		if (ft_strcmp(token, ">>") == 0)
+			new->token = APPEND;
+		if (ft_strcmp(token, "<<") == 0)
+			new->token = HEREDOC;
+	}
 	return (new);
 }
 

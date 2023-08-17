@@ -1,0 +1,18 @@
+ls | wc -l > output.txt
+
+LEXER
+|, > => TOKEN
+ls, wc -l, output.txt => commande
+
+PARSER
+debut => |
+ls commande
+| => >
+wc -l commande
+>
+output.txt fichier
+
+EXECUTEUR
+ls
+wc -l
+> fichier

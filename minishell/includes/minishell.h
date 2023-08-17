@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/04 17:42:07 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:46:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,35 @@
 # include "colors.h"
 # include "defines.h"
 
+typedef enum s_token
+{
+	PIPE,
+	INPUT,
+	OUTPUT,
+	APPEND,
+	HEREDOC,
+}	t_token;
+
 typedef struct s_data
 {
 	char			*content;
+	t_token			*token;
 	int				exit_code;
 	struct s_data	*next;
 	struct s_data	*prev;
 	int				ctrl_c_status;
 }	t_data;
 
-typedef struct s_token
-{
-	char	*token;
-}	t_token;
-
-/* get_next_line */
+/* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);
 
-/* lexer */
-t_data	*ft_lexer(char *input, char **envp);
+/* ----- LEXER ----- */
+/* ft_fill_data */
 t_data	*ft_fill_data(char *input, char **envp);
+/* ft_lexer */
+t_data	*ft_lexer(char *input, char **envp);
 
-/* libft */
+/* ----- LIBFT ----- */
 char	**ft_split(char *str, char *charset);
 char	*ft_strchr(char *s, int c);
 int		ft_strcmp(char *s1, char *s2);
@@ -54,18 +61,23 @@ int		ft_strlen(char *s);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 char	*ft_substr(char *s, int start, int len);
 
-/* signals */
+/* ------ SIGNALS ----- */
 void	ft_exit(char *input);
 // void	disable_echo(void);
 void	ft_ctrl_d(void);
 // void	ft_ctrl_c(int sig);
 
-/* utils */
-t_data	*ft_new_stack(char *content);
+/* ----- UTILS ----- */
+/* ft_stack_utils */
+t_data	*ft_new_stack(char *content, char *token);
 void	addlast_node(t_data **stack, t_data *new_data);
 void	ft_free_stack(t_data *data);
 void	ft_print_data(t_data *data);
+
+/* ft_welcome */
 int		ft_welcome(void);
+
+/* minishell_loop */
 void	ft_minishell_loop(char **envp);
 
 #endif
