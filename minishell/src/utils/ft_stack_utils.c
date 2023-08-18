@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/17 17:46:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:27:52 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_data	*ft_new_stack(char *content, char *token)
 		if (ft_strcmp(token, "<<") == 0)
 			new->token = HEREDOC;
 	}
+	else
+		new->token = -1;
 	return (new);
 }
 
@@ -105,7 +107,7 @@ void	ft_print_data(t_data *data)
 	i = 0;
 	while (1)
 	{
-		printf("[%d] %s\n", i, (data)->content);
+		printf("[%d] content : %s , token : %d\n", i, (data)->content, (data)->token);
 		if ((data)->next == head)
 			break;
 		data = (data)->next;
