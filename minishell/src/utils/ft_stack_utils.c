@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/18 10:27:52 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:56:25 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /**
   * Malloc a linked list.
   * @param content 
+  * @param token
   * @returns new
   */
 t_data	*ft_new_stack(char *content, char *token)

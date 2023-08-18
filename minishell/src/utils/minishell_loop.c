@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/07/04 18:17:36 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:55:27 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /**
   * Input catcher and run lexer
   * @param input
+  * @param envp
   * @returns void
   */
 static void	ft_catch_input(char *input, char **envp)
@@ -31,7 +32,7 @@ static void	ft_catch_input(char *input, char **envp)
 
 /**
   * Loop the user input and catch signals from it + history functionality.
-  * @param void
+  * @param envp
   * @returns void
   */
 void	ft_minishell_loop(char **envp)
