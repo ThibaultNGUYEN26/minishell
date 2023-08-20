@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/20 19:23:50 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:21:58 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ t_data	*ft_lexer(char *input);
 void	ft_quotes(t_data *data);
 /* ft_lexer_errors */
 void	ft_quotes_error(t_data *data);
+void    ft_redirect_error(t_data *data);
 
 /* ----- LIBFT ----- */
 char	**ft_split(char *str, char *charset);
-int		ft_strchr(char *s, int c);
+int		ft_strchr(char *s, char c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);

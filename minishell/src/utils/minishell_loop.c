@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/20 19:23:36 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:16:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	ft_catch_input(char *input, char **envp)
 	data = ft_lexer(input);
 	ft_quotes_error(data);
 	ft_quotes(data);
-	//ft_redirect_error(data);
+	ft_redirect_error(data);
 	ft_print_data(data);
 	ft_free_stack(data);
 }

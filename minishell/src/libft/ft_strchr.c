@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:41:02 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/18 23:46:08 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:22:31 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_strchr(char *s, int c)
+int	ft_strchr(char *s, char c)
 {
 	int	i;
 
 	i = -1;
-	while (s[++i] != (char)c)
+	while (s[++i] != c)
 		if (s[i] == '\0')
 			return (-1);
 	return (i);
