@@ -4,6 +4,11 @@ LEXER
 |, > => TOKEN
 ls, wc -l, output.txt => commande
 
+QUOTES
+'<quelque chose>' peut importe ce qu'est <quelque chose> print as it is sans print '
+"<truc>" print <truc> sans " mais si il y'a des '' dans des "" il faut les print
+
+
 PARSER
 debut => |
 ls commande

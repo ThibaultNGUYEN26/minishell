@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/18 10:55:27 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:49:54 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ static void	ft_catch_input(char *input, char **envp)
 {
 	t_data	*data;
 
+	(void)envp;
 	if (!input)
 		ft_ctrl_d();
 	else if (ft_strcmp(input, "exit") == 0)
 		ft_exit(input);
-	data = ft_lexer(input, envp);
+	data = ft_lexer(input);
+	ft_quotes_error(data);
+	ft_quotes(data);
+	ft_print_data(data);
 	ft_free_stack(data);
 }
 

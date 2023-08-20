@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/18 10:51:26 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:19:12 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ typedef enum s_token
 	OUTPUT,
 	APPEND,
 	HEREDOC,
+	NONE,
 }	t_token;
 
+/* for the moment exit_code 2 means unclosed quotes */
 typedef struct s_data
 {
 	char			*content;
@@ -49,11 +51,13 @@ char	*get_next_line(const int fd);
 /* ft_fill_data */
 t_data	*ft_fill_data(char *input, char **envp);
 /* ft_lexer */
-t_data	*ft_lexer(char *input, char **envp);
+t_data	*ft_lexer(char *input);
+void	ft_quotes_error(t_data *data);
+void	ft_quotes(t_data *data);
 
 /* ----- LIBFT ----- */
 char	**ft_split(char *str, char *charset);
-char	*ft_strchr(char *s, int c);
+int		ft_strchr(char *s, int c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);

@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/18 10:56:25 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:38:11 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_data	*ft_new_stack(char *content, char *token)
 			new->token = HEREDOC;
 	}
 	else
-		new->token = -1;
+		new->token = NONE;
 	return (new);
 }
 
@@ -108,7 +108,7 @@ void	ft_print_data(t_data *data)
 	i = 0;
 	while (1)
 	{
-		printf("[%d] content : %s , token : %d\n", i, (data)->content, (data)->token);
+		printf("[%d] content : %s , token : %d, exit_code : %d\n", i, (data)->content, (data)->token, (data)->exit_code);
 		if ((data)->next == head)
 			break;
 		data = (data)->next;
