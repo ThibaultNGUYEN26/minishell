@@ -6,7 +6,7 @@
 #    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/08/18 10:49:37 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/08/20 19:07:50 by rchbouki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ INCLUDES	=	./includes
 
 SRCS		=	get_next_line/get_next_line.c \
 				lexer/ft_lexer.c \
+				lexer/ft_lexer_errors.c \
 				libft/ft_split.c \
 				libft/ft_strchr.c \
 				libft/ft_strcmp.c \

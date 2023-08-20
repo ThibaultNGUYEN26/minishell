@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/20 17:19:12 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/20 19:23:50 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ char	*get_next_line(const int fd);
 t_data	*ft_fill_data(char *input, char **envp);
 /* ft_lexer */
 t_data	*ft_lexer(char *input);
-void	ft_quotes_error(t_data *data);
 void	ft_quotes(t_data *data);
+/* ft_lexer_errors */
+void	ft_quotes_error(t_data *data);
 
 /* ----- LIBFT ----- */
 char	**ft_split(char *str, char *charset);
