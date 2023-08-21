@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 17:35:20 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:23:13 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_next_line(const int fd);
 
 /* ----- LEXER_PARSER ----- */
 /* ft_builtins */
-void	ft_builtins(t_data *data);
+void	ft_builtins(t_data *data, char *input);
 /* ft_fill_data */
 t_data	*ft_fill_data(char *input, char **envp);
 /* ft_lexer */

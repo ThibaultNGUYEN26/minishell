@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 17:38:33 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:23:18 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_catch_input(char *input, char **envp)
 	ft_quotes_error(data);
 	ft_quotes(data);
 	ft_redirect_error(data);
-	ft_builtins(data);
+	ft_builtins(data, input);
 	ft_dollar(data, envp);
 	ft_print_data(data);
 	ft_free_stack(data);
