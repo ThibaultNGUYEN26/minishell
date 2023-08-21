@@ -63,7 +63,6 @@ void    ft_redirect_error(t_data *data)
 			// if there is a content, imagine its a token ? on va avoir des seg fault sur NULL
 			if (data->content)
 			{
-				printf("%s\n", data->content);
 				if (ft_strchr(data->content, '\\') >= 0 || ft_strchr(data->content, '/') >= 0 || ft_strchr(data->content, '*') >= 0 || ft_strchr(data->content, '?') >= 0 || ft_strchr(data->content, '\"') >= 0 || ft_strchr(data->content, '<') >= 0 || ft_strchr(data->content, '>') >= 0 || ft_strchr(data->content, '|') >= 0)
 					data->exit_code = 3;
 			}

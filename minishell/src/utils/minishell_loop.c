@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/20 22:16:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:21:54 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	ft_catch_input(char *input, char **envp)
 		ft_ctrl_d();
 	else if (ft_strcmp(input, "exit") == 0)
 		ft_exit(input);
+	else if (ft_strcmp(input, "") == 0)
+		return ;
 	data = ft_lexer(input);
 	ft_quotes_error(data);
 	ft_quotes(data);

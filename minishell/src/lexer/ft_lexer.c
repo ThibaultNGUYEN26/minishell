@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/20 19:52:25 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:19:06 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,9 @@ void	ft_quotes(t_data *data)
 				j = i;
 				while ((data->content)[i] != '\'' && (data->content)[i] != '\"' && (data->content)[i])
 					i++;
-				printf("%d\n", i);
 				// if the quote is not the first thing we encounter in content, we save in res what was before 
 				if (i != j)
-					res = ft_strjoin(res, ft_substr(data->content, i, j - i));
+					res = ft_strjoin(res, ft_substr(data->content, j, i - j));
 				// if we aren't at the end of content it means there are quotes
 				if ((data->content)[i] == '\'' || (data->content)[i] == '\"')
 				{

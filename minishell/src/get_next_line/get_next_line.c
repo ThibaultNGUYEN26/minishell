@@ -6,11 +6,22 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:39:38 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/17 19:00:46 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:57:03 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static char	*ft_strchr2(char *s, int c)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i] != (char)c)
+		if (s[i] == '\0')
+			return (NULL);
+	return ((char *)s + i);
+}
 
 static char	*get_entire_line(char *all_lines)
 {
@@ -76,7 +87,7 @@ static char	*get_all_lines(int fd, char *buf, char *row)
 		row = ft_strjoin(tmp, buf);
 		free(tmp);
 		tmp = NULL;
-		if (ft_strchr(row, '\n'))
+		if (ft_strchr2(row, '\n'))
 			return (row);
 	}
 	return (row);
