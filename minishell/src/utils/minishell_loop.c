@@ -6,7 +6,11 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 17:53:46 by thibnguy          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/08/21 17:47:17 by rchbouki         ###   ########.fr       */
+=======
+/*   Updated: 2023/08/21 19:32:27 by thibnguy         ###   ########.fr       */
+>>>>>>> 2340271b605846fdf2a0b6e5449168e0aa802a90
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +36,10 @@ static void	ft_catch_input(char *input, char **envp)
 	ft_quotes_error(data);
 	ft_quotes(data);
 	ft_redirect_error(data);
+<<<<<<< HEAD
+=======
+	ft_builtins(data, input);
+>>>>>>> 2340271b605846fdf2a0b6e5449168e0aa802a90
 	ft_dollar(data, envp);
 	ft_print_data(data);
 	ft_free_stack(data);
