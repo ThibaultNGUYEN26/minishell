@@ -49,12 +49,12 @@ void	ft_quotes_error(t_data *data)
 
 void    ft_redirect_error(t_data *data)
 {
-    t_data  *head;
+	t_data  *head;
 
-    head = data;
-    while (1)
-    {
-        if (data->content == NULL && data->token != 5 && data->token != 0)
+	head = data;
+	while (1)
+	{
+		if (data->content == NULL && data->token != 5 && data->token != 0)
 		{
 			// if there is nothing apres, there is a problem
 			if (data->next == head)
@@ -67,9 +67,9 @@ void    ft_redirect_error(t_data *data)
 					data->exit_code = 3;
 			}
 		}
-        if ((data)->next == head)
+		if ((data)->next == head)
 			break;
 		data = (data)->next;
-    }
-    data = head;
+	}
+	data = head;
 }

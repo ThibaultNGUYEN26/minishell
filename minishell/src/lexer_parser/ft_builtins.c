@@ -6,38 +6,68 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 18:32:14 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:55:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_check_builtins(char **tab, int i)
+static void	ft_check_builtins(t_data *data)
 {
-	if (ft_strcmp(tab[i], "cd") == 0
-		|| ft_strcmp(tab[i], "echo") == 0
-		|| ft_strcmp(tab[i], "env") == 0
-		|| ft_strcmp(tab[i], "export") == 0
-		|| ft_strcmp(tab[i], "pwd") == 0
-		|| ft_strcmp(tab[i], "unset") == 0)
-		return (1);
-	return (0);
+	if (ft_strncmp(data->content, "cd", 2) == 0 || ft_strncmp(data->content, " cd", 3) == 0)
+		data->builtins = ft_strdup("cd");
+	else if (ft_strncmp(data->content, "echo", 4) == 0 || ft_strncmp(data->content, " echo", 5) == 0)
+		data->builtins = ft_strdup("echo");
+	else if (ft_strncmp(data->content, "env", 3) == 0 || ft_strncmp(data->content, " env", 4) == 0)
+		data->builtins = ft_strdup("env");
+	else if (ft_strncmp(data->content, "export", 6) == 0 || ft_strncmp(data->content, " export", 7) == 0)
+		data->builtins = ft_strdup("export");
+	else if (ft_strncmp(data->content, "pwd", 3) == 0 || ft_strncmp(data->content, " pwd", 4) == 0)
+		data->builtins = ft_strdup("pwd");
+	else if (ft_strncmp(data->content, "unset", 5) == 0 || ft_strncmp(data->content, " unset", 6) == 0)
+		data->builtins = ft_strdup("unset");
+	else
+		data->builtins = ft_strdup("NULL");
+}
+
+static int	ft_count_pipe(char *input)
+{
+	char	**tab;
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	tab = ft_split(input, " ");
+	while (tab[++i])
+		if (ft_strcmp(tab[i], "|") == 0)
+			j++;
+	return (j);
 }
 
 void	ft_builtins(t_data *data, char *input)
 {
-	char	**tab;
-	int		i;
+	t_data	*head;
+	int		pipe;
+	int		nb_pipes;
 
-	(void)data;
-	tab = ft_split(input, " ");
-	if (ft_check_builtins(tab, 0))
-		printf("builtins : %s\n", tab[0]);
-	i = -1;
-	while (tab[++i])
+	nb_pipes = ft_count_pipe(input);
+	head = data;
+	pipe = 0;
+	while (1)
 	{
-		if (ft_strcmp(tab[i], "|") == 0)
-			if (ft_check_builtins(tab, i + 1))
-				printf("builtins : %s\n", tab[i + 1]);
+		if (data->token != 5)
+		{
+			if (data->token == 0)
+				pipe++;
+			data->builtins = NULL;
+			data = data->next;
+		}
+		ft_check_builtins(data);
+		printf("%s\n", data->builtins);
+		if (data->next == head || pipe > nb_pipes)
+			break ;
+		data = data->next;
 	}
+	data = head;
 }

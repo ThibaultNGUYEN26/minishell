@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 18:23:13 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:32:19 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,24 @@ typedef enum s_token
 typedef struct s_data
 {
 	char			*content;
+	char			*builtins;
 	t_token			token;
 	int				exit_code;
 	struct s_data	*next;
 	struct s_data	*prev;
 	int				ctrl_c_status;
 }	t_data;
+
+/* typedef struct s_cmds
+{
+	char                    **str;
+	int                     (*builtin)(t_tools *, struct s_cmds *);
+	int                     num_redirections;
+	char                    *hd_file_name;
+	t_data                 *redirections;
+	struct s_cmds	*next;
+	struct s_cmds	*prev;
+}	t_cmds; */
 
 /* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);
