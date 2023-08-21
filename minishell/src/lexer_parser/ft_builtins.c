@@ -6,13 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 19:55:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:57:24 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_check_builtins(t_data *data)
+static void	ft_builtins_status(t_data *data)
 {
 	if (ft_strncmp(data->content, "cd", 2) == 0 || ft_strncmp(data->content, " cd", 3) == 0)
 		data->builtins = ft_strdup("cd");
@@ -63,7 +63,7 @@ void	ft_builtins(t_data *data, char *input)
 			data->builtins = NULL;
 			data = data->next;
 		}
-		ft_check_builtins(data);
+		ft_builtins_status(data);
 		printf("%s\n", data->builtins);
 		if (data->next == head || pipe > nb_pipes)
 			break ;
