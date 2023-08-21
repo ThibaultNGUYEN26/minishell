@@ -60,6 +60,25 @@ char ** = echo a
 builtin = echo
 redirection = > file
 
+DOLLAR
+
+$5behdu = "behdu"
+$!truc = "truc" (ou $@ ou $* ou chiffre)
+$USER$ = thibnguy$
+$USER$riri = thibnguy (ou $_truc (meme si truc == valid(envp))
+$USER$USER = thibnguythibnguy
+$%truc = %truc (ou $^ ou $= ou $+ ou $, ou $. ou $/)
+$\truc = $truc (ou $~)
+$#truc = 0truc
+$$ = <pid>
+$ = ""
+$_truc = ""
+$-truc = "himBHstruc"
+$( = unclosed (ou $' ou $" ou $[ ou ${ ou $| ou $`)
+$) = syntax error near unexpected token `)' (`ou $] ou $})
+$< = syntax error near unexpected token `newline' (`ou $>)
+
+free exit_code = [3, 125]
 
 _____________________________________________________________________________________
 
@@ -69,6 +88,17 @@ wc -l
 > fichier
 
 si fichier valide
+
+exit code list :
+0		: Successful exit without errors
+1		: One or nore generic errors encountered upon exit
+2		: Incorrect usage, such as invalid options or missing arguments
+126		: Command found but is not executable
+127		: Command not found, usually the result of a missing directory in $PATH variable
+128+N	: Command encountered fatal error (was forcefully terminated manually or from an outside source).
+		: The N tells us which signal was recieved
+130		: Command terminated with signal 2 (SIGINT) (ctrl+c on keyboard). 128+2
+143		: Command terminated with signal 15 (SIGTERM) (kill command). 128+15
 
 BUILTINS
 
