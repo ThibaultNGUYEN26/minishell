@@ -62,21 +62,23 @@ redirection = > file
 
 DOLLAR
 
-$5behdu = "behdu"
-$!truc = "truc" (ou $@ ou $* ou chiffre)
 $USER$ = thibnguy$
-$USER$riri = thibnguy (ou $_truc (meme si truc == valid(envp))
-$USER$USER = thibnguythibnguy
-$%truc = %truc (ou $^ ou $= ou $+ ou $, ou $. ou $/)
 $\truc = $truc (ou $~)
-$#truc = 0truc
 $$ = <pid>
-$ = ""
-$_truc = ""
 $-truc = "himBHstruc"
 $( = unclosed (ou $' ou $" ou $[ ou ${ ou $| ou $`)
 $) = syntax error near unexpected token `)' (`ou $] ou $})
 $< = syntax error near unexpected token `newline' (`ou $>)
+
+DOLLAR DONE
+$_truc = ""
+$#truc = 0truc
+$ = ""
+$5behdu = "behdu"
+$!truc = "truc" (ou $@ ou $* ou chiffre)
+$USER$USER = thibnguythibnguy
+$USER$riri = thibnguy (ou $_truc (meme si truc == valid(envp))
+$%truc = %truc (ou $^ ou $= ou $+ ou $, ou $. ou $/)
 
 free exit_code = [3, 125]
 
