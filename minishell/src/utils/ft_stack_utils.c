@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 19:16:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 22:11:50 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_print_data(t_data *data)
 	i = 0;
 	while (1)
 	{
-		printf("[%d] content : %s, token : %d, exit_code : %d, builtins : %s\n", i, (data)->content, (data)->token, (data)->exit_code, (data)->builtins);
+		printf("[%d] content : %s, token : %d, exit_code : %d\n", i, (data)->content, (data)->token, (data)->exit_code);
 		if ((data)->next == head)
 			break;
 		data = (data)->next;

@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 19:57:39 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:50:39 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,12 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 	while (data->content[i] && ft_strchr(data->content + i, '$') != -1)
 	{
 		j = ft_strchr(data->content + i, '$') + i + 1;
-		i = j ;
+		res = ft_strjoin(res, ft_substr(data->content + i, 0, j - i - 1));
+		i = j;
 		// i = jusqu'à où la variable $ va (exemple : $PATH' ici elle s'arrête à ')
 		while (data->content[i] && data->content[i] != ' ' && data->content[i] != '\'' && data->content[i] != '\"' && data->content[i] != '$')
 			i++;
 		dollar = ft_substr(data->content, j, i - j);
-		res = ft_substr(res, 0, ft_strchr(res, '$'));
 		if (data->content[j] == '!' || data->content[j] == '@' || data->content[j] == '*' || (data->content[j] >= '0' && data->content[j] <= '9'))
 			res = ft_strjoin(res, ft_substr(data->content, j + 1, ft_strlen(data->content) - j));
 		else if (data->content[j] == '%' || data->content[j] == '^' || data->content[j] == '=' || data->content[j] == '+' || data->content[j] == '.' || data->content[j] == '/' || data->content[j] == ',')
@@ -157,11 +157,15 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 			// if the envp exists we join it to res, sinon we just ignore it
 			if (envp[j])
 				res = ft_strjoin(res, envp[j] + ft_strlen(dollar) + 1);
+			if (data->content[i] == '$')
+			{
+				i++;
+				res = ft_strjoin(res, "$");
+			}
 		}
 		free(dollar);
-		// we add what was left of the word after the $
-		res = ft_strjoin(res, ft_substr(data->content, i, ft_strlen(data->content)));
 	}
+	res = ft_strjoin(res, ft_substr(data->content, i, ft_strlen(data->content)));
 	return (res);
 }
 

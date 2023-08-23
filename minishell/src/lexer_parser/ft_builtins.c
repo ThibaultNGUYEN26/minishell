@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 19:57:24 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/08/21 22:05:21 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	ft_builtins_status(t_data *data)
 static int	ft_count_pipe(char *input)
 {
 	char	**tab;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = -1;
 	j = 0;
