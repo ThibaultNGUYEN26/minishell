@@ -62,8 +62,6 @@ redirection = > file
 
 DOLLAR
 
-$USER$ = thibnguy$
-$\truc = $truc (ou $~)
 $$ = <pid>
 $-truc = "himBHstruc"
 $( = unclosed (ou $' ou $" ou $[ ou ${ ou $| ou $`)
@@ -79,6 +77,8 @@ $!truc = "truc" (ou $@ ou $* ou chiffre)
 $USER$USER = thibnguythibnguy
 $USER$riri = thibnguy (ou $_truc (meme si truc == valid(envp))
 $%truc = %truc (ou $^ ou $= ou $+ ou $, ou $. ou $/)
+$USER$ = thibnguy$
+$\truc = $truc (ou $~)
 
 free exit_code = [3, 125]
 

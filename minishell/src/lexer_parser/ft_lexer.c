@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/23 17:50:39 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:30:06 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,22 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 			i++;
 		dollar = ft_substr(data->content, j, i - j);
 		if (data->content[j] == '!' || data->content[j] == '@' || data->content[j] == '*' || (data->content[j] >= '0' && data->content[j] <= '9'))
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, ft_strlen(data->content) - j));
+			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
 		else if (data->content[j] == '%' || data->content[j] == '^' || data->content[j] == '=' || data->content[j] == '+' || data->content[j] == '.' || data->content[j] == '/' || data->content[j] == ',')
-			res = ft_strjoin(res, ft_substr(data->content, j, ft_strlen(data->content) - j));
+			res = ft_strjoin(res, ft_substr(data->content, j, i - j));
 		else if (data->content[j] == '#')
 		{
 			res = ft_strjoin(res, "0");
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, ft_strlen(data->content) - j));
+			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
+		}
+		else if (data->content[j] == '\\' || data->content[j] == '~')
+		{
+			res = ft_strjoin(res, "$");
+			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
+		}
+		else if (data->content[j] == '\\' || data->content[j] == '~')
+		{
+			
 		}
 		else if (data->content[j] != '_')
 		{
