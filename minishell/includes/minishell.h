@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 19:32:19 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:45:34 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ typedef struct s_data
 
 /* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);
+/* get_next_line_utils */
+char	*ft_strchr2(char *s, int c);
+char	*ft_strjoin2(char *s1, char *s2);
 
 /* ----- LEXER_PARSER ----- */
 /* ft_builtins */

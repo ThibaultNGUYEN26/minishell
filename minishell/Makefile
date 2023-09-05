@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/05 19:22:34 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/09/05 19:41:23 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ OBJECTS		=	./bin
 INCLUDES	=	./includes
 
 SRCS		=	get_next_line/get_next_line.c \
+				get_next_line/get_next_line_utils.c \
 				lexer_parser/ft_lexer.c \
 				lexer_parser/ft_lexer_errors.c \
 				libft/ft_split.c \

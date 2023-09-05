@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:40:24 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:27:52 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:44:05 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[i])
 		str[j++] = s2[i++];
 	str[j] = '\0';
+	free(s1);
+	free(s2);
 	return (str);
 }
