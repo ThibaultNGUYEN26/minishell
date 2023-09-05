@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/24 17:30:06 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:29:07 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 	*/
 int ft_tokenizer(char *input, int i)
 {
-	if (ft_strcmp(ft_substr(input, i, 2), ">>") == 0 || ft_strcmp(ft_substr(input, i, 2), "<<") == 0)
-		return (1);
+	char	*str;
+
+	str = ft_substr(input, i, 2);
+	if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
+		return (free(str), 1);
 	if (input[i] == '|' || input[i] == '<' || input[i] == '>')
-		return (1);
-	return (0);
+		return (free(str), 1);
+	return (free(str), 0);
 }
 
 /**
@@ -110,8 +113,8 @@ void	ft_quotes(t_data *data)
 			}
 			free(data->content);
 			data->content = ft_strdup(res);
-			free(res);
 		}
+		free(res);
 		if ((data)->next == head)
 			break;
 		data = (data)->next;
@@ -142,6 +145,8 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 		dollar = ft_substr(data->content, j, i - j);
 		if (data->content[j] == '!' || data->content[j] == '@' || data->content[j] == '*' || (data->content[j] >= '0' && data->content[j] <= '9'))
 			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
+		else if (data->content[j] == '?')
+			res = ft_strjoin(res, ft_substr(data->content, j - 1, i - j + 1));
 		else if (data->content[j] == '%' || data->content[j] == '^' || data->content[j] == '=' || data->content[j] == '+' || data->content[j] == '.' || data->content[j] == '/' || data->content[j] == ',')
 			res = ft_strjoin(res, ft_substr(data->content, j, i - j));
 		else if (data->content[j] == '#')
