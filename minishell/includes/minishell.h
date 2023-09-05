@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:45:34 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/05 22:24:00 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,35 @@ typedef struct s_data
 	int				ctrl_c_status;
 }	t_data;
 
-/* typedef struct s_cmds
+/* typedef struct s_tools
 {
-	char                    **str;
-	int                     (*builtin)(t_tools *, struct s_cmds *);
-	int                     num_redirections;
-	char                    *hd_file_name;
-	t_data                 *redirections;
-	struct s_cmds	*next;
-	struct s_cmds	*prev;
-}	t_cmds; */
+	char					*args;
+	char					**paths;
+	char					**envp;
+	struct s_simple_cmds	*simple_cmds;
+	t_lexer					*lexer_list;
+	char					*pwd;
+	char					*old_pwd;
+	int						pipes;
+	int						*pid;
+	bool					heredoc;
+	bool					reset;
+}	t_tools; */
+
+typedef struct s_cmd
+{
+	char			**command;
+	// int				(*builtin)(t_tools *, struct s_cmds *);
+	// int				num_redirections;
+	// char			*hd_file_name;
+	t_data			*redirections;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+}	t_cmd;
+
+/* ----- BUILTINS ----- */
+/* ft_builtins */
+void	ft_builtins(t_data *data, char *input);
 
 /* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);
@@ -62,20 +81,17 @@ char	*get_next_line(const int fd);
 char	*ft_strchr2(char *s, int c);
 char	*ft_strjoin2(char *s1, char *s2);
 
-/* ----- LEXER_PARSER ----- */
-/* ft_builtins */
-void	ft_builtins(t_data *data, char *input);
-/* ft_fill_data */
-t_data	*ft_fill_data(char *input, char **envp);
+/* ----- LEXER ----- */
+/* ft_lexer_errors */
+void	ft_quotes_error(t_data *data);
+void	ft_redirect_error(t_data *data);
 /* ft_lexer */
 t_data	*ft_lexer(char *input);
 void	ft_quotes(t_data *data);
 void	ft_dollar(t_data *data, char **envp);
-/* ft_lexer_errors */
-void	ft_quotes_error(t_data *data);
-void    ft_redirect_error(t_data *data);
 
 /* ----- LIBFT ----- */
+int		ft_count_words(char *str, char *charset);
 char	**ft_split(char *str, char *charset);
 int		ft_strchr(char *s, char c);
 int		ft_strcmp(char *s1, char *s2);
@@ -92,16 +108,15 @@ void	ft_ctrl_d(void);
 // void	ft_ctrl_c(int sig);
 
 /* ----- UTILS ----- */
+
+/* ft_cmds_utils */
+t_cmd	*ft_new_cmd();
+void	addlast_cmd(t_cmd **stack, t_cmd *new_cmd);
 /* ft_stack_utils */
 t_data	*ft_new_stack(char *content, char *token);
 void	addlast_node(t_data **stack, t_data *new_data);
 void	ft_free_stack(t_data *data);
 void	ft_print_data(t_data *data);
 
-/* ft_welcome */
-int		ft_welcome(void);
-
-/* minishell_loop */
-void	ft_minishell_loop(char **envp);
 
 #endif

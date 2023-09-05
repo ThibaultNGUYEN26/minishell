@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:57:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/06/27 20:03:52 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/05 22:23:44 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_is_charset(char c, char *charset)
 	return (0);
 }
 
-static int	ft_count_words(char *str, char *charset)
+int	ft_count_words(char *str, char *charset)
 {
 	int	i;
 	int	nb_charset;

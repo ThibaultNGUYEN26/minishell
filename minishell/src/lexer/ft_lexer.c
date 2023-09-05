@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:42:45 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:56:05 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	* @param i
 	* @returns int
 	*/
-int ft_tokenizer(char *input, int i)
+static int	ft_tokenizer(char *input, int i)
 {
 	char	*str;
 

@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/05 19:41:23 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/09/05 21:43:27 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,11 @@ SOURCES		=	./src
 OBJECTS		=	./bin
 INCLUDES	=	./includes
 
-SRCS		=	get_next_line/get_next_line.c \
+SRCS		=	builtins/ft_builtins.c \
+				get_next_line/get_next_line.c \
 				get_next_line/get_next_line_utils.c \
-				lexer_parser/ft_lexer.c \
-				lexer_parser/ft_lexer_errors.c \
+				lexer/ft_lexer_errors.c \
+				lexer/ft_lexer.c \
 				libft/ft_split.c \
 				libft/ft_strchr.c \
 				libft/ft_strcmp.c \
@@ -28,8 +29,7 @@ SRCS		=	get_next_line/get_next_line.c \
 				libft/ft_strncmp.c \
 				libft/ft_substr.c \
 				signals/ft_ctrl.c \
-				utils/ft_welcome.c \
-				utils/minishell_loop.c \
+				utils/ft_cmds_utils.c \
 				utils/ft_stack_utils.c \
 
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
