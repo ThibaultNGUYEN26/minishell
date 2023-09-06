@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmds_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 21:42:22 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:01:44 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_cmd	*ft_new_cmd()
 	new = malloc(sizeof(t_cmd) * 1);
 	if (!new)
 		return (NULL);
+	new->redirections = NULL;
 	new->next = new;
 	new->prev = new;
 	return (new);
@@ -80,20 +81,29 @@ void	ft_free_cmd(t_cmd *cmd)
   * @param void
   * @returns data
   */
-/* void	ft_print_cmd(t_cmd *cmd)
+void	ft_print_cmd(t_cmd *cmd)
 {
 	t_cmd	*head;
 	int		i;
+	int		j;
 
 	head = cmd;
 	i = 0;
 	while (1)
 	{
-		printf("[%d] content : %s, token : %d, exit_code : %d\n", i, (cmd)->content, (cmd)->token, (cmd)->exit_code);
+		// print l'element
+		printf("[%d]	:\n", i);
+		j = 0;
+		// print la commande en tableaux 2D
+		printf("[command] : {");
+		while (cmd->command[j])
+			printf("%s , ", cmd->command[j++]);
+		printf("}\n[redirection] : \n");
+		ft_print_data(cmd->redirections);
 		if ((cmd)->next == head)
 			break;
 		cmd = (cmd)->next;
 		i++;
 	}
 	cmd = head;
-} */
+}

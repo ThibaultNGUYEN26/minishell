@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 20:41:56 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:36:58 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_data	*ft_new_stack(char *content, char *token)
 	new->next = new;
 	new->prev = new;
 	new->content = content;
+	new->exit_code = 0;
 	if (token)
 	{
 		if (ft_strcmp(token, "|") == 0)
@@ -45,6 +46,20 @@ t_data	*ft_new_stack(char *content, char *token)
 	else
 		new->token = NONE;
 	return (new);
+}
+
+/* Function returning a copy of the data passed as a paramater */
+t_data	*ft_data_copy(t_data *data)
+{
+	t_data	*new_data;
+
+	new_data = malloc(sizeof(t_data) * 1);
+	if (!new_data)
+		return (NULL);
+	new_data->content = data->content;
+	new_data->token = data->token;
+	new_data->exit_code = data->exit_code;
+	return (new_data);
 }
 
 /**
@@ -107,7 +122,7 @@ void	ft_print_data(t_data *data)
 
 	head = data;
 	i = 0;
-	while (1)
+	while (1 && data)
 	{
 		printf("[%d] content : %s, token : %d, exit_code : %d\n", i, (data)->content, (data)->token, (data)->exit_code);
 		if ((data)->next == head)

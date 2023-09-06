@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:53:38 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:10:38 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	ft_welcome(void)
 static void	ft_catch_input(char *input, char **envp)
 {
 	t_data	*data;
+	t_cmd	*cmd;
 
 	if (!input)
 		ft_ctrl_d();
@@ -61,7 +62,11 @@ static void	ft_catch_input(char *input, char **envp)
 	ft_quotes(data);
 	ft_redirect_error(data);
 	ft_dollar(data, envp);
+	printf("STRUCTURE DU LEXER :\n");
 	ft_print_data(data);
+	cmd = ft_parser(data);
+	printf("STRUCTURE DU PARSER :\n");
+	ft_print_cmd(cmd);
 	ft_free_stack(data);
 }
 

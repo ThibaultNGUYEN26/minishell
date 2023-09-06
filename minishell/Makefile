@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
+#    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/05 21:43:27 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/09/06 14:04:14 by rchbouki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS		=	builtins/ft_builtins.c \
 				get_next_line/get_next_line_utils.c \
 				lexer/ft_lexer_errors.c \
 				lexer/ft_lexer.c \
+				parser/ft_parser.c \
 				libft/ft_split.c \
 				libft/ft_strchr.c \
 				libft/ft_strcmp.c \

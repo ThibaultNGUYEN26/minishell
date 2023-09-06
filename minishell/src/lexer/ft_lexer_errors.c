@@ -22,7 +22,6 @@ void	ft_quotes_error(t_data *data)
 	while (1)
 	{
 		i = -1;
-		data->exit_code = 0;
 		if (data->token == 5)
 		{
 			while ((data->content)[++i])
