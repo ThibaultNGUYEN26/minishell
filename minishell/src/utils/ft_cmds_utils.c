@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmds_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/06 15:01:44 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:09:43 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,11 @@ void	ft_print_cmd(t_cmd *cmd)
 		j = 0;
 		// print la commande en tableaux 2D
 		printf("[command] : {");
-		while (cmd->command[j])
-			printf("%s , ", cmd->command[j++]);
+		if (!cmd->command)
+			printf("NULL\n");
+		else
+			while (cmd->command[j])
+				printf("%s , ", cmd->command[j++]);
 		printf("}\n[redirection] : \n");
 		ft_print_data(cmd->redirections);
 		if ((cmd)->next == head)

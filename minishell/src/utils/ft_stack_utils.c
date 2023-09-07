@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/06 15:36:58 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:47:28 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_data	*ft_new_stack(char *content, char *token)
 	}
 	else
 		new->token = NONE;
+	free(token);
 	return (new);
 }
 
@@ -108,6 +109,7 @@ void	ft_free_stack(t_data *data)
 	}
 	free(data->content);
 	free(data);
+	data = NULL;
 }
 
 /**

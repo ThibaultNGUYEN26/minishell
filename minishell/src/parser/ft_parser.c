@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/06 16:09:59 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:08:44 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ t_cmd	*ft_parser(t_data *data)
 	char	**split;
 	int		i;
 	int		j;
+	int		test;
 
+	test = 0;
 	cmd = NULL;
 	head_data = data;
+	printf("HEAD DATA : ");
+	ft_print_data(head_data);
 	head_pipe = head_data;
 	head_cmd = cmd;
 	while (1)
@@ -40,6 +44,12 @@ t_cmd	*ft_parser(t_data *data)
 			// If redirection
 			if (data->token != 5)
 			{
+				if ((data->next)->exit_code == 3)
+				{
+					printf("Error\n");
+					ft_free_stack(data);
+					exit(EXIT_FAILURE);
+				}
 				// Store redirection and data->next dans redirection list
 				// ET Supprimer de data la redirection et son argument
 				addlast_node(&(cmd->redirections), ft_data_copy(data));
@@ -55,9 +65,17 @@ t_cmd	*ft_parser(t_data *data)
 				j = ft_count_words(data->content, " ");
 				if (j == 1)
 				{
-					data = data->prev;
-					data->next = data->next->next;
-					(data->next)->prev = data;
+					if (data == data->next)
+					{
+						test = 1;
+						ft_free_stack(data);
+					}
+					else
+					{
+						data = data->prev;
+						data->next = data->next->next;
+						(data->next)->prev = data;
+					}
 				}
 				else
 					data->content = ft_strjoin(data->content, ft_substr(data->content, ft_strlen(split[0]) + 1, ft_strlen(data->content) - ft_strlen(split[0]) + 1));
@@ -66,9 +84,21 @@ t_cmd	*ft_parser(t_data *data)
 					free(split[i++]);
 				free(split);
 			}
-			data = data->next;
-			if (data == head_data)
+			if (test)
+			{
+				printf("JE SUIS LA\n");
 				break ;
+			}
+			data = data->next;
+			printf("DATA : ");
+			ft_print_data(data);
+			if (data == head_data || data->next == data)
+				break ;
+		}
+		if (test)
+		{
+			cmd->command = NULL;
+			break ;
 		}
 		if (data == head_data)
 			after_pipe = data;

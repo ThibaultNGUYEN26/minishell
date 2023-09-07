@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:56:05 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:31:42 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_data	*ft_lexer(char *input)
 	int		i;
 	int     j;
 	t_data	*data;
+	char	*str;
 
 	i = -1;
 	data = NULL;
@@ -59,13 +60,17 @@ t_data	*ft_lexer(char *input)
 		// Si input existe toujours => on est arrivé au token, sinon y'a plus de tokens et we are at the end of the input
 		if (input[i])
 		{
-			if (ft_strcmp(ft_substr(input, i, 2), ">>") == 0 || ft_strcmp(ft_substr(input, i, 2), "<<") == 0)
+			str = ft_substr(input, i, 2);
+			if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
 			{
-				addlast_node(&data, ft_new_stack(NULL, ft_substr(input, i, 2)));
+				addlast_node(&data, ft_new_stack(NULL, str));
 				i++;
 			}
 			else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
+			{
+				free(str);
 				addlast_node(&data, ft_new_stack(NULL, ft_substr(input, i, 1)));
+			}
 		}
 		else
 			break ;

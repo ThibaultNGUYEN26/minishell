@@ -59,10 +59,14 @@ void    ft_redirect_error(t_data *data)
 			if (data->next == head)
 				break ;
 			data = (data)->next;
+			if (data->token != 5)
+				data->exit_code = 3;
 			// if there is a content, imagine its a token ? on va avoir des seg fault sur NULL
 			if (data->content)
 			{
-				if (ft_strchr(data->content, '\\') >= 0 || ft_strchr(data->content, '/') >= 0 || ft_strchr(data->content, '*') >= 0 || ft_strchr(data->content, '?') >= 0 || ft_strchr(data->content, '\"') >= 0 || ft_strchr(data->content, '<') >= 0 || ft_strchr(data->content, '>') >= 0 || ft_strchr(data->content, '|') >= 0)
+				if (ft_count_words(data->content, "\f\t\n\r\v ") == 0)
+					data->exit_code = 3;
+				else if (ft_strchr(data->content, '\\') >= 0 || ft_strchr(data->content, '/') >= 0 || ft_strchr(data->content, '*') >= 0 || ft_strchr(data->content, '?') >= 0 || ft_strchr(data->content, '\"') >= 0 || ft_strchr(data->content, '<') >= 0 || ft_strchr(data->content, '>') >= 0 || ft_strchr(data->content, '|') >= 0)
 					data->exit_code = 3;
 			}
 		}
