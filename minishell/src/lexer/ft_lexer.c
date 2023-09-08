@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/07 14:31:42 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:32:37 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,15 @@ void	ft_quotes(t_data *data)
 					i++;
 				// if the quote is not the first thing we encounter in content, we save in res what was before 
 				if (i != j)
-					res = ft_strjoin(res, ft_substr(data->content, j, i - j));
+				{
+					// Si il y'a un dollar juste avant les quotes bien fermes, we save only la string et NI le dollar NI les quotes
+					if (i != 0 && (data->content)[i - 1] == '$')
+						res = ft_strjoin(res, ft_substr(data->content, j, i - j - 1));
+				}
 				// if we aren't at the end of content it means there are quotes
 				if ((data->content)[i] == '\'' || (data->content)[i] == '\"')
 				{
-					c = (data->content)[i];
-					i++;
+					c = (data->content)[i++];
 					j = i;
 					// find the next simple quote which closes
 					while ((data->content)[j] != c)
@@ -142,7 +145,8 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 	while (data->content[i] && ft_strchr(data->content + i, '$') != -1)
 	{
 		j = ft_strchr(data->content + i, '$') + i + 1;
-		res = ft_strjoin(res, ft_substr(data->content + i, 0, j - i - 1));
+		if (i != 0)
+			res = ft_strjoin(res, ft_substr(data->content + i, 0, j - i - 1));
 		i = j;
 		// i = jusqu'à où la variable $ va (exemple : $PATH' ici elle s'arrête à ')
 		while (data->content[i] && data->content[i] != ' ' && data->content[i] != '\'' && data->content[i] != '\"' && data->content[i] != '$')
@@ -164,10 +168,6 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 			res = ft_strjoin(res, "$");
 			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
 		}
-		else if (data->content[j] == '\\' || data->content[j] == '~')
-		{
-			
-		}
 		else if (data->content[j] != '_')
 		{
 			j = 0;
@@ -175,7 +175,7 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 				j++;
 			// if the envp exists we join it to res, sinon we just ignore it
 			if (envp[j])
-				res = ft_strjoin(res, envp[j] + ft_strlen(dollar) + 1);
+				res = ft_strjoin2(res, envp[j] + ft_strlen(dollar) + 1);
 			if (data->content[i] == '$')
 			{
 				i++;

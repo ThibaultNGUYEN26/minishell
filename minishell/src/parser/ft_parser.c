@@ -6,11 +6,91 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 18:01:04 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:40:06 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/* Si file invalid ou pas de file
+	==> on free, on arrete tout et on repart à la minishell loop */
+static int	ft_invalid_redirec(t_data **data, t_data *head_data)
+{
+	if (((*data)->next)->exit_code == 3)
+	{
+		printf("minishell: syntax error near unexpected token\n");
+		(*data) = (*data)->next;
+		return (1);
+	}
+	if (((*data)->next)->exit_code == 2)
+	{
+		printf("minishell: unexpected EOF while looking for matching quote\n");
+		printf("minishell: syntax error: unexpected end of file\n");
+		(*data) = (*data)->next;
+		return (1);
+	}
+	if ((*data)->next == head_data)
+	{
+		printf("minishell: syntax error near unexpected token\n");
+		return (1);
+	}
+	return (0);
+}
+
+static void	ft_redirection_parser(t_data *head_data, t_data **data, t_cmd *cmd)
+{
+	char	**split;
+	int		i;
+	int		j;
+	
+	// If redirection
+	if ((*data)->token != 5)
+	{
+		if (ft_invalid_redirec(data, head_data))
+			return ;
+		// Store redirection dans cmd->redirection ET Supprimer de data la redirection
+		addlast_node(&(cmd->redirections), ft_data_copy((*data)));
+		ft_delete_element(data);
+		// Store file of redirection dans cmd->redirection et split le mot in case other words that are NOT the file were AFTER the file
+		(*data) = (*data)->next;
+		split = ft_split((*data)->content, "\f\t\n\r\v ");
+		addlast_node(&(cmd->redirections), ft_new_stack(ft_strdup(split[0]), NULL));
+		/*	Si il n'y a rien appart le file on supprime de data
+			Sinon on remplace data->content avec ce qu'il y a apres le file */
+		j = ft_count_words((*data)->content, "\f\t\n\r\v ");
+		/* Si il n'y avait que un seul mot dans QUE le file, on peut le supprimer de data
+			Sinon on remplace data avec ce qu'il y avait après */
+		if (j == 1)
+			ft_delete_element(data);
+		else
+			(*data)->content = ft_strjoin((*data)->content, ft_substr((*data)->content, ft_strlen(split[0]) + 1, ft_strlen((*data)->content) - ft_strlen(split[0]) + 1));
+		i = 0;
+		while (i < j)
+			free(split[i++]);
+		free(split);
+	}
+}
+
+static void	ft_command_parser(t_cmd *cmd, t_data **data)
+{
+	char	**split;
+	int		i;
+	int		j;
+	
+	i = ft_count_words((*data)->content, "\f\t\n\r\v ");
+	cmd->command = malloc(sizeof(char *) * (i + 1));
+	if (!cmd->command)
+		return ;
+	split = ft_split((*data)->content, "\f\t\n\r\v ");
+	j = -1;
+	while (++j < i)
+		cmd->command[j] = ft_strdup(split[j]);
+	cmd->command[j] = NULL;
+	i = 0;
+	while (i < j)
+		free(split[i++]);
+	free(split);
+}
 
 t_cmd	*ft_parser(t_data **data)
 {
@@ -19,9 +99,6 @@ t_cmd	*ft_parser(t_data **data)
 	t_data	*after_pipe;
 	t_cmd	*head_cmd;
 	t_cmd	*cmd;
-	char	**split;
-	int		i;
-	int		j;
 	
 	cmd = NULL;
 	head_data = *data;
@@ -38,60 +115,7 @@ t_cmd	*ft_parser(t_data **data)
 		// While not pipe and didn't come back to the beggggginnnning de la liste chainee
 		while ((*data)->token != 0)
 		{
-			// If redirection
-			if ((*data)->token != 5)
-			{
-				// si file invalid ou pas de file, on free et on arrete tout (faut pas exit normalement)
-				if (((*data)->next)->exit_code == 3)
-				{
-					printf("minishell: syntax error near unexpected token\n");
-					(*data) = (*data)->next;
-					break ;
-				}
-				if (((*data)->next)->exit_code == 2)
-				{
-					printf("minishell: unexpected EOF while looking for matching quote\nminishell: syntax error: unexpected end of file\n");
-					(*data) = (*data)->next;
-					break ;
-				}
-				// Store redirection dans cmd->redirection ET Supprimer de data la redirection
-				addlast_node(&(cmd->redirections), ft_data_copy((*data)));
-				(*data) = (*data)->prev;
-				(*data)->next = (*data)->next->next;
-				((*data)->next)->prev = (*data);
-				// Store file of redirection dans cmd->redirection et split le mot in case other words that are NOT the file were AFTER the file
-				(*data) = (*data)->next;
-				split = ft_split((*data)->content, "\f\t\n\r\v ");
-				addlast_node(&(cmd->redirections), ft_new_stack(ft_strdup(split[0]), NULL));
-				/*	Si il n'y a rien appart le file on supprime de data
-					Sinon on remplace data->content avec ce qu'il y a apres le file */
-				j = ft_count_words((*data)->content, "\f\t\n\r\v ");
-				/* Si il n'y avait que un seul mot dans QUE le file, on peut le supprimer de data
-				   Sinon on remplace data avec ce qu'il y avait après */
-				if (j == 1)
-				{
-					// Si il ne reste plus que le file, on doit free data et la mettre à NULL, sinon on supprime avec next et prev
-					if ((*data) == (*data)->next)
-					{
-						//test = 1;
-						ft_free_stack((*data));
-						(*data) =  NULL;
-					}
-					else
-					{
-						free((*data)->content);
-						(*data) = (*data)->prev;
-						(*data)->next = (*data)->next->next;
-						((*data)->next)->prev = (*data);
-					}
-				}
-				else
-					(*data)->content = ft_strjoin((*data)->content, ft_substr((*data)->content, ft_strlen(split[0]) + 1, ft_strlen((*data)->content) - ft_strlen(split[0]) + 1));
-				i = 0;
-				while (i < j)
-					free(split[i++]);
-				free(split);
-			}
+			ft_redirection_parser(head_data, data, cmd);
 			// Si data est NULL it means everything was deleted from it, end of loop
 			if ((*data) == NULL)
 				break ;
@@ -111,22 +135,7 @@ t_cmd	*ft_parser(t_data **data)
 		else
 			after_pipe = (*data)->next;
 		(*data) = head_pipe;
-		i = ft_count_words((*data)->content, "\f\t\n\r\v ");
-		cmd->command = malloc(sizeof(char *) * (i + 1));
-		if (!cmd->command)
-			return (NULL);
-		split = ft_split((*data)->content, "\f\t\n\r\v ");
-		j = 0;
-		while (j < i)
-		{
-			cmd->command[j] = ft_strdup(split[j]);
-			j++;
-		}
-		cmd->command[j] = NULL;
-		i = 0;
-		while (i < j)
-			free(split[i++]);
-		free(split);
+		ft_command_parser(cmd, data);
 		(*data) = after_pipe;
 		head_pipe = (*data);
 		if ((*data) == head_data)

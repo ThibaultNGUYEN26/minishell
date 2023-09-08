@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 17:25:10 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:06:26 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	ft_print_cmd(t_cmd *cmd);
 /* ft_stack_utils */
 t_data	*ft_new_stack(char *content, char *token);
 void	addlast_node(t_data **stack, t_data *new_data);
+void	ft_delete_element(t_data **data);
 t_data	*ft_data_copy(t_data *data);
 void	ft_free_stack(t_data *data);
 void	ft_print_data(t_data *data);

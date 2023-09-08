@@ -2,3 +2,6 @@ THINGS TO FIX
 
 - Dans le cas où il y'a une erreur dans un file apres redirection, il ne faut pas exit mais plutot make it act as a CTRL-C
 -> Probleme résolu avec exit_code = 3 en esperant que ça ne nous cré pas de problemes plus tard
+
+- echo $"riri" = riri donc il faut gérer ce cas ASAP
+-> Si il y'a des doubles quotes well closed AND un dollar juste avant : exit_code = 4
