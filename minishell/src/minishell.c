@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 20:31:08 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:47:36 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	ft_catch_input(char *input, char **envp)
 	printf("STRUCTURE DU LEXER :\n");
 	ft_print_data(data);
 	cmd = ft_parser(&data);
-	// if data->exit_code == 3 ou == 2 à ce niveau du code it means invalid file after redirection donc as if CTRL-C donc il ne faut PAS faire l'executable
+	// if data->exit_code == 3 ou == 2 à ce niveau du code it means invalid file
+	//after redirection donc as if CTRL-C donc il ne faut PAS faire l'executable
 	printf("STRUCTURE DU LEXER APRES LE PARSING : ");
 	ft_print_data(data);
 	printf("STRUCTURE DU PARSER :\n");
@@ -82,10 +83,8 @@ static void	ft_catch_input(char *input, char **envp)
 static void	ft_minishell_loop(char **envp)
 {
 	char	*input;
-	
+
 	input = NULL;
-	// disable_echo();
-	// signal(SIGINT, ft_ctrl_c);
 	while (1)
 	{
 		input = readline(PROMPT);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 22:05:21 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:29:50 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,23 @@
 
 static void	ft_builtins_status(t_data *data)
 {
-	if (ft_strncmp(data->content, "cd", 2) == 0 || ft_strncmp(data->content, " cd", 3) == 0)
+	if (ft_strncmp(data->content, "cd", 2) == 0
+		|| ft_strncmp(data->content, " cd", 3) == 0)
 		data->builtins = ft_strdup("cd");
-	else if (ft_strncmp(data->content, "echo", 4) == 0 || ft_strncmp(data->content, " echo", 5) == 0)
+	else if (ft_strncmp(data->content, "echo", 4) == 0
+		|| ft_strncmp(data->content, " echo", 5) == 0)
 		data->builtins = ft_strdup("echo");
-	else if (ft_strncmp(data->content, "env", 3) == 0 || ft_strncmp(data->content, " env", 4) == 0)
+	else if (ft_strncmp(data->content, "env", 3) == 0
+		|| ft_strncmp(data->content, " env", 4) == 0)
 		data->builtins = ft_strdup("env");
-	else if (ft_strncmp(data->content, "export", 6) == 0 || ft_strncmp(data->content, " export", 7) == 0)
+	else if (ft_strncmp(data->content, "export", 6) == 0
+		|| ft_strncmp(data->content, " export", 7) == 0)
 		data->builtins = ft_strdup("export");
-	else if (ft_strncmp(data->content, "pwd", 3) == 0 || ft_strncmp(data->content, " pwd", 4) == 0)
+	else if (ft_strncmp(data->content, "pwd", 3) == 0
+		|| ft_strncmp(data->content, " pwd", 4) == 0)
 		data->builtins = ft_strdup("pwd");
-	else if (ft_strncmp(data->content, "unset", 5) == 0 || ft_strncmp(data->content, " unset", 6) == 0)
+	else if (ft_strncmp(data->content, "unset", 5) == 0
+		|| ft_strncmp(data->content, " unset", 6) == 0)
 		data->builtins = ft_strdup("unset");
 	else
 		data->builtins = ft_strdup("NULL");
