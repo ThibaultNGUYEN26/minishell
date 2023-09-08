@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/06 15:30:31 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:25:10 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_dollar(t_data *data, char **envp);
 
 /* ----- LEXER ----- */
 /* ft_parser */
-t_cmd	*ft_parser(t_data *data);
+t_cmd	*ft_parser(t_data **my_data);
 
 /* ----- LIBFT ----- */
 int		ft_count_words(char *str, char *charset);

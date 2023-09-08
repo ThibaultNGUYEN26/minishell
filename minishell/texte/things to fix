@@ -1,0 +1,4 @@
+THINGS TO FIX
+
+- Dans le cas où il y'a une erreur dans un file apres redirection, il ne faut pas exit mais plutot make it act as a CTRL-C
+-> Probleme résolu avec exit_code = 3 en esperant que ça ne nous cré pas de problemes plus tard

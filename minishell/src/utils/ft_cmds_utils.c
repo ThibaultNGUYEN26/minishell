@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmds_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/07 15:09:43 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:52:16 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_print_cmd(t_cmd *cmd)
 			printf("NULL\n");
 		else
 			while (cmd->command[j])
-				printf("%s , ", cmd->command[j++]);
+				printf("%s, ", cmd->command[j++]);
 		printf("}\n[redirection] : \n");
 		ft_print_data(cmd->redirections);
 		if ((cmd)->next == head)
