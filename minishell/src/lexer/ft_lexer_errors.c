@@ -3,52 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/20 19:06:41 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/08/20 20:57:0 by rchbouki         ###   ########.fr       */
+/*   Created: 2023/09/08 18:15:00 by thibnguy          #+#    #+#             */
+/*   Updated: 2023/09/08 18:56:04 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+	* Check if there is unclosed quote
+	* @param data
+	* @param i
+	* @returns void
+	*/
+static	void	ft_check_quotes(t_data *data, int i)
+{
+	char	c;
+
+	if (data->token == 5)
+	{
+		while ((data->content)[++i])
+		{
+			if ((data->content)[i] == '\"' || (data->content)[i] == '\'')
+			{
+				c = (data->content)[i++];
+				while ((data->content)[i] != c && (data->content)[i])
+					i++;
+				if (!(data->content)[i])
+				{
+					data->exit_code = 2;
+					break ;
+				}
+			}
+		}
+	}
+}
+
+/**
+	* Manage if there is unclosed quotes
+	* @param data
+	* @returns void
+	*/
 void	ft_quotes_error(t_data *data)
 {
 	t_data	*head;
 	int		i;
-	char	c;
 
 	head = data;
 	while (1)
 	{
 		i = -1;
-		if (data->token == 5)
-		{
-			while ((data->content)[++i])
-			{
-				if ((data->content)[i] == '\"' || (data->content)[i] == '\'')
-				{
-					c = (data->content)[i++];
-					while ((data->content)[i] != c && (data->content)[i])
-						i++;
-					if (!(data->content)[i])
-					{
-						data->exit_code = 2;
-						break ; 
-					}
-				}
-			}
-		}
+		ft_check_quotes(data, i);
 		if ((data)->next == head)
-			break;
+			break ;
 		data = (data)->next;
 	}
 	data = head;
 }
 
-void    ft_redirect_error(t_data *data)
+/**
+	* Check if character non valid in filename
+	* @param data
+	* @returns void
+	*/
+static void	ft_check_filecharacters(t_data *data)
 {
-	t_data  *head;
+	if (data->content)
+	{
+		if (data->exit_code != 2)
+		{
+			if (ft_count_words(data->content, "\f\t\n\r\v ") == 0)
+				data->exit_code = 3;
+			else if (ft_strchr(data->content, '\\') >= 0
+				|| ft_strchr(data->content, '/') >= 0
+				|| ft_strchr(data->content, '*') >= 0
+				|| ft_strchr(data->content, '?') >= 0
+				|| ft_strchr(data->content, '\"') >= 0
+				|| ft_strchr(data->content, '<') >= 0
+				|| ft_strchr(data->content, '>') >= 0
+				|| ft_strchr(data->content, '|') >= 0)
+				data->exit_code = 3;
+		}
+	}
+}
+
+/**
+	* Manage error when token is a redirection
+	* @param data
+	* @returns void
+	*/
+void	ft_redirect_error(t_data *data)
+{
+	t_data	*head;
 
 	head = data;
 	while (1)
@@ -61,20 +109,12 @@ void    ft_redirect_error(t_data *data)
 			data = (data)->next;
 			if (data->token != 5)
 				data->exit_code = 3;
-			// if there is a content, imagine its a token ? on va avoir des seg fault sur NULL
-			if (data->content)
-			{
-				if (data->exit_code != 2)
-				{
-					if (ft_count_words(data->content, "\f\t\n\r\v ") == 0)
-						data->exit_code = 3;
-					else if (ft_strchr(data->content, '\\') >= 0 || ft_strchr(data->content, '/') >= 0 || ft_strchr(data->content, '*') >= 0 || ft_strchr(data->content, '?') >= 0 || ft_strchr(data->content, '\"') >= 0 || ft_strchr(data->content, '<') >= 0 || ft_strchr(data->content, '>') >= 0 || ft_strchr(data->content, '|') >= 0)
-						data->exit_code = 3;
-				}
-			}
+			// if there is a content, imagine its a token ? on va avoir des seg 
+			//fault sur NULL
+			ft_check_filecharacters(data);
 		}
 		if ((data)->next == head)
-			break;
+			break ;
 		data = (data)->next;
 	}
 	data = head;

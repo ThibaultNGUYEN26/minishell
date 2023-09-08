@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 17:25:10 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:45:51 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ typedef struct s_data
 typedef struct s_cmd
 {
 	char			**command;
-	// int				(*builtin)(t_tools *, struct s_cmds *);
-	// int				num_redirections;
-	// char			*hd_file_name;
 	t_data			*redirections;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
@@ -82,13 +79,14 @@ char	*ft_strchr2(char *s, int c);
 char	*ft_strjoin2(char *s1, char *s2);
 
 /* ----- LEXER ----- */
+/* ft_dollar */
+void	ft_dollar(t_data *data, char **envp);
 /* ft_lexer_errors */
 void	ft_quotes_error(t_data *data);
 void	ft_redirect_error(t_data *data);
 /* ft_lexer */
 t_data	*ft_lexer(char *input);
 void	ft_quotes(t_data *data);
-void	ft_dollar(t_data *data, char **envp);
 
 /* ----- LEXER ----- */
 /* ft_parser */
@@ -107,14 +105,11 @@ char	*ft_substr(char *s, int start, int len);
 
 /* ------ SIGNALS ----- */
 void	ft_exit(char *input);
-// void	disable_echo(void);
 void	ft_ctrl_d(void);
-// void	ft_ctrl_c(int sig);
 
 /* ----- UTILS ----- */
-
 /* ft_cmds_utils */
-t_cmd	*ft_new_cmd();
+t_cmd	*ft_new_cmd(void);
 void	addlast_cmd(t_cmd **stack, t_cmd *new_cmd);
 void	ft_print_cmd(t_cmd *cmd);
 /* ft_stack_utils */
@@ -123,6 +118,5 @@ void	addlast_node(t_data **stack, t_data *new_data);
 t_data	*ft_data_copy(t_data *data);
 void	ft_free_stack(t_data *data);
 void	ft_print_data(t_data *data);
-
 
 #endif

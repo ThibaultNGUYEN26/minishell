@@ -6,10 +6,9 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/07 14:47:28 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:24:24 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -45,8 +44,7 @@ t_data	*ft_new_stack(char *content, char *token)
 	}
 	else
 		new->token = NONE;
-	free(token);
-	return (new);
+	return (free(token), new);
 }
 
 /* Function returning a copy of the data passed as a paramater */
@@ -126,9 +124,10 @@ void	ft_print_data(t_data *data)
 	i = 0;
 	while (1 && data)
 	{
-		printf("[%d] content : %s, token : %d, exit_code : %d\n", i, (data)->content, (data)->token, (data)->exit_code);
+		printf("[%d] content : %s, token : %d, exit_code : %d\n", i, \
+			(data)->content, (data)->token, (data)->exit_code);
 		if ((data)->next == head)
-			break;
+			break ;
 		data = (data)->next;
 		i++;
 	}

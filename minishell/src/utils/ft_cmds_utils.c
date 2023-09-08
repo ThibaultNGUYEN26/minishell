@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmds_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 17:52:16 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:24:54 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
   * @param token
   * @returns new
   */
-t_cmd	*ft_new_cmd()
+t_cmd	*ft_new_cmd(void)
 {
 	t_cmd	*new;
 
@@ -104,7 +104,7 @@ void	ft_print_cmd(t_cmd *cmd)
 		printf("}\n[redirection] : \n");
 		ft_print_data(cmd->redirections);
 		if ((cmd)->next == head)
-			break;
+			break ;
 		cmd = (cmd)->next;
 		i++;
 	}

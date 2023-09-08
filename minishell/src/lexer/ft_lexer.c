@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/07 14:31:42 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:50:02 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,30 @@ static int	ft_tokenizer(char *input, int i)
 }
 
 /**
+	* Add the token to data
+	* @param data
+	* @param input
+	* @param i
+	* @returns void
+	*/
+static void	ft_add_token(t_data *data, char *input, int i)
+{
+	char	*str;
+
+	str = ft_substr(input, i, 2);
+	if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
+	{
+		addlast_node(&data, ft_new_stack(NULL, str));
+		i++;
+	}
+	else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
+	{
+		free(str);
+		addlast_node(&data, ft_new_stack(NULL, ft_substr(input, i, 1)));
+	}
+}
+
+/**
 	* Define list where all keywords are stocked.
 	* @param input
 	* @param envp
@@ -39,9 +63,8 @@ static int	ft_tokenizer(char *input, int i)
 t_data	*ft_lexer(char *input)
 {
 	int		i;
-	int     j;
+	int		j;
 	t_data	*data;
-	char	*str;
 
 	i = -1;
 	data = NULL;
@@ -57,21 +80,10 @@ t_data	*ft_lexer(char *input)
 		if (!ft_tokenizer(input, i) && input[i])
 			addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), NULL));
 		i = j;
-		// Si input existe toujours => on est arrivé au token, sinon y'a plus de tokens et we are at the end of the input
+		// Si input existe toujours => on est arrivé au token, sinon y'a plus de
+		// tokens et we are at the end of the input
 		if (input[i])
-		{
-			str = ft_substr(input, i, 2);
-			if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
-			{
-				addlast_node(&data, ft_new_stack(NULL, str));
-				i++;
-			}
-			else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
-			{
-				free(str);
-				addlast_node(&data, ft_new_stack(NULL, ft_substr(input, i, 1)));
-			}
-		}
+			ft_add_token(data, input, i);
 		else
 			break ;
 	}
@@ -85,21 +97,24 @@ void	ft_quotes(t_data *data)
 	int		j;
 	char	*res;
 	char	c;
-	
+
 	head = data;
 	while (1)
 	{
 		res = ft_strdup("");
 		// if it's not a token and there ARE quotes and they are well closed
-		if (data->token == 5 && (ft_strchr(data->content, '\'') != -1 || ft_strchr(data->content, '\"') != -1) && data->exit_code != 2)
+		if (data->token == 5 && (ft_strchr(data->content, '\'') != -1 \
+			|| ft_strchr(data->content, '\"') != -1) && data->exit_code != 2)
 		{
 			i = 0;
 			while ((data->content)[i])
 			{
 				j = i;
-				while ((data->content)[i] != '\'' && (data->content)[i] != '\"' && (data->content)[i])
+				while ((data->content)[i] != '\'' && (data->content)[i] != '\"' \
+					&& (data->content)[i])
 					i++;
-				// if the quote is not the first thing we encounter in content, we save in res what was before 
+				// if the quote is not the first thing we encounter in content,
+				//we save in res what was before 
 				if (i != j)
 					res = ft_strjoin(res, ft_substr(data->content, j, i - j));
 				// if we aren't at the end of content it means there are quotes
@@ -111,7 +126,8 @@ void	ft_quotes(t_data *data)
 					// find the next simple quote which closes
 					while ((data->content)[j] != c)
 						j++;
-					// joining what we had of res and the quotes contenu without the quotes
+					// joining what we had of res and the quotes contenu without
+					// the quotes
 					res = ft_strjoin(res, ft_substr(data->content, i, j - i));
 					i = ++j;
 				}
@@ -121,92 +137,8 @@ void	ft_quotes(t_data *data)
 		}
 		free(res);
 		if ((data)->next == head)
-			break;
+			break ;
 		data = (data)->next;
 	}
 	data = head;
-}
-
-static char	*ft_dollar_utils(t_data *data, char **envp)
-{
-	char	*res;
-	char	*dollar;
-	int		j;
-	int		i;
-	
-	i = 0;
-	// get how many $ there are and save the last position
-	j = ft_strchr(data->content, '$') + 1;
-	// on met ce qu'il y avait avant le dollar dans res
-	res = ft_substr(data->content, i, j - 1);
-	while (data->content[i] && ft_strchr(data->content + i, '$') != -1)
-	{
-		j = ft_strchr(data->content + i, '$') + i + 1;
-		res = ft_strjoin(res, ft_substr(data->content + i, 0, j - i - 1));
-		i = j;
-		// i = jusqu'à où la variable $ va (exemple : $PATH' ici elle s'arrête à ')
-		while (data->content[i] && data->content[i] != ' ' && data->content[i] != '\'' && data->content[i] != '\"' && data->content[i] != '$')
-			i++;
-		dollar = ft_substr(data->content, j, i - j);
-		if (data->content[j] == '!' || data->content[j] == '@' || data->content[j] == '*' || (data->content[j] >= '0' && data->content[j] <= '9'))
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
-		else if (data->content[j] == '?')
-			res = ft_strjoin(res, ft_substr(data->content, j - 1, i - j + 1));
-		else if (data->content[j] == '%' || data->content[j] == '^' || data->content[j] == '=' || data->content[j] == '+' || data->content[j] == '.' || data->content[j] == '/' || data->content[j] == ',')
-			res = ft_strjoin(res, ft_substr(data->content, j, i - j));
-		else if (data->content[j] == '#')
-		{
-			res = ft_strjoin(res, "0");
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
-		}
-		else if (data->content[j] == '\\' || data->content[j] == '~')
-		{
-			res = ft_strjoin(res, "$");
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
-		}
-		else if (data->content[j] == '\\' || data->content[j] == '~')
-		{
-			
-		}
-		else if (data->content[j] != '_')
-		{
-			j = 0;
-			while (envp[j] && ft_strncmp(envp[j], dollar, ft_strchr(envp[j], '=')))
-				j++;
-			// if the envp exists we join it to res, sinon we just ignore it
-			if (envp[j])
-				res = ft_strjoin(res, envp[j] + ft_strlen(dollar) + 1);
-			if (data->content[i] == '$')
-			{
-				i++;
-				res = ft_strjoin(res, "$");
-			}
-		}
-		free(dollar);
-	}
-	res = ft_strjoin(res, ft_substr(data->content, i, ft_strlen(data->content)));
-	return (res);
-}
-
-void	ft_dollar(t_data *data, char **envp)
-{
-	t_data	*head;
-	char	*res;
-
-	head = data;
-	while (1)
-	{
-		// si c'est un mot (donc not a token) et qu'il contient un $
-		if (data->token == 5 && ft_strchr(data->content, '$') != -1)
-		{
-			res = ft_dollar_utils(data, envp);
-			free(data->content);
-			data->content = ft_strdup(res);
-			free(res);
-		}
-		break ;
-		if (data->next == head)
-			break ;
-		data = data->next;
-	}
 }
