@@ -6,74 +6,47 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 18:29:50 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:13:34 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_builtins_status(t_data *data)
+static void	(*ft_builtins_status(char *command))(t_cmd *cmd)
 {
-	if (ft_strncmp(data->content, "cd", 2) == 0
-		|| ft_strncmp(data->content, " cd", 3) == 0)
-		data->builtins = ft_strdup("cd");
-	else if (ft_strncmp(data->content, "echo", 4) == 0
-		|| ft_strncmp(data->content, " echo", 5) == 0)
-		data->builtins = ft_strdup("echo");
-	else if (ft_strncmp(data->content, "env", 3) == 0
-		|| ft_strncmp(data->content, " env", 4) == 0)
-		data->builtins = ft_strdup("env");
-	else if (ft_strncmp(data->content, "export", 6) == 0
-		|| ft_strncmp(data->content, " export", 7) == 0)
-		data->builtins = ft_strdup("export");
-	else if (ft_strncmp(data->content, "pwd", 3) == 0
-		|| ft_strncmp(data->content, " pwd", 4) == 0)
-		data->builtins = ft_strdup("pwd");
-	else if (ft_strncmp(data->content, "unset", 5) == 0
-		|| ft_strncmp(data->content, " unset", 6) == 0)
-		data->builtins = ft_strdup("unset");
+	if (ft_strcmp(command, "cd") == 0)
+		return (ft_cd);
+	else if (ft_strcmp(command, "echo") == 0)
+		return (ft_echo);
+	else if (ft_strcmp(command, "env") == 0)
+		return (ft_env);
+	else if (ft_strcmp(command, "export") == 0)
+		return (ft_export);
+	else if (ft_strcmp(command, "pwd") == 0)
+		return (ft_pwd);
+	else if (ft_strcmp(command, "unset") == 0)
+		return (ft_unset);
+	else if (ft_strcmp(command, "exit") == 0)
+		return (ft_exit);
 	else
-		data->builtins = ft_strdup("NULL");
+		return (NULL);
 }
 
-static int	ft_count_pipe(char *input)
+void	ft_builtin(t_cmd *cmd)
 {
-	char	**tab;
-	int		i;
-	int		j;
+	t_cmd	*head;
+	void	(*builtin)(void);
 
-	i = -1;
-	j = 0;
-	tab = ft_split(input, " ");
-	while (tab[++i])
-		if (ft_strcmp(tab[i], "|") == 0)
-			j++;
-	return (j);
-}
-
-void	ft_builtins(t_data *data, char *input)
-{
-	t_data	*head;
-	int		pipe;
-	int		nb_pipes;
-
-	nb_pipes = ft_count_pipe(input);
-	head = data;
-	pipe = 0;
+	head = cmd;
 	while (1)
 	{
-		if (data->token != 5)
+		cmd->builtin = ft_builtins((cmd->command)[0]);
+		if (cmd->next == head)
 		{
-			if (data->token == 0)
-				pipe++;
-			data->builtins = NULL;
-			data = data->next;
-		}
-		ft_builtins_status(data);
-		printf("%s\n", data->builtins);
-		if (data->next == head || pipe > nb_pipes)
+			cmd = cmd->next;
 			break ;
-		data = data->next;
+		}
+		cmd = cmd->next;
 	}
-	data = head;
 }
+

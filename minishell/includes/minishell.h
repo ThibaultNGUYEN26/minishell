@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 20:48:19 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:39:20 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,17 @@ typedef struct s_data
 	int				ctrl_c_status;
 }	t_data;
 
-/* typedef struct s_tools
+typedef struct s_bashvar
 {
-	char					*args;
-	char					**paths;
 	char					**envp;
-	struct s_simple_cmds	*simple_cmds;
-	t_lexer					*lexer_list;
 	char					*pwd;
 	char					*old_pwd;
-	int						pipes;
-	int						*pid;
-	bool					heredoc;
-	bool					reset;
-}	t_tools; */
+}	t_bashvar;
 
 typedef struct s_cmd
 {
 	char			**command;
+	int				(*builtin)(struct s_cmd *);
 	t_data			*redirections;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
@@ -70,7 +63,14 @@ typedef struct s_cmd
 
 /* ----- BUILTINS ----- */
 /* ft_builtins */
-void	ft_builtins(t_data *data, char *input);
+void	ft_builtin(t_cmd *cmd);
+void	ft_cd(t_cmd *cmd);
+void	ft_echo(t_cmd *cmd);
+void	ft_env(t_cmd *cmd);
+void	ft_exit(t_cmd *cmd);
+void	ft_export(t_cmd *cmd);
+void	ft_pwd(t_cmd *cmd);
+void	ft_unset(t_cmd *cmd);
 
 /* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);
@@ -93,6 +93,7 @@ void	ft_quotes(t_data *data);
 t_cmd	*ft_parser(t_data **my_data);
 
 /* ----- LIBFT ----- */
+void	ft_putstr_fd(char *s, int fd);
 int		ft_count_words(char *str, char *charset);
 char	**ft_split(char *str, char *charset);
 int		ft_strchr(char *s, char c);

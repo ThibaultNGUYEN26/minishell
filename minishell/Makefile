@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/08 18:45:31 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/09/12 17:18:04 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,13 @@ OBJECTS		=	./bin
 INCLUDES	=	./includes
 
 SRCS		=	builtins/ft_builtins.c \
+				builtins/ft_cd.c \
+				builtins/ft_echo.c \
+				builtins/ft_env.c \
+				builtins/ft_exit.c \
+				builtins/ft_export.c \
+				builtins/ft_pwd.c \
+				builtins/ft_unset.c \
 				get_next_line/get_next_line.c \
 				get_next_line/get_next_line_utils.c \
 				lexer/ft_dollar.c \

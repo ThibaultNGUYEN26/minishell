@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 20:47:36 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:59:43 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	ft_catch_input(char *input, char **envp)
 	ft_print_data(data);
 	printf("STRUCTURE DU PARSER :\n");
 	ft_print_cmd(cmd);
+	
 	if (data != NULL)
 		ft_free_stack(data);
 }
@@ -80,7 +81,7 @@ static void	ft_catch_input(char *input, char **envp)
   * @param envp
   * @returns void
   */
-static void	ft_minishell_loop(char **envp)
+static void	ft_minishell_loop(t_bashvar *bash)
 {
 	char	*input;
 
@@ -89,7 +90,7 @@ static void	ft_minishell_loop(char **envp)
 	{
 		input = readline(PROMPT);
 		add_history(input);
-		ft_catch_input(input, envp);
+		ft_catch_input(input, bash->envp);
 		free(input);
 		input = NULL;
 	}
@@ -97,9 +98,12 @@ static void	ft_minishell_loop(char **envp)
 
 int	main(int argc, char *argv[], char **envp)
 {
+	t_bashvar	*bash;
+
 	(void)argc;
 	(void)argv;
+	bash = ft_bash(bash, envp);
 	ft_welcome();
-	ft_minishell_loop(envp);
+	ft_minishell_loop(bash);
 	return (0);
 }
