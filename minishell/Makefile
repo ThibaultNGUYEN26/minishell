@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/12 17:18:04 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/09/18 19:39:35 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ SOURCES		=	./src
 OBJECTS		=	./bin
 INCLUDES	=	./includes
 
-SRCS		=	builtins/ft_builtins.c \
+SRCS		=	bashvar/ft_bash.c \
+				builtins/ft_builtins.c \
 				builtins/ft_cd.c \
 				builtins/ft_echo.c \
 				builtins/ft_env.c \
@@ -29,6 +30,7 @@ SRCS		=	builtins/ft_builtins.c \
 				lexer/ft_lexer_errors.c \
 				lexer/ft_lexer.c \
 				parser/ft_parser.c \
+				libft/ft_putstr_fd.c \
 				libft/ft_split.c \
 				libft/ft_strchr.c \
 				libft/ft_strcmp.c \

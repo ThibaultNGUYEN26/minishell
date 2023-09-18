@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 18:27:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:18:59 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,26 @@ typedef struct s_bashvar
 typedef struct s_cmd
 {
 	char			**command;
-	int				(*builtin)(struct s_cmd *);
+	int				(*builtin)(struct s_cmd *, struct s_bashvar **);
 	t_data			*redirections;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
 
+/* ----- BASHVAR ----- */
+/* ft_bash */
+void	ft_bash(t_bashvar **bash, char **envp);
+
 /* ----- BUILTINS ----- */
 /* ft_builtins */
-int		ft_builtin(t_cmd *cmd);
-int		ft_cd(t_cmd *cmd);
-int		ft_echo(t_cmd *cmd);
-int		ft_env(t_cmd *cmd);
-int		ft_exit(t_cmd *cmd);
-int		ft_export(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
-int		ft_unset(t_cmd *cmd);
+void	ft_builtin(t_cmd *cmd, t_bashvar **bash);
+int		ft_cd(t_cmd *cmd, t_bashvar **bash);
+int		ft_echo(t_cmd *cmd, t_bashvar **bash);
+int		ft_env(t_cmd *cmd, t_bashvar **bash);
+int		ft_exit(t_cmd *cmd, t_bashvar **bash);
+int		ft_export(t_cmd *cmd, t_bashvar **bash);
+int		ft_pwd(t_cmd *cmd, t_bashvar **bash);
+int		ft_unset(t_cmd *cmd, t_bashvar **bash);
 
 /* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);

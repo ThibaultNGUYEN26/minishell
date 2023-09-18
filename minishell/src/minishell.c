@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 18:23:40 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:36:39 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_welcome(void)
   * @param envp
   * @returns void
   */
-static void	ft_catch_input(char *input, char **envp)
+static void	ft_catch_input(char *input, t_bashvar **bash)
 {
 	t_data	*data;
 	t_cmd	*cmd;
@@ -59,7 +59,7 @@ static void	ft_catch_input(char *input, char **envp)
 	ft_quotes_error(data);
 	ft_quotes(data);
 	ft_redirect_error(data);
-	ft_dollar(data, envp);
+	ft_dollar(data, (*bash)->envp);
 	printf("STRUCTURE DU LEXER :\n");
 	ft_print_data(data);
 	cmd = ft_parser(&data);
@@ -71,6 +71,7 @@ static void	ft_catch_input(char *input, char **envp)
 	ft_print_cmd(cmd);
 	if (data != NULL)
 		ft_free_stack(data);
+	ft_builtin(cmd, bash);
 }
 
 /**
@@ -78,7 +79,7 @@ static void	ft_catch_input(char *input, char **envp)
   * @param envp
   * @returns void
   */
-static void	ft_minishell_loop(t_bashvar *bash)
+static void	ft_minishell_loop(t_bashvar **bash)
 {
 	char	*input;
 
@@ -87,7 +88,7 @@ static void	ft_minishell_loop(t_bashvar *bash)
 	{
 		input = readline(PROMPT);
 		add_history(input);
-		ft_catch_input(input, bash->envp);
+		ft_catch_input(input, bash);
 		free(input);
 		input = NULL;
 	}
@@ -99,8 +100,11 @@ int	main(int argc, char *argv[], char **envp)
 
 	(void)argc;
 	(void)argv;
-	bash = ft_bash(bash, envp);
+	bash = malloc(sizeof(t_bashvar) * 1);
+	if (!bash)
+		return (1);
+	ft_bash(&bash, envp);
 	ft_welcome();
-	ft_minishell_loop(bash);
+	ft_minishell_loop(&bash);
 	return (0);
 }
