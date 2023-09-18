@@ -6,13 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:29 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/12 17:18:33 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:27:45 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_env(t_cmd *cmd)
+int	ft_env(t_cmd *cmd)
 {
 	
 }

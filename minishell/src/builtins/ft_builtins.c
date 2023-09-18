@@ -6,13 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/12 17:13:34 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:29:10 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	(*ft_builtins_status(char *command))(t_cmd *cmd)
+static int	(*ft_builtins_status(char *command))(t_cmd *cmd)
 {
 	if (ft_strcmp(command, "cd") == 0)
 		return (ft_cd);
@@ -32,15 +32,14 @@ static void	(*ft_builtins_status(char *command))(t_cmd *cmd)
 		return (NULL);
 }
 
-void	ft_builtin(t_cmd *cmd)
+int	ft_builtin(t_cmd *cmd)
 {
 	t_cmd	*head;
-	void	(*builtin)(void);
 
 	head = cmd;
 	while (1)
 	{
-		cmd->builtin = ft_builtins((cmd->command)[0]);
+		cmd->builtin = ft_builtins_status((cmd->command)[0]);
 		if (cmd->next == head)
 		{
 			cmd = cmd->next;
@@ -49,4 +48,3 @@ void	ft_builtin(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-

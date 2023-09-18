@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:41:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/12 17:13:46 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:27:40 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	ft_print(char **str, int output, int newline, int i)
 		ft_putstr_fd("\n", output);
 }
 
-void	ft_echo(t_cmd *cmd)
+int	ft_echo(t_cmd *cmd)
 {
 	int	i;
 	int	newline;

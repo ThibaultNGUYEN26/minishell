@@ -6,13 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/12 17:25:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:27:54 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_pwd(t_cmd *cmd)
+int	ft_pwd(t_cmd *cmd)
 {
 	int	i;
 

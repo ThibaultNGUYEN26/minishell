@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/12 17:39:20 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:27:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum s_token
 typedef struct s_data
 {
 	char			*content;
-	char			*builtins;
 	t_token			token;
 	int				exit_code;
 	struct s_data	*next;
@@ -63,14 +62,14 @@ typedef struct s_cmd
 
 /* ----- BUILTINS ----- */
 /* ft_builtins */
-void	ft_builtin(t_cmd *cmd);
-void	ft_cd(t_cmd *cmd);
-void	ft_echo(t_cmd *cmd);
-void	ft_env(t_cmd *cmd);
-void	ft_exit(t_cmd *cmd);
-void	ft_export(t_cmd *cmd);
-void	ft_pwd(t_cmd *cmd);
-void	ft_unset(t_cmd *cmd);
+int		ft_builtin(t_cmd *cmd);
+int		ft_cd(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
+int		ft_env(t_cmd *cmd);
+int		ft_exit(t_cmd *cmd);
+int		ft_export(t_cmd *cmd);
+int		ft_pwd(t_cmd *cmd);
+int		ft_unset(t_cmd *cmd);
 
 /* ----- GET_NEXT_LINE ----- */
 char	*get_next_line(const int fd);
@@ -105,7 +104,6 @@ int		ft_strncmp(char *s1, char *s2, unsigned int n);
 char	*ft_substr(char *s, int start, int len);
 
 /* ------ SIGNALS ----- */
-void	ft_exit(char *input);
 void	ft_ctrl_d(void);
 
 /* ----- UTILS ----- */
