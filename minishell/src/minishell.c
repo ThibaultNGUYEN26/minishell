@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 20:36:39 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:15:20 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
+	ft_free_cmd(cmd);
 }
 
 /**
@@ -86,7 +87,7 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	input = NULL;
 	while (1)
 	{
-		input = readline(PROMPT);
+		input = readline("minishell$> ");
 		add_history(input);
 		ft_catch_input(input, bash);
 		free(input);
@@ -106,5 +107,6 @@ int	main(int argc, char *argv[], char **envp)
 	ft_bash(&bash, envp);
 	ft_welcome();
 	ft_minishell_loop(&bash);
+	ft_free_bash(&bash);
 	return (0);
 }

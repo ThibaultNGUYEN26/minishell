@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:14:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 20:38:02 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 21:46:28 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	ft_replace(char *var, char *new, t_bashvar **bash)
 			res = ft_strjoin2(ft_strdup(var), new);
 			free((*bash)->envp[i]);
 			(*bash)->envp[i] = ft_strdup(res);
-			printf("%s\n", (*bash)->envp[i]);
 			free(res);
 			break ;
 		}

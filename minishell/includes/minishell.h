@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 20:18:59 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:09:52 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_cmd
 /* ----- BASHVAR ----- */
 /* ft_bash */
 void	ft_bash(t_bashvar **bash, char **envp);
+void	ft_free_bash(t_bashvar **bash);
 
 /* ----- BUILTINS ----- */
 /* ft_builtins */
@@ -115,6 +116,7 @@ void	ft_ctrl_d(void);
 t_cmd	*ft_new_cmd(void);
 void	addlast_cmd(t_cmd **stack, t_cmd *new_cmd);
 void	ft_print_cmd(t_cmd *cmd);
+void	ft_free_cmd(t_cmd *cmd);
 /* ft_stack_utils */
 t_data	*ft_new_stack(char *content, char *token);
 void	addlast_node(t_data **stack, t_data *new_data);
