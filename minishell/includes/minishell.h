@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 23:09:52 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/19 09:31:56 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	ft_quotes(t_data *data);
 t_cmd	*ft_parser(t_data **my_data);
 
 /* ----- LIBFT ----- */
+int		ft_isalpha(char *s);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_count_words(char *str, char *charset);
 char	**ft_split(char *str, char *charset);

@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/18 23:07:08 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/09/19 09:27:19 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS		=	bashvar/ft_bash.c \
 				lexer/ft_lexer_errors.c \
 				lexer/ft_lexer.c \
 				parser/ft_parser.c \
+				libft/ft_isalpha.c \
 				libft/ft_putstr_fd.c \
 				libft/ft_split.c \
 				libft/ft_strchr.c \
