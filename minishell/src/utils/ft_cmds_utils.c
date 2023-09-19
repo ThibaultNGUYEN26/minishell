@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmds_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 18:24:54 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:33:30 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,13 @@ void	addlast_cmd(t_cmd **stack, t_cmd *new_cmd)
 void	ft_free_cmd(t_cmd *cmd)
 {
 	t_cmd	*head;
+	int		i;
 
+	i = 0;
 	head = cmd;
+	while (cmd->command[i])
+		free(cmd->command[i++]);
+	free(cmd->command);
 	if (cmd->next == cmd)
 	{
 		free(cmd);

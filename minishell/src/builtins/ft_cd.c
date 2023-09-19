@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:14:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 21:46:28 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:13:50 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	ft_cd(t_cmd *cmd, t_bashvar **bash)
 	/* Changes the current working directory of the calling process to cmd->command[1] */
 	if (chdir(cmd->command[1]) != 0)
 	{
-		perror("chdir");
+		perror("chdir: ");
 		return (EXIT_FAILURE);
 	}
 	/* Change bash->pwd with the current directory */
 	if (!getcwd((*bash)->pwd, 1024))
 	{
-		perror("getcwd pwd");
+		perror("getcwd: ");
 		return (EXIT_FAILURE);
 	}
 	ft_replace("PWD=", (*bash)->pwd, bash);
