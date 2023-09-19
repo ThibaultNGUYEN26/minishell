@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 09:33:23 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/19 09:37:32 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	ft_exit(t_cmd *cmd, t_bashvar **bash)
 	}
 	else if (cmd->command[1] && !ft_isalpha(cmd->command[1]))
 	{
-		ft_putstr_fd("minishell: exit: oui: numeric argument required\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(cmd->command[1], STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);
