@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 09:31:56 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/20 03:25:20 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 # include "colors.h"
 # include "defines.h"
 
@@ -33,7 +34,6 @@ typedef enum s_token
 	NONE,
 }	t_token;
 
-/* for the moment exit_code 2 means unclosed quotes */
 typedef struct s_data
 {
 	char			*content;
@@ -41,15 +41,22 @@ typedef struct s_data
 	int				exit_code;
 	struct s_data	*next;
 	struct s_data	*prev;
-	int				ctrl_c_status;
 }	t_data;
 
 typedef struct s_bashvar
 {
-	char					**envp;
-	char					*pwd;
-	char					*old_pwd;
+	char	**envp;
+	char	*old_pwd;
+	char	*pwd;
+	int		error_num;
 }	t_bashvar;
+
+typedef struct s_files
+{
+	int	input;
+	int	output;
+	int	argc;
+}	t_files;
 
 typedef struct s_cmd
 {
@@ -92,22 +99,23 @@ void	ft_redirect_error(t_data *data);
 t_data	*ft_lexer(char *input);
 void	ft_quotes(t_data *data);
 
-/* ----- LEXER ----- */
+/* ----- PARSER ----- */
 /* ft_parser */
 t_cmd	*ft_parser(t_data **my_data);
 
 /* ----- LIBFT ----- */
-int		ft_isalpha(char *s);
-void	ft_putstr_fd(char *s, int fd);
-int		ft_count_words(char *str, char *charset);
-char	**ft_split(char *str, char *charset);
-int		ft_strchr(char *s, char c);
-int		ft_strcmp(char *s1, char *s2);
-char	*ft_strdup(char *s);
-char	*ft_strjoin(char *s1, char *s2);
-int		ft_strlen(char *s);
-int		ft_strncmp(char *s1, char *s2, unsigned int n);
-char	*ft_substr(char *s, int start, int len);
+long long	ft_atoi(const char *str);
+int			ft_isalpha(char *s);
+void		ft_putstr_fd(char *s, int fd);
+int			ft_count_words(char *str, char *charset);
+char		**ft_split(char *str, char *charset);
+int			ft_strchr(char *s, char c);
+int			ft_strcmp(char *s1, char *s2);
+char		*ft_strdup(char *s);
+char		*ft_strjoin(char *s1, char *s2);
+int			ft_strlen(char *s);
+int			ft_strncmp(char *s1, char *s2, unsigned int n);
+char		*ft_substr(char *s, int start, int len);
 
 /* ------ SIGNALS ----- */
 void	ft_ctrl_d(void);

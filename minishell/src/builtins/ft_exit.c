@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 09:37:32 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/20 03:53:46 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int	ft_exit(t_cmd *cmd, t_bashvar **bash)
 {
-	(void)bash;
 	int	i;
+	int	exit_code;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
 	i = 0;
+	exit_code = 0;
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	while (cmd->command[i])
 		i++;
 	if (i > 2)
@@ -26,13 +27,22 @@ int	ft_exit(t_cmd *cmd, t_bashvar **bash)
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	else if (cmd->command[1] && !ft_isalpha(cmd->command[1]))
+	else if ((ft_strcmp(cmd->command[1], "-1") != 0) && ((cmd->command[1] && !ft_isalpha(cmd->command[1])) || ft_atoi(cmd->command[1]) == -1))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->command[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-		return (EXIT_FAILURE);
+		exit_code = 2;
 	}
-	exit(EXIT_SUCCESS);
+	else
+	{
+		if (cmd->command[1][0] == '-')
+			exit_code = 256 + (ft_atoi(cmd->command[1]) % 256);
+		else
+			exit_code = ft_atoi(cmd->command[1]) % 256;
+	}
+	ft_free_bash(bash);
+	ft_free_cmd(cmd);
+	exit(exit_code);
 	return (EXIT_SUCCESS);
 }

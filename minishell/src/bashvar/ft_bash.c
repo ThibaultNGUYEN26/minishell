@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bash.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:39:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 18:25:38 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/19 19:09:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	ft_bash(t_bashvar **bash, char **envp)
 	int	j;
 
 	i = 0;
+	j = 0;
 	while (envp[i])
 		i++;
 	(*bash)->envp = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!(*bash)->envp)
 		return ;
 	i = -1;
-	j = 0;
 	while (envp[++i])
 	{
 		((*bash)->envp)[j++] = ft_strdup(envp[i]);
