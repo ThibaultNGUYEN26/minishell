@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/20 03:25:20 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/20 04:18:04 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <string.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>

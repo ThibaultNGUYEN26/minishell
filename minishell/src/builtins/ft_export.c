@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:40 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 22:43:08 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/20 04:36:06 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,37 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 	while (cmd->command[++k])
 	{
 		i = -1;
-		export_value = ft_split(cmd->command[k], "=");
-		while ((*bash)->envp[++i])
+		if (cmd->command[k][0] == '=')
+			printf("minishell: export: %s: not a valid identifier\n", cmd->command[k]);
+		else
 		{
-			test = 0;
-			j = 0;
-			while ((*bash)->envp[i][++j])
+			export_value = ft_split(cmd->command[k], "=");
+			while ((*bash)->envp[++i])
 			{
-				if ((*bash)->envp[i][j - 1] == '=')
+				test = 0;
+				j = 0;
+				while ((*bash)->envp[i][j])
 				{
-					if (ft_strcmp(export_value[0], ft_substr((*bash)->envp[i], 0, j - 1)) == 0)
-						test = 1;
-					break ;
+					if ((*bash)->envp[i][j] == '=')
+					{
+						if (ft_strcmp(export_value[0], ft_substr((*bash)->envp[i], 0, j)) == 0)
+							test = 1;
+						break ;
+					}
+					j++;
 				}
+				if (test == 1)
+					break ;
 			}
 			if (test == 1)
-				break ;
+				ft_replace(export_value, bash);
+			else
+				ft_add(cmd->command[k], bash);
+			i = 0;
+			while (export_value[i])
+				free(export_value[i++]);
+			free(export_value);
 		}
-		if (test == 1)
-			ft_replace(export_value, bash);
-		else
-			ft_add(cmd->command[k], bash);
-		i = 0;
-		while (export_value[i])
-			free(export_value[i++]);
-		free(export_value);
 	}
 	return (EXIT_SUCCESS);
 }
