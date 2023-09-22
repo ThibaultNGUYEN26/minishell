@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 20:30:53 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:14:28 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_command(char *path, int len_cmd)
+char	*ft_command(char *envp, int len_cmd)
 {
 	char	*cmd;
 	int		len;
 
-	len = ft_strlen(path);
+	len = ft_strlen(envp);
 	cmd = malloc((len + len_cmd) * sizeof(char));
 	if (!cmd)
 		return (NULL);
-	cmd = ft_strjoin(path, "/");
+	cmd = ft_strjoin(envp, "/");
 	return (cmd);
 }
 

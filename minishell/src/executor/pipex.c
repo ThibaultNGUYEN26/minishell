@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 21:43:49 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:45:56 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,38 @@ static void	ft_child(int *pfd, int n, t_files file)
 		exit(0);
 }
 
-static void	ft_exec_cmd(char *argv, char **path)
+/* Function that will execute the commands with its options and the env path so we will need it to take as argument :
+	- the cmd->command 2D Array 
+	- bash->envp 
+	And we will need to check if it's builtin or not, so that we execute the builtin instead 
+=> cmd will be the string carrying the path it belongs to with a / at the end with the command */
+static void	ft_exec_cmd(char **command, char **envp)
 {
 	int		i;
 	char	*cmd;
-	char	**cmd_options;
 
 	i = -1;
-	if (!path)
+	if (!envp)
 	{
-		cmd_options = ft_split(argv, ' ');
-		if (access(cmd_options[0], X_OK) == 0)
-			if (execve(NULL, cmd_options, NULL) == -1)
+		if (access(command[0], X_OK) == 0)
+			if (execve(NULL, command, NULL) == -1)
 				exit(EXIT_FAILURE);
 	}
 	else
 	{
-		while (path[++i])
+		while (envp[++i])
 		{
-			cmd = ft_command(path[i], ft_strlen(argv));
-			cmd_options = ft_split(argv, ' ');
-			cmd = ft_strjoin(cmd, cmd_options[0]);
+			cmd = ft_command(envp[i], ft_strlen(command[0]));
+			cmd = ft_strjoin(cmd, command[0]);
 			if (access(cmd, X_OK) == 0)
-				if (execve(cmd, cmd_options, NULL) == -1)
+				if (execve(cmd, command, NULL) == -1)
 					exit(EXIT_FAILURE);
 		}
 	}
 }
 
-static void	ft_pipeline(int n, char **argv, t_files file, char **path)
+/* ft_pipeline is the recursive function that will create the children and execute the commands */
+static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar *bash, t_files file)
 {
 	int		pfd[2];
 	int		pid;
@@ -94,13 +97,14 @@ static void	ft_pipeline(int n, char **argv, t_files file, char **path)
 static void	ft_open_errors(char *filename)
 {
 	if (errno == ENOENT)
-		ft_printf("File '%s' does not exist.\n", filename);
+		printf("File '%s' does not exist.\n", filename);
 	else if (errno == EACCES)
-		ft_printf("Permission denied for file '%s'.\n", filename);
+		printf("Permission denied for file '%s'.\n", filename);
 	else
-		ft_printf("Error opening file '%s'. Error code: %d.\n", filename, errno);
+		printf("Error opening file '%s'. Error code: %d.\n", filename, errno);
 }
 
+/* The "main" of the execution part */
 void    ft_handle_cmd(t_cmd *cmd, t_bashvar *bash)
 {
     t_files	file;
@@ -117,26 +121,11 @@ void    ft_handle_cmd(t_cmd *cmd, t_bashvar *bash)
         if (cmd == head)
             break;
     }
-    
-    
-}
-
-/* 
-int	main(int argc, char *argv[], char **envp)
-{
-	t_files	file;
-
-	file.output = open(argv[argc - 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
-	if (ft_strcmp(argv[1], "here_doc") == 0)
-		ft_here_doc(argv++, &file, &argc);
-	else
+	// Check if there is a redirections at the first command so we can fill the file.input 
+	if (cmd->redirections != NULL)
 	{
-		file.input = open(argv[1], O_RDONLY);
-		if (file.input < 0)
-			ft_open_errors(argv[1]);
+		if ((cmd->redirections)->token == 1 || (cmd->redirections)->token == 4)
+			file.input = open((cmd->redirections)->next->content, O_RDONLY);
 	}
-	file.argc = argc - 3;
-	ft_pipeline(argc - 3, argv + 2, file, path);
-	return (0);
+	ft_pipeline(count_cmd, cmd, bash, file);
 }
- */

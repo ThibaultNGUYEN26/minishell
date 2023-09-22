@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 18:33:30 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:57:36 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_free_cmd(t_cmd *cmd)
 
 	i = 0;
 	head = cmd;
-	while (cmd->command[i])
+	while (cmd->command && cmd->command[i])
 		free(cmd->command[i++]);
 	free(cmd->command);
 	if (cmd->next == cmd)

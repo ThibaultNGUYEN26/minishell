@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:57:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/06 15:46:01 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:00:23 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_count_words(char *str, char *charset)
 
 	i = 0;
 	nb_charset = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		while (str[i] && ft_is_charset(str[i], charset))
 			i++;
@@ -76,7 +76,7 @@ static void	ft_write_split(char *str, char *charset, char **tab)
 
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		while (str[i] && ft_is_charset(str[i], charset))
 			i++;

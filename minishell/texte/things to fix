@@ -6,3 +6,10 @@ THINGS TO FIX
 - echo $"riri" = riri donc il faut gérer ce cas ASAP
 -> Si il y'a des doubles quotes well closed AND un dollar juste avant : exit_code = 4
 
+
+
+
+- Quand y'a un probleme de quotes ou de redirection, on n'execute rien d'autre et on affiche JUSTE le message d'erreur
+=> Il faudra exit et ne PAS FAIRE LE PARSER
+- Parcourir lexer et vérifier si on a pas d'erreur de redirection (input < ou < > ou .. ) et  afficher le message d'erreur et exit
+- Réparer exit

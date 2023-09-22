@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 20:47:56 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:53:29 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@
 	*/
 static int	ft_tokenizer(char *input, int i)
 {
-	char	*str;
-
-	str = ft_substr(input, i, 2);
-	if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
-		return (free(str), 1);
+	if (ft_strncmp(input, ">>", 2) == 0 || ft_strncmp(input, "<<", 2) == 0)
+		return (1);
 	if (input[i] == '|' || input[i] == '<' || input[i] == '>')
-		return (free(str), 1);
-	return (free(str), 0);
+		return (1);
+	return (0);
 }
 
 /**
@@ -37,20 +34,20 @@ static int	ft_tokenizer(char *input, int i)
 	* @param i
 	* @returns void
 	*/
-static void	ft_add_token(t_data *data, char *input, int i)
+static void	ft_add_token(t_data **data, char *input, int i)
 {
 	char	*str;
 
 	str = ft_substr(input, i, 2);
 	if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
 	{
-		addlast_node(&data, ft_new_stack(NULL, str));
+		addlast_node(data, ft_new_stack(NULL, str));
 		i++;
 	}
 	else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 	{
 		free(str);
-		addlast_node(&data, ft_new_stack(NULL, ft_substr(input, i, 1)));
+		addlast_node(data, ft_new_stack(NULL, ft_substr(input, i, 1)));
 	}
 }
 
@@ -73,17 +70,17 @@ t_data	*ft_lexer(char *input)
 		// j commence initialement à i
 		j = i;
 		// Tant qu'on est pas à token ou que la chaine existe, on incrémente j
-		while (!ft_tokenizer(input, j) && input[j])
+		while (input[j] && !ft_tokenizer(input, j))
 			j++;
 		// si on est au premier caractere, il y'a un token at the very start
 		// sinon, on mets tout ce qu'il y avait avant dans data->content
-		if (!ft_tokenizer(input, i) && input[i])
+		if (input[i] && !ft_tokenizer(input, i))
 			addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), NULL));
 		i = j;
 		// Si input existe toujours => on est arrivé au token, sinon y'a plus de
 		// tokens et we are at the end of the input
 		if (input[i])
-			ft_add_token(data, input, i);
+			ft_add_token(&data, input, i);
 		else
 			break ;
 	}

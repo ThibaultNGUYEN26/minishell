@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/08 19:40:06 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:55:54 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,24 @@ static int	ft_invalid_redirec(t_data **data, t_data *head_data)
 	return (0);
 }
 
-static void	ft_redirection_parser(t_data *head_data, t_data **data, t_cmd *cmd)
+static void	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, t_data **head_pipe)
 {
 	char	**split;
+	char	*temp;
 	int		i;
 	int		j;
 	
 	// If redirection
 	if ((*data)->token != 5)
 	{
-		if (ft_invalid_redirec(data, head_data))
+		if (ft_invalid_redirec(data, *head_data))
 			return ;
-		// Store redirection dans cmd->redirection ET Supprimer de data la redirection
+		// Store redirection dans cmd->redirection ET Supprimer de data la redirection (+ Update head_data)
 		addlast_node(&(cmd->redirections), ft_data_copy((*data)));
+		if ((*data) == *head_data)
+			*head_data = (*data)->next;
+		if (*head_pipe == *data)
+			*head_pipe = (*data)->next;
 		ft_delete_element(data);
 		// Store file of redirection dans cmd->redirection et split le mot in case other words that are NOT the file were AFTER the file
 		(*data) = (*data)->next;
@@ -61,9 +66,20 @@ static void	ft_redirection_parser(t_data *head_data, t_data **data, t_cmd *cmd)
 		/* Si il n'y avait que un seul mot dans QUE le file, on peut le supprimer de data
 			Sinon on remplace data avec ce qu'il y avait après */
 		if (j == 1)
+		{
+			if ((*data) == *head_data)
+				*head_data = (*data)->next;
+			if (*head_pipe == *data)
+				*head_pipe = (*data)->next;
 			ft_delete_element(data);
+		}
 		else
-			(*data)->content = ft_strjoin((*data)->content, ft_substr((*data)->content, ft_strlen(split[0]) + 1, ft_strlen((*data)->content) - ft_strlen(split[0]) + 1));
+		{
+			temp = ft_substr((*data)->content, ft_strlen(split[0]) + 1, ft_strlen((*data)->content) - ft_strlen(split[0]) + 1);
+			free((*data)->content);
+			(*data)->content = ft_strdup(temp);
+			free(temp);
+		}
 		i = 0;
 		while (i < j)
 			free(split[i++]);
@@ -71,25 +87,45 @@ static void	ft_redirection_parser(t_data *head_data, t_data **data, t_cmd *cmd)
 	}
 }
 
-static void	ft_command_parser(t_cmd *cmd, t_data **data)
+static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 {
 	char	**split;
+	t_data	*head;
 	int		i;
 	int		j;
 	
-	i = ft_count_words((*data)->content, "\f\t\n\r\v ");
+	i = 0;
+	j = 0;
+	head = *data;
+	// count the words from ALL contents left from data before pipe
+	while (1)
+	{
+		i += ft_count_words((*data)->content, "\f\t\n\r\v ");
+		*data = (*data)->next;
+		if ((*data) == after_pipe)
+			break;
+	}
 	cmd->command = malloc(sizeof(char *) * (i + 1));
 	if (!cmd->command)
 		return ;
-	split = ft_split((*data)->content, "\f\t\n\r\v ");
-	j = -1;
-	while (++j < i)
-		cmd->command[j] = ft_strdup(split[j]);
+	(*data) = head;
+	// Fill the command with what's left
+	while (1)
+	{
+		i = 0;
+		split = ft_split((*data)->content, "\f\t\n\r\v ");
+		while (split[i])
+			cmd->command[j++] = ft_strdup(split[i++]);
+		i = 0;
+		while (split[i])
+			free(split[i++]);
+		free(split);
+		*data = (*data)->next;
+		if ((*data) == after_pipe)
+			break;
+	}
 	cmd->command[j] = NULL;
-	i = 0;
-	while (i < j)
-		free(split[i++]);
-	free(split);
+	
 }
 
 t_cmd	*ft_parser(t_data **data)
@@ -115,7 +151,7 @@ t_cmd	*ft_parser(t_data **data)
 		// While not pipe and didn't come back to the beggggginnnning de la liste chainee
 		while ((*data)->token != 0)
 		{
-			ft_redirection_parser(head_data, data, cmd);
+			ft_redirection_parser(&head_data, data, cmd, &head_pipe);
 			// Si data est NULL it means everything was deleted from it, end of loop
 			if ((*data) == NULL)
 				break ;
@@ -130,13 +166,18 @@ t_cmd	*ft_parser(t_data **data)
 			break ;
 		}
 		// On remplit la cmd->command avec la commande aka ce qui reste dans la structure du lexer
-		if ((*data) == head_data)
+		/* if ((*data) == head_data)
 			after_pipe = (*data);
 		else
-			after_pipe = (*data)->next;
+			after_pipe = (*data)->next; */
+		after_pipe = (*data);
 		(*data) = head_pipe;
-		ft_command_parser(cmd, data);
-		(*data) = after_pipe;
+		printf("PRINT : head_data : %s %d\nhead_pipe : %s %d\ndata : %s %d\nafter_pipe : %s %d\n", head_data->content, head_data->token, head_pipe->content, head_pipe->token, (*data)->content, (*data)->token, (after_pipe)->content, after_pipe->token);
+		ft_command_parser(cmd, data, after_pipe);
+		if (after_pipe == head_data)
+			(*data) = after_pipe;
+		else
+			(*data) = (after_pipe)->next;
 		head_pipe = (*data);
 		if ((*data) == head_data)
 			break;
