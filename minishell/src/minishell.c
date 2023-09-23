@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 16:15:51 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:37:25 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
+	ft_handle_cmd(cmd, bash);
 	ft_free_cmd(cmd);
 }
 

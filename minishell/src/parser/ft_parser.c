@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 15:37:37 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:37:57 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ t_cmd	*ft_parser(t_data **data)
 			after_pipe = (*data)->next; */
 		after_pipe = (*data);
 		(*data) = head_pipe;
-		printf("PRINT : head_data : %s %d\nhead_pipe : %s %d\ndata : %s %d\nafter_pipe : %s %d\n", head_data->content, head_data->token, head_pipe->content, head_pipe->token, (*data)->content, (*data)->token, (after_pipe)->content, after_pipe->token);
 		ft_command_parser(cmd, data, after_pipe);
 		if (after_pipe == head_data)
 			(*data) = after_pipe;

@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/23 16:05:52 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/09/23 20:37:46 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRCS		=	bashvar/ft_bash.c \
 				builtins/ft_export.c \
 				builtins/ft_pwd.c \
 				builtins/ft_unset.c \
+				executor/pipex.c \
+				executor/pipex_utils.c \
 				get_next_line/get_next_line.c \
 				get_next_line/get_next_line_utils.c \
 				lexer/ft_dollar.c \
