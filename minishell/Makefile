@@ -6,7 +6,7 @@
 #    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/22 12:41:31 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/09/23 19:52:36 by rchbouki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRCS		=	bashvar/ft_bash.c \
 				builtins/ft_export.c \
 				builtins/ft_pwd.c \
 				builtins/ft_unset.c \
+				executor/pipex.c \
+				executor/pipex_utils.c \
 				get_next_line/get_next_line.c \
 				get_next_line/get_next_line_utils.c \
 				lexer/ft_dollar.c \
@@ -48,7 +50,7 @@ SRCS		=	bashvar/ft_bash.c \
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 CINCLUDES	=	-I ${INCLUDES}
 
 BLACK		=	"\033[1;30m"

@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/22 12:07:10 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/23 15:57:02 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
+	ft_handle_cmd(cmd, bash);
 	ft_free_cmd(cmd);
 }
 

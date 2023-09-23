@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/21 14:14:28 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/23 19:56:10 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_command(char *envp, int len_cmd)
 	cmd = malloc((len + len_cmd) * sizeof(char));
 	if (!cmd)
 		return (NULL);
-	cmd = ft_strjoin(envp, "/");
+	cmd = ft_strjoin2(envp, "/");
 	return (cmd);
 }
 
@@ -41,22 +41,22 @@ static char	*ft_line_heredoc(char *line)
 {
 	char	*str;
 
-	str = ft_strdup(line, 0);
+	str = ft_strdup(line);
 	str[ft_strlen(str) - 1] = '\0';
 	return (str);
 }
 
-static void	ft_child_heredoc(int *pfd, char **argv)
+static void	ft_child_heredoc(int *pfd, char *delimiter)
 {
 	char	*line;
 	char	*str;
 
-	ft_printf("pipe heredoc> ");
+	printf("pipe heredoc> ");
 	line = get_next_line(STDIN_FILENO);
 	str = ft_line_heredoc(line);
-	while (ft_strcmp(str, argv[2]) != 0)
+	while (ft_strcmp(str, delimiter) != 0)
 	{
-		ft_printf("pipe heredoc> ");
+		printf("pipe heredoc> ");
 		write(pfd[1], line, ft_strlen(line));
 		line = get_next_line(STDIN_FILENO);
 		str = ft_line_heredoc(line);
@@ -66,7 +66,7 @@ static void	ft_child_heredoc(int *pfd, char **argv)
 	close(pfd[1]);
 }
 
-void	ft_here_doc(char **argv, t_files *file, int *argc)
+void	ft_here_doc(char *delimiter, t_files *file)
 {
 	int		status;
 	int		pfd[2];
@@ -76,7 +76,7 @@ void	ft_here_doc(char **argv, t_files *file, int *argc)
 	if (pid == 0)
 	{
 		close(pfd[0]);
-		ft_child_heredoc(pfd, argv);
+		ft_child_heredoc(pfd, delimiter);
 		exit(0);
 	}
 	else
@@ -86,5 +86,4 @@ void	ft_here_doc(char **argv, t_files *file, int *argc)
 		close(pfd[0]);
 		waitpid(pid, &status, 0);
 	}
-	*argc -= 1;
 }
