@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/22 12:07:10 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/23 16:15:51 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	t_data	*data;
 	t_cmd	*cmd;
 
-	if (!input)
-		ft_ctrl_d();
-	else if (ft_strcmp(input, "") == 0)
+	if (ft_strcmp(input, "") == 0)
 		return ;
 	data = ft_lexer(input);
 	ft_quotes_error(data);
@@ -63,7 +61,13 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	printf("STRUCTURE DU LEXER :\n");
 	ft_print_data(data);
 	cmd = ft_parser(&data);
-	// if data->exit_code == 3 ou == 2 à ce niveau du code it means invalid file
+	if (cmd->error == 1)
+	{
+		ft_free_stack(data);
+		ft_free_cmd(cmd);
+		return ;
+	}
+	// if data->exit_code == 1 ou == 2 à ce niveau du code it means invalid file
 	//after redirection donc as if CTRL-C donc il ne faut PAS faire l'executable
 	printf("STRUCTURE DU LEXER APRES LE PARSING : ");
 	ft_print_data(data);
@@ -85,9 +89,15 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	char	*input;
 
 	input = NULL;
+	ft_signals();
 	while (1)
 	{
 		input = readline("minishell$> ");
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
 		add_history(input);
 		ft_catch_input(input, bash);
 		free(input);

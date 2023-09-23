@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/22 13:55:54 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/23 15:37:37 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,24 @@
 	==> on free, on arrete tout et on repart à la minishell loop */
 static int	ft_invalid_redirec(t_data **data, t_data *head_data)
 {
-	if (((*data)->next)->exit_code == 3)
+	if (((*data)->next)->exit_code == 1)
 	{
 		printf("minishell: syntax error near unexpected token\n");
-		(*data) = (*data)->next;
-		return (1);
-	}
-	if (((*data)->next)->exit_code == 2)
-	{
-		printf("minishell: unexpected EOF while looking for matching quote\n");
-		printf("minishell: syntax error: unexpected end of file\n");
-		(*data) = (*data)->next;
+		(*data) = head_data;
+		(*data)->exit_code = 2;
 		return (1);
 	}
 	if ((*data)->next == head_data)
 	{
 		printf("minishell: syntax error near unexpected token\n");
+		(*data) = head_data;
+		(*data)->exit_code = 2;
 		return (1);
 	}
 	return (0);
 }
 
-static void	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, t_data **head_pipe)
+static int	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, t_data **head_pipe)
 {
 	char	**split;
 	char	*temp;
@@ -48,7 +44,7 @@ static void	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd,
 	if ((*data)->token != 5)
 	{
 		if (ft_invalid_redirec(data, *head_data))
-			return ;
+			return (0);
 		// Store redirection dans cmd->redirection ET Supprimer de data la redirection (+ Update head_data)
 		addlast_node(&(cmd->redirections), ft_data_copy((*data)));
 		if ((*data) == *head_data)
@@ -85,6 +81,7 @@ static void	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd,
 			free(split[i++]);
 		free(split);
 	}
+	return (1);
 }
 
 static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
@@ -148,10 +145,16 @@ t_cmd	*ft_parser(t_data **data)
 			cmd = head_cmd;
 		else
 			cmd = (cmd)->next;
+		cmd->error = 0;
+		cmd->command = NULL;
 		// While not pipe and didn't come back to the beggggginnnning de la liste chainee
 		while ((*data)->token != 0)
 		{
-			ft_redirection_parser(&head_data, data, cmd, &head_pipe);
+			if (!ft_redirection_parser(&head_data, data, cmd, &head_pipe))
+			{
+				cmd->error = 1;
+				return (cmd);
+			}
 			// Si data est NULL it means everything was deleted from it, end of loop
 			if ((*data) == NULL)
 				break ;
@@ -160,7 +163,7 @@ t_cmd	*ft_parser(t_data **data)
 				break ;
 		}
 		// Si data est NULL it means everything was deleted from it, end of loop et on doit mettre cmd->command = NULL sinon on segfault dans ft_parser_print
-		if ((*data) == NULL || (*data)->exit_code == 3 || (*data)->exit_code == 2)
+		if ((*data) == NULL || (*data)->exit_code == 1 || (*data)->exit_code == 2)
 		{
 			cmd->command = NULL;
 			break ;

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/20 04:18:04 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/23 16:05:49 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <signal.h>
 # include "colors.h"
 # include "defines.h"
 
@@ -66,6 +67,7 @@ typedef struct s_cmd
 	t_data			*redirections;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
+	int				error;
 }	t_cmd;
 
 /* ----- BASHVAR ----- */
@@ -119,7 +121,7 @@ int			ft_strncmp(char *s1, char *s2, unsigned int n);
 char		*ft_substr(char *s, int start, int len);
 
 /* ------ SIGNALS ----- */
-void	ft_ctrl_d(void);
+void	ft_signals(void);
 
 /* ----- UTILS ----- */
 /* ft_cmds_utils */

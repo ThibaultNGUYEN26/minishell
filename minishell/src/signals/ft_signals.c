@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctrl.c                                          :+:      :+:    :+:   */
+/*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 13:34:27 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/18 18:23:37 by thibnguy         ###   ########.fr       */
+/*   Created: 2023/09/23 15:56:05 by thibnguy          #+#    #+#             */
+/*   Updated: 2023/09/23 16:20:10 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_ctrl_d(void)
+void	sigint_handler(int sig)
 {
-	printf("exit\n");
-	exit(0);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	printf("\n");
+	rl_redisplay();
+	(void) sig;
+}
+
+void	ft_signals(void)
+{
+	signal(SIGINT, sigint_handler);
 }

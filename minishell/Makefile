@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/22 12:41:31 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/09/23 16:05:52 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,14 +41,14 @@ SRCS		=	bashvar/ft_bash.c \
 				libft/ft_strlen.c \
 				libft/ft_strncmp.c \
 				libft/ft_substr.c \
-				signals/ft_ctrl.c \
+				signals/ft_signals.c \
 				utils/ft_cmds_utils.c \
 				utils/ft_stack_utils.c \
 
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 CINCLUDES	=	-I ${INCLUDES}
 
 BLACK		=	"\033[1;30m"
