@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/21 18:57:36 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/23 21:41:00 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_cmd	*ft_new_cmd(void)
 	if (!new)
 		return (NULL);
 	new->redirections = NULL;
+	new->command = NULL;
+	new->error = 0;
 	new->next = new;
 	new->prev = new;
 	return (new);
@@ -62,22 +64,21 @@ void	ft_free_cmd(t_cmd *cmd)
 	t_cmd	*head;
 	int		i;
 
-	i = 0;
 	head = cmd;
-	while (cmd->command && cmd->command[i])
-		free(cmd->command[i++]);
-	free(cmd->command);
-	if (cmd->next == cmd)
-	{
-		free(cmd);
-		return ;
-	}
 	cmd = cmd->next;
 	while (cmd != head)
 	{
+		i = 0;
+		while (cmd->command && cmd->command[i])
+			free(cmd->command[i++]);
+		free(cmd->command);
 		cmd = cmd->next;
 		free(cmd->prev);
 	}
+	i = 0;
+	while (cmd->command && cmd->command[i])
+		free(cmd->command[i++]);
+	free(cmd->command);
 	free(cmd);
 }
 

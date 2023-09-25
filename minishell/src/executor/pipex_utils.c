@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 19:56:10 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:03:47 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ char	*ft_command(char *envp, int len_cmd)
 	return (cmd);
 }
 
-int	create_process(int n, int *pfd, int pid)
+int	create_process(int *pfd, int pid)
 {
-	if (n == 0)
-		exit(EXIT_SUCCESS);
 	if (pipe(pfd) < 0)
 		exit(EXIT_FAILURE);
 	pid = fork();
@@ -72,7 +70,7 @@ void	ft_here_doc(char *delimiter, t_files *file)
 	int		pfd[2];
 	int		pid;
 
-	pid = create_process(1, pfd, 0);
+	pid = create_process(pfd, 0);
 	if (pid == 0)
 	{
 		close(pfd[0]);
@@ -82,6 +80,8 @@ void	ft_here_doc(char *delimiter, t_files *file)
 	else
 	{
 		close(pfd[1]);
+		if (file->input != -1)
+			close(file->input);
 		file->input = dup(pfd[0]);
 		close(pfd[0]);
 		waitpid(pid, &status, 0);
