@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 21:01:55 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:04:02 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	}
 	// if data->exit_code == 1 ou == 2 à ce niveau du code it means invalid file
 	//after redirection donc as if CTRL-C donc il ne faut PAS faire l'executable
-	printf("STRUCTURE DU LEXER APRES LE PARSING : ");
-	ft_print_data(data);
 	printf("STRUCTURE DU PARSER :\n");
 	ft_print_cmd(cmd);
 	if (data != NULL)
@@ -90,16 +88,24 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 static void	ft_minishell_loop(t_bashvar **bash)
 {
 	char	*input;
+	//t_files	*file_saved;
 
 	(void)bash;
 	input = NULL;
+	/* file_saved = malloc(sizeof(t_files) * 1);
+	if (!file_saved)
+		return ;
+	file_saved->input = dup(STDIN_FILENO);
+	file_saved->output = dup(STDOUT_FILENO); */
 	ft_signals();
 	while (1)
 	{
 		input = readline("minishell$> ");
+		/* dup2(file_saved->input, STDIN_FILENO);
+		dup2(file_saved->output, STDOUT_FILENO); */
 		if (!input)
 		{
-			printf("exit\n");
+			printf("J'ai ctrl+d\nexit\n");
 			break ;
 		}
 		add_history(input);

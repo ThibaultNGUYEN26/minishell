@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 20:37:57 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:44:15 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,6 @@ t_cmd	*ft_parser(t_data **data)
 			cmd = head_cmd;
 		else
 			cmd = (cmd)->next;
-		cmd->error = 0;
-		cmd->command = NULL;
 		// While not pipe and didn't come back to the beggggginnnning de la liste chainee
 		while ((*data)->token != 0)
 		{

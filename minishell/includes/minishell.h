@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 20:47:01 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:04:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,15 @@ int		ft_pwd(t_cmd *cmd, t_bashvar **bash);
 int		ft_unset(t_cmd *cmd, t_bashvar **bash);
 
 /* ------ EXECUTOR ----- */
+/* pipex.c */
 void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
-int		create_process(int n, int *pfd, int pid);
+/* pipex_utils.c */
+int		create_process(int *pfd, int pid);
 void	ft_here_doc(char *delimiter, t_files *file);
 char	*ft_command(char *envp, int len_cmd);
+/* ft_redirec_files.c */
+void    ft_redirec_files(t_cmd *cmd, t_files *file);
+char	**ft_find_path(char **envp);
 
 /* ------ SIGNALS ----- */
 void	ft_signals(void);
