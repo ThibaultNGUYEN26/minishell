@@ -3,5 +3,4 @@ THINGS TO FIX
 - echo $"riri" = riri donc il faut gérer ce cas ASAP
 -> Si il y'a des doubles quotes well closed AND un dollar juste avant : exit_code = 4
 
-
 - > /oui = permission denied

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/21 18:56:32 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:32:58 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ void	ft_builtin(t_cmd *cmd, t_bashvar **bash)
 	while (1)
 	{
 		if (cmd->command)
+		{
 			cmd->builtin = ft_builtins_status((cmd->command)[0]);
+			// if (cmd->builtin)
+			// 	(cmd->builtin)(cmd, bash);
+		}
 		if (cmd->next == head)
 		{
 			cmd = cmd->next;

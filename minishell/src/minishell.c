@@ -6,11 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 20:37:25 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:01:55 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	exit_code = 0;
 
 /**
   * Print welcome text at program's launch.
@@ -76,7 +78,7 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
-	ft_handle_cmd(cmd, bash);
+	//ft_handle_cmd(cmd, bash);
 	ft_free_cmd(cmd);
 }
 
@@ -89,6 +91,7 @@ static void	ft_minishell_loop(t_bashvar **bash)
 {
 	char	*input;
 
+	(void)bash;
 	input = NULL;
 	ft_signals();
 	while (1)
@@ -100,6 +103,7 @@ static void	ft_minishell_loop(t_bashvar **bash)
 			break ;
 		}
 		add_history(input);
+		printf("INPUT : %s\n", input);
 		ft_catch_input(input, bash);
 		free(input);
 		input = NULL;

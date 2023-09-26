@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:42:28 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/08/21 14:19:16 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:58:51 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_substr(char *s, int start, int len)
 {
 	int		i;
 	int		j;
-	char	*tab;
+	char	*tab_var;
 
 	if (!s)
 		return (NULL);
@@ -24,14 +24,14 @@ char	*ft_substr(char *s, int start, int len)
 		return (ft_strdup(""));
 	if (ft_strlen(s + start) < len)
 		len = ft_strlen(s + start);
-	tab = malloc((sizeof(char) * len + 1));
-	if (!tab)
+	tab_var = malloc((sizeof(char) * len + 1));
+	if (!tab_var)
 		return (NULL);
 	i = -1;
 	j = 0;
 	while (s[++i])
 		if (i >= start && j < len)
-			tab[j++] = s[i];
-	tab[j] = '\0';
-	return (tab);
+			tab_var[j++] = s[i];
+	tab_var[j] = '\0';
+	return (tab_var);
 }
