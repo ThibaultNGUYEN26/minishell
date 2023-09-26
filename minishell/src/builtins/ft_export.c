@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:40 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/20 04:36:06 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:00:14 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	ft_replace(char **export_value, t_bashvar **bash)
 	char	*res;
 	int		len;
 	int		i;
+	char	*str;
 
 	i = -1;
 	len = ft_strlen(export_value[0]);
@@ -24,8 +25,11 @@ static void	ft_replace(char **export_value, t_bashvar **bash)
 	{
 		if (ft_strncmp((*bash)->envp[i], export_value[0], len) == 0)
 		{
-			res = ft_strjoin2(ft_strdup(export_value[0]), "=");
-			res = ft_strjoin2(res, export_value[1]);
+			str = ft_strdup(export_value[0]);
+			res = ft_strjoin2(str, "=");
+			free(str);
+			str = res;
+			res = ft_strjoin2(str, export_value[1]);
 			free((*bash)->envp[i]);
 			(*bash)->envp[i] = ft_strdup(res);
 			if (ft_strcmp(export_value[0], "PWD") == 0)
@@ -38,6 +42,7 @@ static void	ft_replace(char **export_value, t_bashvar **bash)
 				free((*bash)->old_pwd);
 				(*bash)->old_pwd = ft_strdup(res);
 			}
+			free(str);
 			free(res);
 			break ;
 		}
@@ -47,12 +52,24 @@ static void	ft_replace(char **export_value, t_bashvar **bash)
 static void	ft_add(char *export_value, t_bashvar **bash)
 {
 	int		i;
+	char	**temp;
 
 	i = -1;
 	while ((*bash)->envp[++i])
 		;
-	(*bash)->envp[i++] = ft_strdup(export_value);
-	(*bash)->envp[i] = NULL;
+	temp = malloc(sizeof(char *) * (i + 2));
+	if (!temp)
+		return ;
+	i = -1;
+	while ((*bash)->envp[++i])
+		temp[i] = ft_strdup((*bash)->envp[i]);
+	temp[i++] = ft_strdup(export_value);
+	temp[i] = NULL;
+	i = 0;
+	while ((*bash)->envp[i])
+		free((*bash)->envp[i++]);
+	free((*bash)->envp);
+	(*bash)->envp = temp;
 }
 
 int	ft_export(t_cmd *cmd, t_bashvar **bash)
@@ -62,6 +79,7 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 	int		k;
 	int		test;
 	char	**export_value;
+	char	*str;
 	
 	/* Chercher dans env name : 
 			- si tu trouves, tu vas remplacer avec value ce qu'il y'avait après le =
@@ -85,8 +103,10 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 				{
 					if ((*bash)->envp[i][j] == '=')
 					{
-						if (ft_strcmp(export_value[0], ft_substr((*bash)->envp[i], 0, j)) == 0)
+						str = ft_substr((*bash)->envp[i], 0, j);
+						if (ft_strcmp(export_value[0], str) == 0)
 							test = 1;
+						free(str);
 						break ;
 					}
 					j++;

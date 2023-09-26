@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/21 16:55:32 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:21:07 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 int	ft_exit(t_cmd *cmd, t_bashvar **bash)
 {
 	int	i;
-	int	exit_code;
 
 	i = 0;
-	exit_code = 0;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	while (cmd->command[i])
 		i++;

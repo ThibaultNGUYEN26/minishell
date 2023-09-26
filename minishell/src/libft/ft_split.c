@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:57:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/21 19:00:23 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:58:20 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_count_words(char *str, char *charset)
 	return (nb_charset);
 }
 
-static void	ft_write_split(char *str, char *charset, char **tab)
+static void	ft_write_split(char *str, char *charset, char **tab_var)
 {
 	int	i;
 	int	j;
@@ -85,7 +85,7 @@ static void	ft_write_split(char *str, char *charset, char **tab)
 			i++;
 		if (i != start)
 		{
-			tab[j] = ft_strndup(str, start, i);
+			tab_var[j] = ft_strndup(str, start, i);
 			j++;
 		}
 	}
@@ -93,14 +93,14 @@ static void	ft_write_split(char *str, char *charset, char **tab)
 
 char	**ft_split(char *str, char *charset)
 {
-	char	**tab;
+	char	**tab_var;
 	int		nb_words;
 
 	nb_words = ft_count_words(str, charset);
-	tab = (char **) malloc(sizeof(char *) * (nb_words + 1));
-	if (tab == NULL)
+	tab_var = (char **) malloc(sizeof(char *) * (nb_words + 1));
+	if (tab_var == NULL)
 		return (NULL);
-	ft_write_split(str, charset, tab);
-	tab[nb_words] = 0;
-	return (tab);
+	ft_write_split(str, charset, tab_var);
+	tab_var[nb_words] = 0;
+	return (tab_var);
 }

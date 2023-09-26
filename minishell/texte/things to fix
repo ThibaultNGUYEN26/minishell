@@ -9,3 +9,4 @@ THINGS TO FIX
 Les redirections dans les pipes, erreur de captage de fichiers
 les pipes
 les sauvegardes de stdout et stdin ?
+- > /oui = permission denied

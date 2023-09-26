@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/25 18:42:14 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:04:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <limits.h>
+# include <termios.h>
 # include <signal.h>
 # include "colors.h"
 # include "defines.h"
+
+extern int exit_code;
 
 typedef enum s_token
 {
@@ -71,6 +74,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 	int				error;
+	int				exit_code;
 }	t_cmd;
 
 /* ----- BASHVAR ----- */
