@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/25 19:24:06 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:35:03 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	ft_child(int *pfd, t_files *file)
 	} */
 	if (file->output == STDOUT_FILENO)
 	{
-		printf("Fils : Dupping pfd[1] into STDOUT\n");
+		//printf("Fils : Dupping file_output into pfd[1]\n");
 		// if we are not at the last command or the output is the standard output, we duplicate the content of the write end of the pipeline into the standard output and close the write end of the pipeline
 		dup2(pfd[1], file->output);
 		close(pfd[1]);
@@ -88,49 +88,41 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	int		status;
 
 	// Check if there is a redirections at the first command so we can fill the file.input or file.output
-	ft_redirec_files(cmd, file);
-	printf("infile : %d, outfile : %d\n", file->input, file->output);
+	//printf("infile : %d, outfile : %d\n", file->input, file->output);
 	// Create process of child and the pipes
+	ft_redirec_files(cmd, file);
 	pid = create_process(pfd, 0);
 	if (pid == 0)
 	{
-		write(2, "Fils : Into the child !\n", 25);
+		//write(2, "Fils : Into the child !\n", 25);
 		ft_child(pfd, file);
-		write(2, "Fils : going into execve\n", 26);
+		//write(2, "Fils : going into execve\n", 26);
 		ft_exec_cmd(cmd, bash);
 	}
 	else
 	{
-		write(2, "Père : Je suis ton père\n", 27);
+		//write(2, "Père : Je suis ton père\n", 27);
 		close(pfd[1]);
 		close(file->input);
 		// if last command, we wait for the other children
 		if (n == 1)
-		{
 			while (file->argc--)
-			{
-				write(2, "Père : On commence à attendre\n", 33);
 				waitpid(-1, &status, 0);
-			}
-		}
 		// Pour passer à la prochaine commande, on doit rediriger le input et output vers les read et write ends of the pipe
-		write(2, "Père : j'ai fini d'attendre\n", 30);
+		//write(2, "Père : j'ai fini d'attendre\n", 30);
 		if (file->input == -1)
 			file->input = dup(pfd[0]);
 		else
 		{
-			write(2, "Père : Dupping file->input into pfd[0]\n", 41);
+			//write(2, "Père : Dupping file->input into pfd[0]\n", 41);
 			dup2(pfd[0], file->input);
 		}
-		close(pfd[0]);
-		/* if (file->output == -1)
-			file->output = dup(pfd[1]);
-		else
+		if (file->output == -1)
 		{
-			write(2, "Père : Dupping file->input into pfd[1]\n", 41);
-			dup2(pfd[1], file->output);
+			file->output = dup(pfd[1]);
+			close(pfd[1]);
 		}
-		close(pfd[1]); */
+		close(pfd[0]);
 		n--;
 		if (n != 0)
 			ft_pipeline(n, cmd->next, bash, file);

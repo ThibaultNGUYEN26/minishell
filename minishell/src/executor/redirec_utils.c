@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/09/25 18:43:29 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:29:33 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,27 @@
 
 static void	ft_open_errors(char *filename)
 {
+	char	*str;
+	char	*temp;
+	
+	temp = NULL;
 	if (errno == ENOENT)
-		printf("File '%s' does not exist.\n", filename);
+	{
+		str = ft_strjoin2("File \'", filename);
+		temp = str;
+		free(str);
+		str = ft_strjoin2(temp, "\' does not exist.\n");
+		ft_putstr_fd(str, 2);
+		free(str);
+		free(temp);
+	}
 	else if (errno == EACCES)
 		printf("Permission denied for file '%s'.\n", filename);
 	else
+	{
+		
 		printf("Error opening file '%s'. Error code: %d.\n", filename, errno);
-	exit(errno);
+	}
 }
 
 void    ft_redirec_files(t_cmd *cmd, t_files *file)
@@ -46,13 +60,15 @@ void    ft_redirec_files(t_cmd *cmd, t_files *file)
 			{
 				if (file->output != -1)
 					close(file->output);
-				file->output = open((cmd->redirections)->next->content, O_WRONLY, 0777);
+				file->output = open((cmd->redirections)->next->content, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+				printf("OUTPUUT %d\n", file->output);
+				printf("INPUT %d\n", file->input);
 			}
 			else if ((cmd->redirections)->token == 3)
 			{
 				if (file->output != -1)
 					close(file->output);
-				file->output = open((cmd->redirections)->next->content, O_APPEND, 0777);
+				file->output = open((cmd->redirections)->next->content, O_CREAT | O_TRUNC | O_APPEND, 0777);
 			}
 			if (file->input == -1 || file->output == -1)
 				ft_open_errors((cmd->redirections)->next->content);
@@ -61,11 +77,6 @@ void    ft_redirec_files(t_cmd *cmd, t_files *file)
 				break ;
 		}
 	}
-    else
-    {
-	    file->input = STDIN_FILENO;
-	    file->output = STDOUT_FILENO;
-    }
 }
 
 char	**ft_find_path(char **envp)
