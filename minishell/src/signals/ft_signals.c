@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:56:05 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 21:00:01 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/26 21:06:17 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static void sigquit_handler(int sig)
 	(void)sig;
 	struct termios	sa;
 
-	/* tcgetattr(STDIN_FILENO, &sa);
+	tcgetattr(STDIN_FILENO, &sa);
 	sa.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &sa); */
+	tcsetattr(STDIN_FILENO, TCSANOW, &sa);
 }
 
 void	ft_signals(void)
