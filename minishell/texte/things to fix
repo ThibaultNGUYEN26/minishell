@@ -32,63 +32,31 @@ env
 cat -e < /etc/shells
 ls -la
 echo bonjour a > b > c
-
-
+echo "coucou"
+echo 'coucou'
+echo "coucou" 'coucou'
+echo "'coucou'"
+export LESS=oui
+export LESS=oui | env
+export a=b
+cd ..
+unset LESS
+exit
+exit and echo $?
+exit 8 and echo $?
+exit10
+sed 's/sh/foo/g' /etc/shells > notshells
+env | export LESS=oui
 
 NOT WORKING TESTS :
-
-echo "coucou"
-bash : display coucou
-minishell : display nothing
-
-echo 'coucou'
-bash : display coucou
-minishell : display nothing
 
 ls | < input echo coucou | << riri
 bash : execute heredoc then error message no such file or directory for input
 minishell : no such file or directory then display heredoc and readline on the same line waiting for a new command
 
-export a=b
-bash : put a=b in env
-minishell : nothing
-
-export LESS=oui
-bash : replace LESS=-R by LESS=oui
-minishell : nothing
-
-cd ..
-bash : path now should be /home/richbouki/Coding/42/minishell
-minishell : path still be /home/richbouki/Coding/42/minishell/minishell
-
-unset LESS
-bash : remove LESS=-R from env
-minishell : nothing
-
-exit
-bash : exit bash
-minishell : print exit but not quit
-
-exit 8 and echo $?
-bash : print 8
-minishell : print 0 because exit didn't worked
-
-sed 's/sh/foo/g' /etc/shells > notshells
-bash : cat notshells print 
-# /etc/fooells: valid login fooells
-/bin/foo
-/bin/bafoo
-/bin/rbafoo
-/bin/dafoo
-/usr/bin/tmux
-/usr/bin/screen
-/bin/zfoo
-/usr/bin/zfoo
-minishell : nothing because of single quotes, when the single quotes are removed it works
-
 echo $NAME
 bash : print LAPTOP-TO7FC9AB
-minishell : nothing
+minishell : segfault
 
 I don't know if we have to do it but
 echo /*/*/*
@@ -103,3 +71,4 @@ echo bonjour||
 bash : > bash: syntax error: unexpected end of file
 minishell : bonjour
 
+builtins prints in double and we have to fix that, i fixed the dollar tho (i think)

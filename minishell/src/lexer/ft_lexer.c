@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/27 17:09:44 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/06 21:45:56 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void	ft_quotes(t_data *data)
 					// Si il y'a un dollar juste avant les quotes bien fermes, we save only la string et NI le dollar NI les quotes
 					if (i != 0 && (data->content)[i - 1] == '$')
 						res = ft_strjoin(res, ft_substr(data->content, j, i - j - 1));
+					else
+						res = ft_strjoin(res, ft_substr(data->content, j, i - j));
 				}
 				// if we aren't at the end of content it means there are quotes
 				if ((data->content)[i] == '\'' || (data->content)[i] == '\"')
