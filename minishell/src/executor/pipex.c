@@ -6,37 +6,31 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 21:35:03 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/06 20:54:38 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_child(int *pfd, t_files *file)
+static void	ft_child(int n, int *pfd, t_files *file)
 {
 	// close the read end of the pipe in the child process to be sure that the child does not read from it (because it belongs to the parent)
 	close(pfd[0]);
 	// if the input file is other than the standard input, we duplicate its content into the standard input and close the original one
 	if (file->input != STDIN_FILENO)
+	{
 		dup2(file->input, STDIN_FILENO);
-	close(file->input);
+		close(file->input);
+	}
 	// if the file output is other than the standard output, we duplicate it into the standard output and close the original file
 	if (file->output != STDOUT_FILENO)
 	{
-		dup2(file->output, pfd[1]);
-		close(file->output);
-	}
-	/* // if we are at the last command and the file output is other than the standard output, we duplicate it into the standard output and close the original file
-	if (n == 1 && (file->output != STDOUT_FILENO))
-	{
 		dup2(file->output, STDOUT_FILENO);
 		close(file->output);
-	} */
-	if (file->output == STDOUT_FILENO)
+	}
+	else if (n != 1)
 	{
-		//printf("Fils : Dupping file_output into pfd[1]\n");
-		// if we are not at the last command or the output is the standard output, we duplicate the content of the write end of the pipeline into the standard output and close the write end of the pipeline
-		dup2(pfd[1], file->output);
+		dup2(pfd[1], STDOUT_FILENO);
 		close(pfd[1]);
 	}
 }
@@ -58,7 +52,7 @@ static void	ft_exec_cmd(t_cmd *cmd, t_bashvar **bash)
 	if (cmd->builtin != NULL)
 	{
 		(cmd->builtin)(cmd, bash);
-		return ;
+		exit(EXIT_SUCCESS);
 	}
 	if (!path)
 	{
@@ -88,20 +82,16 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	int		status;
 
 	// Check if there is a redirections at the first command so we can fill the file.input or file.output
-	//printf("infile : %d, outfile : %d\n", file->input, file->output);
 	// Create process of child and the pipes
 	ft_redirec_files(cmd, file);
 	pid = create_process(pfd, 0);
 	if (pid == 0)
 	{
-		//write(2, "Fils : Into the child !\n", 25);
-		ft_child(pfd, file);
-		//write(2, "Fils : going into execve\n", 26);
+		ft_child(n, pfd, file);
 		ft_exec_cmd(cmd, bash);
 	}
 	else
 	{
-		//write(2, "Père : Je suis ton père\n", 27);
 		close(pfd[1]);
 		close(file->input);
 		// if last command, we wait for the other children
@@ -109,19 +99,10 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 			while (file->argc--)
 				waitpid(-1, &status, 0);
 		// Pour passer à la prochaine commande, on doit rediriger le input et output vers les read et write ends of the pipe
-		//write(2, "Père : j'ai fini d'attendre\n", 30);
 		if (file->input == -1)
 			file->input = dup(pfd[0]);
 		else
-		{
-			//write(2, "Père : Dupping file->input into pfd[0]\n", 41);
 			dup2(pfd[0], file->input);
-		}
-		if (file->output == -1)
-		{
-			file->output = dup(pfd[1]);
-			close(pfd[1]);
-		}
 		close(pfd[0]);
 		n--;
 		if (n != 0)
@@ -153,7 +134,13 @@ void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
     }
 	// file->argc helps us keep track of the original number of commands
 	file->argc = count_cmd;
+	file->input = -2;
+	file->output = -2;
+	file->saved_input = dup(STDIN_FILENO);
+	file->saved_output = dup(STDOUT_FILENO);
 	ft_pipeline(count_cmd, cmd, bash, file);
+	dup2(file->saved_input, STDIN_FILENO);
+	dup2(file->saved_output, STDOUT_FILENO);
 	cmd = head_cmd;
 	free(file);
 }

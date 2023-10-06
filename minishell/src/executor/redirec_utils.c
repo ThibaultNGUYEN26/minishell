@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/09/26 21:29:33 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/06 20:19:16 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,66 +16,75 @@ static void	ft_open_errors(char *filename)
 {
 	char	*str;
 	char	*temp;
-	
-	temp = NULL;
+
+	str = ft_strjoin2("minishell$>: ", filename);
+	temp = ft_strdup(str);
+	free(str);
 	if (errno == ENOENT)
-	{
-		str = ft_strjoin2("File \'", filename);
-		temp = str;
-		free(str);
-		str = ft_strjoin2(temp, "\' does not exist.\n");
-		ft_putstr_fd(str, 2);
-		free(str);
-		free(temp);
-	}
+		str = ft_strjoin2(temp, ": no such file or directory\n");
 	else if (errno == EACCES)
-		printf("Permission denied for file '%s'.\n", filename);
+		str = ft_strjoin2(temp, ": Permission denied\n");
 	else
-	{
-		
-		printf("Error opening file '%s'. Error code: %d.\n", filename, errno);
-	}
+		str = ft_strjoin2(temp, ": Error opening file\n");
+	free(temp);
+	ft_putstr_fd(str, 2);
+	free(str);
+}
+
+static void	ft_output(t_cmd *cmd, t_files *file, int append)
+{
+	if (file->output != -2)
+		close(file->output);
+	if (append == 0)
+		file->output = open((cmd->redirections)->next->content, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	if (append == 1)
+		file->output = open((cmd->redirections)->next->content, O_CREAT | O_APPEND | O_WRONLY, 0777);
+	(cmd)->redirections = (cmd)->redirections->next;
+	if (file->output == -1)
+		ft_open_errors((cmd->redirections)->content);
+}
+
+static void	ft_input(t_cmd *cmd, t_files *file)
+{
+	if (file->input != -2)
+		close(file->input);
+	file->input = open((cmd->redirections)->next->content, O_RDONLY, 0777);
+	(cmd)->redirections = (cmd)->redirections->next;
+	if (file->input == -1)
+		ft_open_errors((cmd->redirections)->content);
 }
 
 void    ft_redirec_files(t_cmd *cmd, t_files *file)
 {
     t_data  *redirec_head;
-
-	file->input = -1;
-	file->output = -1;
+	
     if (cmd->redirections != NULL)
 	{
 		redirec_head = cmd->redirections;
 		while (1)
 		{
 			if ((cmd->redirections)->token == 1)
-			{
-				if (file->input != -1)
-					close(file->input);
-				file->input = open((cmd->redirections)->next->content, O_RDONLY, 0777);
-			}
+				ft_input(cmd, file);
 			else if ((cmd->redirections)->token == 4)
 				ft_here_doc((cmd->redirections)->next->content, file);
 			else if ((cmd->redirections)->token == 2)
-			{
-				if (file->output != -1)
-					close(file->output);
-				file->output = open((cmd->redirections)->next->content, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-				printf("OUTPUUT %d\n", file->output);
-				printf("INPUT %d\n", file->input);
-			}
+				ft_output(cmd, file, 0);
 			else if ((cmd->redirections)->token == 3)
+				ft_output(cmd, file, 1);
+			if (file->output == -1)
 			{
-				if (file->output != -1)
-					close(file->output);
-				file->output = open((cmd->redirections)->next->content, O_CREAT | O_TRUNC | O_APPEND, 0777);
+				cmd->redirections = redirec_head;
+				break ;
 			}
-			if (file->input == -1 || file->output == -1)
-				ft_open_errors((cmd->redirections)->next->content);
-			cmd->redirections = cmd->redirections->next;
+			cmd->redirections = (cmd->redirections)->next;
 			if (cmd->redirections == redirec_head)
 				break ;
 		}
+	}
+	else
+	{
+		file->input = STDIN_FILENO;
+		file->output = STDOUT_FILENO;
 	}
 }
 

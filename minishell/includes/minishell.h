@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 21:04:11 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:37:32 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_files
 {
 	int	input;
 	int	output;
+	int	saved_input;
+	int	saved_output;
 	int	argc;
 }	t_files;
 
@@ -137,6 +139,7 @@ void	ft_print_data(t_data *data);
 
 /* ----- LIBFT ----- */
 long long	ft_atoi(const char *str);
+char		*ft_itoa(int n);
 int			ft_isalpha(char *s);
 void		ft_putstr_fd(char *s, int fd);
 int			ft_count_words(char *str, char *charset);

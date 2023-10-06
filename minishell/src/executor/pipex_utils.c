@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/25 16:03:47 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/05 20:12:13 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ static void	ft_child_heredoc(int *pfd, char *delimiter)
 	char	*line;
 	char	*str;
 
-	printf("pipe heredoc> ");
+	ft_putstr_fd("pipe heredoc> ", 2);
 	line = get_next_line(STDIN_FILENO);
 	str = ft_line_heredoc(line);
 	while (ft_strcmp(str, delimiter) != 0)
 	{
-		printf("pipe heredoc> ");
+		ft_putstr_fd("pipe heredoc> ", 2);
 		write(pfd[1], line, ft_strlen(line));
 		line = get_next_line(STDIN_FILENO);
 		str = ft_line_heredoc(line);
@@ -74,8 +74,9 @@ void	ft_here_doc(char *delimiter, t_files *file)
 	if (pid == 0)
 	{
 		close(pfd[0]);
+		ft_putstr_fd("In the child of the Heredoc\n", 2);
 		ft_child_heredoc(pfd, delimiter);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	else
 	{

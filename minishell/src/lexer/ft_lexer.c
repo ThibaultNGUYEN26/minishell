@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 20:31:44 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:09:44 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	*/
 static int	ft_tokenizer(char *input, int i)
 {
-	if (ft_strncmp(input, ">>", 2) == 0 || ft_strncmp(input, "<<", 2) == 0)
+	if (ft_strncmp(input + i, ">>", 2) == 0 || ft_strncmp(input + i, "<<", 2) == 0)
 		return (1);
 	if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		return (1);
@@ -34,20 +34,20 @@ static int	ft_tokenizer(char *input, int i)
 	* @param i
 	* @returns void
 	*/
-static void	ft_add_token(t_data **data, char *input, int i)
+static void	ft_add_token(t_data **data, char *input, int *i)
 {
 	char	*str;
 
-	str = ft_substr(input, i, 2);
+	str = ft_substr(input, *i, 2);
 	if (ft_strcmp(str, ">>") == 0 || ft_strcmp(str, "<<") == 0)
 	{
 		addlast_node(data, ft_new_stack(NULL, str));
-		i++;
+		*i += 1;
 	}
-	else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
+	else if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
 	{
 		free(str);
-		addlast_node(data, ft_new_stack(NULL, ft_substr(input, i, 1)));
+		addlast_node(data, ft_new_stack(NULL, ft_substr(input, *i, 1)));
 	}
 }
 
@@ -80,7 +80,7 @@ t_data	*ft_lexer(char *input)
 		// Si input existe toujours => on est arrivé au token, sinon y'a plus de
 		// tokens et we are at the end of the input
 		if (input[i])
-			ft_add_token(&data, input, i);
+			ft_add_token(&data, input, &i);
 		else
 			break ;
 	}

@@ -6,7 +6,7 @@
 #    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/09/25 16:23:56 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/10/05 18:53:14 by rchbouki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS		=	bashvar/ft_bash.c \
 				lexer/ft_lexer.c \
 				parser/ft_parser.c \
 				libft/ft_atoi.c \
+				libft/ft_itoa.c \
 				libft/ft_isalpha.c \
 				libft/ft_putstr_fd.c \
 				libft/ft_split.c \
