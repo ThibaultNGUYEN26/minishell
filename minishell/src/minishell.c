@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 13:37:24 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:34:58 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,17 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	if (ft_strcmp(input, "") == 0)
 		return ;
 	data = ft_lexer(input);
-	ft_quotes_error(data);
+	if (ft_quotes_error(data))
+	{
+		ft_free_stack(data);
+		return ;
+	}
 	ft_quotes(data);
-	ft_redirect_error(data);
+	if (ft_redirect_error(data))
+	{
+		ft_free_stack(data);
+		return ;
+	}
 	ft_dollar(data, (*bash)->envp);
 	printf("STRUCTURE DU LEXER :\n");
 	ft_print_data(data);

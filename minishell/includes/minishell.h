@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 13:00:10 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:34:43 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	ft_free_bash(t_bashvar **bash);
 /* ft_dollar */
 void	ft_dollar(t_data *data, char **envp);
 /* ft_lexer_errors */
-void	ft_quotes_error(t_data *data);
-void	ft_redirect_error(t_data *data);
+int		ft_quotes_error(t_data *data);
+int		ft_redirect_error(t_data *data);
 /* ft_lexer */
 t_data	*ft_lexer(char *input);
 void	ft_quotes(t_data *data);

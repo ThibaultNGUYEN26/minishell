@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 14:28:52 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:52:35 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,16 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 	{
 		i = 0;
 		split = ft_split((*data)->content, "\f\t\n\r\v ");
-		while (split[i])
-			cmd->command[j++] = ft_strdup(split[i++]);
+		if (ft_strcmp(split[0], "echo") == 0)
+		{
+			cmd->command[j++] = ft_strdup(split[0]);
+			while (ft_strncmp((*data)->content + i, "echo", 3) != 0)
+				i++;
+			cmd->command[j++] = ft_substr((*data)->content, i + 5, ft_strlen((*data)->content) - i);
+		}
+		else
+			while (split[i])
+				cmd->command[j++] = ft_strdup(split[i++]);
 		i = 0;
 		while (split[i])
 			free(split[i++]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:15:00 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 14:24:44 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:36:19 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	* @param i
 	* @returns void
 	*/
-static	void	ft_check_quotes(t_data *data, int i)
+static	int	ft_check_quotes(t_data *data, int i)
 {
 	char	c;
 
@@ -34,12 +34,13 @@ static	void	ft_check_quotes(t_data *data, int i)
 				if (!(data->content)[i])
 				{
 					printf("minishell: unexpected EOF while looking for matching `%c'\nminishell: syntax error: unexpected end of file\n", c);
-					ft_free_stack(data);
-					exit(2);
+					exit_code = 2;
+					return (1);
 				}
 			}
 		}
 	}
+	return (0);
 }
 
 /**
@@ -47,7 +48,7 @@ static	void	ft_check_quotes(t_data *data, int i)
 	* @param data
 	* @returns void
 	*/
-void	ft_quotes_error(t_data *data)
+int	ft_quotes_error(t_data *data)
 {
 	t_data	*head;
 	int		i;
@@ -56,12 +57,17 @@ void	ft_quotes_error(t_data *data)
 	while (1)
 	{
 		i = -1;
-		ft_check_quotes(data, i);
+		if (ft_check_quotes(data, i))
+		{
+			data = head;
+			return (1);
+		}
 		if ((data)->next == head)
 			break ;
 		data = (data)->next;
 	}
 	data = head;
+	return (0);
 }
 
 /**
@@ -69,7 +75,7 @@ void	ft_quotes_error(t_data *data)
 	* @param data
 	* @returns void
 	*/
-static void	ft_check_filecharacters(t_data *data)
+static int	ft_check_filecharacters(t_data *data)
 {
 	if (data->content)
 	{
@@ -79,6 +85,7 @@ static void	ft_check_filecharacters(t_data *data)
 			{
 				data->exit_code = 1;
 				exit_code = 1;
+				return (1);
 			}
 			else if (ft_strchr(data->content, '<') >= 0
 				|| ft_strchr(data->content, '>') >= 0
@@ -86,9 +93,11 @@ static void	ft_check_filecharacters(t_data *data)
 			{
 				data->exit_code = 1;
 				exit_code = 1;
+				return (1);
 			}
 		}
 	}
+	return (0);
 }
 
 /**
@@ -96,7 +105,7 @@ static void	ft_check_filecharacters(t_data *data)
 	* @param data
 	* @returns void
 	*/
-void	ft_redirect_error(t_data *data)
+int	ft_redirect_error(t_data *data)
 {
 	t_data	*head;
 
@@ -113,20 +122,28 @@ void	ft_redirect_error(t_data *data)
 			{
 				data->exit_code = 1;
 				exit_code = 1;
+				data = head;
+				return (1);
 			}
 			// if there is a content, imagine its a token ? on va avoir des seg 
 			//fault sur NULL
-			ft_check_filecharacters(data);
+			if (ft_check_filecharacters(data))
+			{
+				data = head;	
+				return (1);
+			}
 		}
 		if ((data->token == 0 && head == data) || (data->token == 0 && (data)->next == head))
 		{
 			ft_putstr_fd("minishell: syntax error near expected token `|'\n", 2);
 			exit_code = 2;
-			break ;
+			data = head;
+			return (1);
 		}
 		if ((data)->next == head)
 			break ;
 		data = (data)->next;
 	}
 	data = head;
+	return (0);
 }
