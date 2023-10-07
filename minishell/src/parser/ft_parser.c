@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 20:44:15 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 14:28:52 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ static int	ft_invalid_redirec(t_data **data, t_data *head_data)
 {
 	if (((*data)->next)->exit_code == 1)
 	{
-		printf("minishell: syntax error near unexpected token\n");
+		printf("minishell: syntax error near unexpected token `newline'\n");
 		(*data) = head_data;
 		(*data)->exit_code = 2;
+		exit_code = 2;
 		return (1);
 	}
 	if ((*data)->next == head_data)
 	{
-		printf("minishell: syntax error near unexpected token\n");
+		printf("minishell: syntax error near unexpected token `newline'\n");
 		(*data) = head_data;
 		(*data)->exit_code = 2;
+		exit_code = 2;
 		return (1);
 	}
 	return (0);
@@ -183,7 +185,7 @@ t_cmd	*ft_parser(t_data **data)
 			break;
 	}
 	// Si data n'existe plus, no need to put it back where it once was
-	if ((*data) != NULL && (*data)->exit_code != 3 && (*data)->exit_code != 2)
+	if ((*data) != NULL && (*data)->exit_code != 1 && (*data)->exit_code != 2)
 		(*data) = head_data;
 	cmd = head_cmd;
 	return (cmd);

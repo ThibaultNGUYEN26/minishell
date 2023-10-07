@@ -12,7 +12,6 @@ les sauvegardes de stdout et stdin ?
 - > /oui = permission denied
 
 
-
 TESTS :
 
 WORKING TESTS :
@@ -47,6 +46,51 @@ exit 8 and echo $?
 exit10
 sed 's/sh/foo/g' /etc/shells > notshells
 env | export LESS=oui
+echo $NAME
+echo echo hello'world'
+echo hello""world
+echo "$PWD"
+echo '$PWD'
+echo $?
+pwd oi
+export A-
+export hello
+export HELLO=123 A
+export hello world
+export HELLO-=123
+export 123
+unset
+unset HELLO
+unset HELLO1
+unset HOME
+unset PATH
+unset SHELL
+cd $PWD
+cd $PWD hi
+cd 123123
+cd 123123 cd
+exit 123
+exit 298
+exit +100
+exit "+100"
+exit +"100"
+exit -100
+exit "-100"
+exit -"100"
+exit hello
+exit 42 world
+| |
+| $
+| >
+>
+>>
+<
+<<
+echo hi <
+echo hi | >
+echo hi |   |
+
+
 
 NOT WORKING TESTS :
 
@@ -54,21 +98,65 @@ ls | < input echo coucou | << riri
 bash : execute heredoc then error message no such file or directory for input
 minishell : no such file or directory then display heredoc and readline on the same line waiting for a new command
 
-echo $NAME
-bash : print LAPTOP-TO7FC9AB
+echo ''
+bash : nothing
 minishell : segfault
 
-I don't know if we have to do it but
-echo /*/*/*
-bash : print a lot of stuff
-minishell : nothing
+echo "aspas ->'"
+bash : aspas ->'
+minishell : minishell: unexpected EOF while looking for matching `"'
+minishell: syntax error: unexpected end of file
 
-echo bonjour;|
-bash : bash: syntax error near unexpected token `|'
-minishell : bonjour;
+echo 'aspas ->"'
+bash : aspas ->"
+minishell : minishell: unexpected EOF while looking for matching `''
+minishell: syntax error: unexpected end of file
 
+echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
+echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
+
+echo 'exit_code ->$? user ->$USER home -> $HOME'
+echo "exit_code ->$? user ->$USER home -> $HOME"
+bash : exit_code ->0 user ->thibnguy home -> /home/thibnguy
+minishell : minishell: unexpected EOF while looking for matching `"'
+minishell: syntax error: unexpected end of file
+
+echo '$'
+echo "$"
+bash : print $
+minishell : segfault
+
+echo $?HELLO
+bash : print 0HELLO
+minishell : print $?HELLO
+
+export HELLO="123 A-"
+bash : add HELLO=123 A- to env
+minishell : minishell: export: `A-': not a valid identifier and add HELLO=123 to env
+
+echo bonjour|
+echo bonjour |
 echo bonjour||
-bash : > bash: syntax error: unexpected end of file
-minishell : bonjour
+| echo bonjour
 
-builtins prints in double and we have to fix that, i fixed the dollar tho (i think)
+>>>
+bash : bash: syntax error near unexpected token `>'
+minishell : minishell: syntax error near unexpected token `newline'
+
+cat    <| ls
+bash : bash: syntax error near unexpected token `|'
+minishell : minishell: syntax error near unexpected token `newline'
+
+echo hi | > >>
+bash : bash: syntax error near unexpected token `>>'
+minishell : minishell: syntax error near unexpected token `newline'
+
+echo hi | < |
+bash : bash: syntax error near unexpected token `|'
+minishell : minishell: syntax error near expected token `|' and minishell: syntax error near unexpected token `newline'
+
+echo hi |  "|"
+bash : |: command not found
+minishell : minishell: unexpected EOF while looking for matching `"'
+minishell: syntax error: unexpected end of file and minishell closed
+ 

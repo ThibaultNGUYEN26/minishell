@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:15:00 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 20:31:51 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/07 14:24:44 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,17 @@ static void	ft_check_filecharacters(t_data *data)
 		if (data->exit_code != 2)
 		{
 			if (ft_count_words(data->content, "\f\t\n\r\v ") == 0)
+			{
 				data->exit_code = 1;
+				exit_code = 1;
+			}
 			else if (ft_strchr(data->content, '<') >= 0
 				|| ft_strchr(data->content, '>') >= 0
 				|| ft_strchr(data->content, '|') >= 0)
+			{
 				data->exit_code = 1;
+				exit_code = 1;
+			}
 		}
 	}
 }
@@ -104,10 +110,19 @@ void	ft_redirect_error(t_data *data)
 				break ;
 			data = (data)->next;
 			if (data->token != 5)
+			{
 				data->exit_code = 1;
+				exit_code = 1;
+			}
 			// if there is a content, imagine its a token ? on va avoir des seg 
 			//fault sur NULL
 			ft_check_filecharacters(data);
+		}
+		if ((data->token == 0 && head == data) || (data->token == 0 && (data)->next == head))
+		{
+			ft_putstr_fd("minishell: syntax error near expected token `|'\n", 2);
+			exit_code = 2;
+			break ;
 		}
 		if ((data)->next == head)
 			break ;

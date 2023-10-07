@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 00:25:24 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 13:37:24 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	ft_signals();
 	while (1)
 	{
-		input = readline("\033[0;31mminishell$\033[0;37m>\033[0m ");
+		input = readline("\033[0;31mminishell\033[0;90m$>\033[0m "/*"minishell$>"*/);
 		if (!input)
 		{
 			printf("exit\n");

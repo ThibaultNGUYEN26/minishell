@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:40 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/06 21:58:44 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 13:55:22 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,15 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 	while (cmd->command[++k])
 	{
 		i = -1;
-		if (cmd->command[k][0] == '=')
-			printf("minishell: export: %s: not a valid identifier\n", cmd->command[k]);
+		if (cmd->command[k][0] == '=' || ft_strchr(cmd->command[k], '-') != -1)
+		{
+			printf("minishell: export: `%s': not a valid identifier\n", cmd->command[k]);
+			exit_code = 1;
+		}
 		else
 		{
+			if (ft_strchr(cmd->command[k], '=') == -1)
+				break ;
 			export_value = ft_split(cmd->command[k], "=");
 			while ((*bash)->envp[++i])
 			{
