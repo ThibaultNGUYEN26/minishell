@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/05 20:12:13 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:22:52 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*ft_command(char *envp, int len_cmd)
-{
-	char	*cmd;
-	int		len;
-
-	len = ft_strlen(envp);
-	cmd = malloc((len + len_cmd) * sizeof(char));
-	if (!cmd)
-		return (NULL);
-	cmd = ft_strjoin2(envp, "/");
-	return (cmd);
-}
 
 int	create_process(int *pfd, int pid)
 {

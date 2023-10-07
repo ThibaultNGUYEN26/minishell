@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 00:19:57 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:22:56 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 {
 	int		i;
 	char	*command;
+	char	*temp;
 	char	**path;
 
-	i = -1;
+	i = 0;
 	command = NULL;
-	path = ft_find_path((*bash)->envp);
 	if (cmd->builtin != NULL && file->argc != 1)
 	{
 		(cmd->builtin)(cmd, bash);
@@ -56,6 +56,7 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	}
 	else if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
+	path = ft_find_path((*bash)->envp);
 	if (!path)
 	{
 		if (access(cmd->command[0], X_OK) == 0)
@@ -64,15 +65,27 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	}
 	else
 	{
-		while (path[i++])
+		while (path[i])
 		{
-			command = ft_command(path[i], ft_strlen(cmd->command[0]));
-			command = ft_strjoin2(command, cmd->command[0]);
-			if (access(command, X_OK) == 0)
-				if (execve(command, cmd->command, NULL) == -1)
-					exit(EXIT_FAILURE);
+			command = ft_strjoin2(path[i], "/");
+			temp = ft_strdup(command);
 			free(command);
+			command = ft_strjoin2(temp, cmd->command[0]);
+			free(temp);
+			if (access(command, X_OK) == 0)
+			{
+				if (execve(command, cmd->command, NULL) == -1)
+				{
+					free(command);
+					exit(EXIT_FAILURE);
+				}
+			}
+			free(command);
+			i++;
 		}
+		ft_putstr_fd(cmd->command[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit(EXIT_FAILURE);
 	}
 }
 

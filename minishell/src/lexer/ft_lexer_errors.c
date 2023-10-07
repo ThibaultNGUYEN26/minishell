@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:15:00 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 16:36:19 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:37:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	ft_quotes_input(char *input)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\"' || input[i] == '\'')
+		{
+			c = input[i++];
+			while (input[i] != c && input[i])
+			{
+				printf("current %c\n", input[i]);
+				i++;
+			}
+			if (!input[i])
+			{
+				printf("minishell: unexpected EOF while looking for matching `%c'\nminishell: syntax error: unexpected end of file\n", c);
+				exit_code = 2;
+				return (1);
+			}
+		}
+		if (input[i])
+			i++;
+	}
+	return (0);
+}
 
 /**
 	* Check if there is unclosed quote

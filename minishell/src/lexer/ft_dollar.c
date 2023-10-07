@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dollar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:44:33 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 00:05:14 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:38:48 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 static void	ft_equal(char **envp, char **res, char *dollar, int j)
 {
+	char	*temp;
+
+	temp = NULL;
 	while (envp[j]
 		&& ft_strncmp(envp[j], dollar, ft_strchr(envp[j], '=')))
 		j++;
 	// if the envp exists we join it to res, sinon we just ignore it
 	if (envp[j])
-		*res = ft_strjoin2(*res, envp[j] + ft_strlen(dollar) + 1);
+	{
+		temp = ft_strdup(*res);
+		free(*res);
+		*res = ft_strjoin2(temp, envp[j] + ft_strlen(dollar) + 1);
+		free(temp);
+	}
 }
 
 /**

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/10/05 18:53:14 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/10/07 19:19:38 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SRCS		=	bashvar/ft_bash.c \
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 CINCLUDES	=	-I ${INCLUDES}
 
 BLACK		=	"\033[1;30m"
@@ -107,4 +107,16 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+r:
+	make > /dev/null && ./minishell
+
+v:
+	make > /dev/null && valgrind ./minishell
+
+run: re
+	./minishell
+
+vrun: re
+	valgrind ./minishell
+
+.PHONY: all clean fclean re r v run vrun

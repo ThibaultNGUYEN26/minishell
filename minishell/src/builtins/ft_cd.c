@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:14:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 14:01:40 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:06:22 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ int	ft_cd(t_cmd *cmd, t_bashvar **bash)
 	{
 		printf("minishell: cd: too many arguments\n");
 		return (EXIT_FAILURE);
+	}
+	if (!cmd->command[1])
+		return (EXIT_SUCCESS);
+	if (ft_strcmp(cmd->command[1], "-") == 0)
+	{
+		ft_pwd(cmd, bash);
+		return (EXIT_SUCCESS);
 	}
 	/* Change bash->old_pwd with bash->pwd */
 	free((*bash)->old_pwd);

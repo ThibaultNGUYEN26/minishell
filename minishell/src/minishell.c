@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 16:34:58 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:41:49 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 
 	if (ft_strcmp(input, "") == 0)
 		return ;
+	if (ft_quotes_input(input) == 1)
+		return ;
 	data = ft_lexer(input);
-	if (ft_quotes_error(data))
+	ft_quotes(data);
+	/* if (ft_quotes_error(data))
 	{
 		ft_free_stack(data);
 		return ;
-	}
-	ft_quotes(data);
+	}*/
 	if (ft_redirect_error(data))
 	{
 		ft_free_stack(data);
@@ -103,7 +105,11 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	ft_signals();
 	while (1)
 	{
-		input = readline("\033[0;31mminishell\033[0;90m$>\033[0m "/*"minishell$>"*/);
+		if (exit_code == 0)
+			input = readline("\033[1;32m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
+		else
+			input = readline("\033[31m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
+		// input = readline("minishell$> ");
 		if (!input)
 		{
 			printf("exit\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 16:34:43 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:21:32 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_files
 	int	output;
 	int	saved_input;
 	int	saved_output;
+	int	saved_error;
 	int	argc;
 }	t_files;
 
@@ -86,6 +87,7 @@ void	ft_free_bash(t_bashvar **bash);
 /* ft_dollar */
 void	ft_dollar(t_data *data, char **envp);
 /* ft_lexer_errors */
+int		ft_quotes_input(char *input);
 int		ft_quotes_error(t_data *data);
 int		ft_redirect_error(t_data *data);
 /* ft_lexer */
@@ -113,7 +115,6 @@ void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
 /* pipex_utils.c */
 int		create_process(int *pfd, int pid);
 void	ft_here_doc(char *delimiter, t_files *file);
-char	*ft_command(char *envp, int len_cmd);
 /* ft_redirec_files.c */
 void    ft_redirec_files(t_cmd *cmd, t_files *file);
 char	**ft_find_path(char **envp);
