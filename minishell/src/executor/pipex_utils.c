@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 19:22:52 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:56:333 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ static void	ft_child_heredoc(int *pfd, char *delimiter)
 	char	*line;
 	char	*str;
 
-	ft_putstr_fd("pipe heredoc> ", 2);
+	ft_putstr_fd("heredoc> ", 2);
 	line = get_next_line(STDIN_FILENO);
 	str = ft_line_heredoc(line);
 	while (ft_strcmp(str, delimiter) != 0)
 	{
-		ft_putstr_fd("pipe heredoc> ", 2);
+		ft_putstr_fd("heredoc> ", 2);
 		write(pfd[1], line, ft_strlen(line));
+		free(line);
 		line = get_next_line(STDIN_FILENO);
+		free(str);
 		str = ft_line_heredoc(line);
 	}
 	free(str);

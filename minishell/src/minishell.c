@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 14:20:37 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 23:05:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	}
 	// if data->exit_code == 1 ou == 2 à ce niveau du code it means invalid file
 	//after redirection donc as if CTRL-C donc il ne faut PAS faire l'executable
-	printf("STRUCTURE DU PARSER :\n");
-	ft_print_cmd(cmd);
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
+	printf("STRUCTURE DU PARSER :\n");
+	ft_print_cmd(cmd);
 	printf("EXECUTION INCOMING\n");
 	ft_handle_cmd(cmd, bash);
 	ft_free_cmd(cmd);
@@ -101,10 +101,10 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	char	*input;
 
 	(void)bash;
-	input = NULL;
 	ft_signals();
 	while (1)
 	{
+		input = NULL;
 		if (exit_code == 0)
 			input = readline("\033[1;32m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
 		else
@@ -118,7 +118,6 @@ static void	ft_minishell_loop(t_bashvar **bash)
 		add_history(input);
 		ft_catch_input(input, bash);
 		free(input);
-		input = NULL;
 	}
 }
 

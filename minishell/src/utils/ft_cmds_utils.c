@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmds_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/23 21:41:00 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 23:05:22 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	ft_free_cmd(t_cmd *cmd)
 	while (cmd->command && cmd->command[i])
 		free(cmd->command[i++]);
 	free(cmd->command);
+	if (cmd->redirections)
+		ft_free_stack(cmd->redirections);
 	free(cmd);
 }
 
@@ -109,6 +111,11 @@ void	ft_print_cmd(t_cmd *cmd)
 				printf("%s, ", cmd->command[j++]);
 		printf("}\n[redirection] : \n");
 		ft_print_data(cmd->redirections);
+		printf("are there any builtins in this command ?\n");
+		if (cmd->builtin)
+			printf("Yes !\n");
+		else
+			printf("No\n");
 		if ((cmd)->next == head)
 			break ;
 		cmd = (cmd)->next;

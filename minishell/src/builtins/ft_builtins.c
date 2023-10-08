@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 20:32:58 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 23:05:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,11 @@ void	ft_builtin(t_cmd *cmd, t_bashvar **bash)
 	t_cmd	*head;
 
 	head = cmd;
+	cmd->builtin = NULL;
 	while (1)
 	{
 		if (cmd->command)
-		{
 			cmd->builtin = ft_builtins_status((cmd->command)[0]);
-			// if (cmd->builtin)
-			// 	(cmd->builtin)(cmd, bash);
-		}
 		if (cmd->next == head)
 		{
 			cmd = cmd->next;

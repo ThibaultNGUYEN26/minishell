@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 13:57:09 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 23:05:20 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,11 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 			while (file->argc--)
 				waitpid(-1, &status, 0);
 		if (number == 1 && cmd->builtin != NULL && file->input != -1)
+		{
+			if (file->output != -2)
+				dup2(file->output, STDOUT_FILENO);
 			(cmd->builtin)(cmd, bash);
+		}
 		// Pour passer à la prochaine commande, on doit rediriger le input et output vers les read et write ends of the pipe
 		if (file->input == -1)
 			file->input = dup(pfd[0]);

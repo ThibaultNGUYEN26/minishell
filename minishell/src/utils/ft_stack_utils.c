@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/21 18:47:02 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:47:222 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	addlast_node(t_data **stack, t_data *new_data)
   */
 void	ft_delete_element(t_data **data)
 {
+	t_data	*temp;
 	// Si il ne reste plus qu'un seul element : on free data et data = NULL
 	if ((*data) == (*data)->next)
 	{
@@ -97,10 +98,12 @@ void	ft_delete_element(t_data **data)
 	}
 	else
 	{
-		free((*data)->content);
+		temp = (*data);
 		(*data) = (*data)->prev;
 		(*data)->next = (*data)->next->next;
 		((*data)->next)->prev = (*data);
+		free((temp)->content);
+		free((temp));
 	}
 }
 

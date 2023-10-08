@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 20:56:05 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 21:28:111 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, 
 		if (ft_invalid_redirec(data, *head_data))
 			return (0);
 		// Store redirection dans cmd->redirection ET Supprimer de data la redirection (+ Update head_data)
-		addlast_node(&(cmd->redirections), ft_data_copy((*data)));
+		addlast_node(&(cmd->redirections), ft_data_copy(*data));
 		if ((*data) == *head_data)
 			*head_data = (*data)->next;
 		if (*head_pipe == *data)
@@ -144,7 +144,7 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 	t_data	*head;
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	j = 0;
 	head = *data;
@@ -156,6 +156,11 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 		if ((*data) == after_pipe)
 			break;
 	}
+	if (i == 0)
+	{
+		cmd->command = NULL;
+		return ;
+	}
 	cmd->command = malloc(sizeof(char *) * (i + 2));
 	if (!cmd->command)
 		return ;
@@ -163,18 +168,20 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 	// Fill the command with what's left
 	while (1)
 	{
-		i = 0;
-		split = ft_split((*data)->content, "\f\t\n\r\v ");
-		printf("data : %s\n", (*data)->content);
-		if (ft_strcmp(split[0], "echo") == 0)
-			j = ft_echo_errors(data, cmd, i, split);
-		else
+		if (ft_count_words((*data)->content, "\f\t\n\r\v ") != 0)
+		{
+			i = 0;
+			split = ft_split((*data)->content, "\f\t\n\r\v ");
+			if (ft_strcmp(split[0], "echo") == 0)
+				j = ft_echo_errors(data, cmd, i, split);
+			else
+				while (split[i])
+					cmd->command[j++] = ft_strdup(split[i++]);
+			i = 0;
 			while (split[i])
-				cmd->command[j++] = ft_strdup(split[i++]);
-		i = 0;
-		while (split[i])
-			free(split[i++]);
-		free(split);
+				free(split[i++]);
+			free(split);
+		}
 		*data = (*data)->next;
 		if ((*data) == after_pipe)
 			break;
@@ -202,6 +209,7 @@ t_cmd	*ft_parser(t_data **data)
 			cmd = head_cmd;
 		else
 			cmd = (cmd)->next;
+		printf("HEAD PIPE : %s %d\n", (*data)->content, (*data)->token);
 		// While not pipe and didn't come back to the beggggginnnning de la liste chainee
 		while ((*data)->token != 0)
 		{

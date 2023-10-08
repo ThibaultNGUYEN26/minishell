@@ -127,3 +127,5 @@ bash : add HELLO=123 A- to env
 minishell : minishell: export: `A-': not a valid identifier and add HELLO=123 to env
 
 echo "$hvreu" a
+
+$EMPTY ls
