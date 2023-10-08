@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 19:22:56 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 13:57:09 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	ft_child(int n, int *pfd, t_files *file)
 		dup2(pfd[1], STDOUT_FILENO);
 		close(pfd[1]);
 	}
+	if (file->input == -1)
+		exit(EXIT_FAILURE);
 }
 
 /* Function that will execute the commands with its options and the env path so we will need it to take as argument :
@@ -104,6 +106,8 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	if (pid == 0)
 	{
 		ft_child(n, pfd, file);
+		if (cmd->command == NULL)
+			exit(EXIT_SUCCESS);
 		ft_exec_cmd(file, cmd, bash);
 	}
 	else
@@ -115,7 +119,7 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 		if (n == 1)
 			while (file->argc--)
 				waitpid(-1, &status, 0);
-		if (number == 1 && cmd->builtin != NULL)
+		if (number == 1 && cmd->builtin != NULL && file->input != -1)
 			(cmd->builtin)(cmd, bash);
 		// Pour passer à la prochaine commande, on doit rediriger le input et output vers les read et write ends of the pipe
 		if (file->input == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 19:21:32 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 11:35:38 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ long long	ft_atoi(const char *str);
 char		*ft_itoa(int n);
 int			ft_isalpha(char *s);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putchar_fd(char c, int fd);
 int			ft_count_words(char *str, char *charset);
 char		**ft_split(char *str, char *charset);
 int			ft_strchr(char *s, char c);

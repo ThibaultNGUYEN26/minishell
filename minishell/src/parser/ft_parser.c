@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:01:34 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 19:51:11 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 20:56:05 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static int	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, 
 
 static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split)
 {
-	int	temp;
 	int	k;
 	int	j;
 	int	ancien;
@@ -101,10 +100,6 @@ static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split)
 	while (ft_strncmp((*data)->content + i, "echo", 3) != 0)
 		i++;
 	i += 4;
-	// split = ["echo", "-nnnnnn", "truc a print"]
-	// split = ["echo", "-n", "-n", "-n", "truc a print"]
-	// echo   -nnnnn -n riri
-	// echo riri
 	while (1)
 	{
 		while (((*data)->content)[i] != '-' && (((*data)->content)[i] == '\f' || ((*data)->content)[i] == '\t' || ((*data)->content)[i] == '\n' || ((*data)->content)[i] == '\r' || ((*data)->content)[i] == '\v' || ((*data)->content)[i] == ' '))
@@ -170,6 +165,7 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 	{
 		i = 0;
 		split = ft_split((*data)->content, "\f\t\n\r\v ");
+		printf("data : %s\n", (*data)->content);
 		if (ft_strcmp(split[0], "echo") == 0)
 			j = ft_echo_errors(data, cmd, i, split);
 		else
@@ -228,10 +224,6 @@ t_cmd	*ft_parser(t_data **data)
 			break ;
 		}
 		// On remplit la cmd->command avec la commande aka ce qui reste dans la structure du lexer
-		/* if ((*data) == head_data)
-			after_pipe = (*data);
-		else
-			after_pipe = (*data)->next; */
 		after_pipe = (*data);
 		(*data) = head_pipe;
 		ft_command_parser(cmd, data, after_pipe);

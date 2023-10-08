@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:41:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 18:47:54 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 14:12:18 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,37 @@
 
 static void	ft_print(char **str, int output, int newline_var, int i)
 {
-	if (ft_strcmp(str[1], "$?") == 0)
-	{
-		printf("%d\n", exit_code);
-		exit_code = 0;
-		return ;
-	}
+	int		j;
+	char	*temp;
+	int		dollar;
+	
+
+	dollar = 0;
 	while (str[i])
 	{
-		ft_putstr_fd(str[i++], output);
+		j = 0;
+		while (str[i][j])
+		{
+			if (ft_strncmp((str[i]) + j, "$?", 2) == 0)
+			{
+				temp = ft_itoa(exit_code);
+				ft_putstr_fd(temp, output);
+				free(temp);
+				dollar = 1;
+				j += 2;
+			}
+			else
+			{
+				ft_putchar_fd((str[i][j]), output);
+				j++;
+			}
+		}
+		i++;
 		if (str[i])
 			ft_putstr_fd(" ", output);
 	}
+	if (dollar == 1)
+		exit_code = 0;
 	if (newline_var == 0)
 		ft_putstr_fd("\n", output);
 }

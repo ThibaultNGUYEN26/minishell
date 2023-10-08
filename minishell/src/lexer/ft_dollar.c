@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dollar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:44:33 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 19:38:48 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 14:12:33 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,41 +60,47 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 			&& data->content[i] != '\'' && data->content[i] != '\"'
 			&& data->content[i] != '$')
 			i++;
-		dollar = ft_substr(data->content, j, i - j);
-		if (data->content[j] == '!' || data->content[j] == '@'
-			|| data->content[j] == '*'
-			|| (data->content[j] >= '0' && data->content[j] <= '9'))
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
-		else if (data->content[j] == '?')
-			res = ft_strjoin(res, ft_substr(data->content, j - 1, i - j + 1));
-		else if (data->content[j] == '%' || data->content[j] == '^'
-			|| data->content[j] == '=' || data->content[j] == '+'
-			|| data->content[j] == '.' || data->content[j] == '/'
-			|| data->content[j] == ',')
-			res = ft_strjoin(res, ft_substr(data->content, j, i - j));
-		else if (data->content[j] == '#')
+		// il y'a que le dollar
+		if (i == j)
+			res = ft_strjoin(res, ft_substr(data->content, j - 1, 1));
+		else
 		{
-			res = ft_strjoin(res, "0");
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
-		}
-		else if (data->content[j] == '\\' || data->content[j] == '~')
-		{
-			res = ft_strjoin(res, "$");
-			res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
-		}
-		else if (data->content[j] != '_')
-		{
+			dollar = ft_substr(data->content, j, i - j);
+			if (data->content[j] == '!' || data->content[j] == '@'
+				|| data->content[j] == '*'
+				|| (data->content[j] >= '0' && data->content[j] <= '9'))
+				res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
+			else if (data->content[j] == '?')
+				res = ft_strjoin(res, ft_substr(data->content, j - 1, i - j + 1));
+			else if (data->content[j] == '%' || data->content[j] == '^'
+				|| data->content[j] == '=' || data->content[j] == '+'
+				|| data->content[j] == '.' || data->content[j] == '/'
+				|| data->content[j] == ',')
+				res = ft_strjoin(res, ft_substr(data->content, j, i - j));
+			else if (data->content[j] == '#')
 			{
-				j = 0;
-				ft_equal(envp, &res, dollar, j);
-				if (data->content[i] == '$')
+				res = ft_strjoin(res, "0");
+				res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
+			}
+			else if (data->content[j] == '\\' || data->content[j] == '~')
+			{
+				res = ft_strjoin(res, "$");
+				res = ft_strjoin(res, ft_substr(data->content, j + 1, i - j - 1));
+			}
+			else if (data->content[j] != '_')
+			{
 				{
-					i++;
-					res = ft_strjoin(res, "$");
+					j = 0;
+					ft_equal(envp, &res, dollar, j);
+					if (data->content[i] == '$')
+					{
+						i++;
+						res = ft_strjoin(res, "$");
+					}
 				}
 			}
+			free(dollar);
 		}
-		free(dollar);
 	}
 	// adding if there is something after
 	res = ft_strjoin(res, \

@@ -89,7 +89,26 @@ exit 42 world
 echo hi <
 echo hi | >
 echo hi |   |
-
+echo ''
+echo $?$?$?
+echo $?hello
+echo hello$?$?moi
+echo bonjour|
+echo bonjour |
+echo bonjour||
+| echo bonjour
+echo hi | > >>
+echo hi | < |
+echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
+echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
+echo 'aspas ->"'
+echo "aspas ->'"
+echo 'exit_code ->$? user ->$USER home -> $HOME'
+echo "exit_code ->$? user ->$USER home -> $HOME"
+echo hi |  "|"
+>>>
+<< <
+cat    <| ls
 
 
 NOT WORKING TESTS :
@@ -98,65 +117,13 @@ ls | < input echo coucou | << riri
 bash : execute heredoc then error message no such file or directory for input
 minishell : no such file or directory then display heredoc and readline on the same line waiting for a new command
 
-echo ''
-bash : nothing
-minishell : segfault
-
-echo "aspas ->'"
-bash : aspas ->'
-minishell : minishell: unexpected EOF while looking for matching `"'
-minishell: syntax error: unexpected end of file
-
-echo 'aspas ->"'
-bash : aspas ->"
-minishell : minishell: unexpected EOF while looking for matching `''
-minishell: syntax error: unexpected end of file
-
-echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
-echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
-
-echo 'exit_code ->$? user ->$USER home -> $HOME'
-echo "exit_code ->$? user ->$USER home -> $HOME"
-bash : exit_code ->0 user ->thibnguy home -> /home/thibnguy
-minishell : minishell: unexpected EOF while looking for matching `"'
-minishell: syntax error: unexpected end of file
-
 echo '$'
 echo "$"
 bash : print $
-minishell : segfault
-
-echo $?HELLO
-bash : print 0HELLO
-minishell : print $?HELLO
+minishell : nothing
 
 export HELLO="123 A-"
 bash : add HELLO=123 A- to env
 minishell : minishell: export: `A-': not a valid identifier and add HELLO=123 to env
 
-echo bonjour|
-echo bonjour |
-echo bonjour||
-| echo bonjour
-
->>>
-bash : bash: syntax error near unexpected token `>'
-minishell : minishell: syntax error near unexpected token `newline'
-
-cat    <| ls
-bash : bash: syntax error near unexpected token `|'
-minishell : minishell: syntax error near unexpected token `newline'
-
-echo hi | > >>
-bash : bash: syntax error near unexpected token `>>'
-minishell : minishell: syntax error near unexpected token `newline'
-
-echo hi | < |
-bash : bash: syntax error near unexpected token `|'
-minishell : minishell: syntax error near expected token `|' and minishell: syntax error near unexpected token `newline'
-
-echo hi |  "|"
-bash : |: command not found
-minishell : minishell: unexpected EOF while looking for matching `"'
-minishell: syntax error: unexpected end of file and minishell closed
- 
+echo "$hvreu" a

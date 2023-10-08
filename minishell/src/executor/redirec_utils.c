@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/10/06 20:19:16 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 13:43:38 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void	ft_open_errors(char *filename)
 	char	*str;
 	char	*temp;
 
-	str = ft_strjoin2("minishell$>: ", filename);
+	str = ft_strjoin2("minishell: ", filename);
 	temp = ft_strdup(str);
 	free(str);
 	if (errno == ENOENT)
-		str = ft_strjoin2(temp, ": no such file or directory\n");
+		str = ft_strjoin2(temp, ": No such file or directory\n");
 	else if (errno == EACCES)
 		str = ft_strjoin2(temp, ": Permission denied\n");
 	else

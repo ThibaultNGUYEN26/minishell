@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/06 21:45:56 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/08 13:15:21 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_data	*ft_lexer(char *input)
 	int		i;
 	int		j;
 	t_data	*data;
+	char	c;
 
 	i = -1;
 	data = NULL;
@@ -70,18 +71,30 @@ t_data	*ft_lexer(char *input)
 		// j commence initialement à i
 		j = i;
 		// Tant qu'on est pas à token ou que la chaine existe, on incrémente j
-		while (input[j] && !ft_tokenizer(input, j))
+		while (input[j] && !ft_tokenizer(input, j) && input[j] != '\"' && input[j] != '\'')
 			j++;
-		// si on est au premier caractere, il y'a un token at the very start
-		// sinon, on mets tout ce qu'il y avait avant dans data->content
-		if (input[i] && !ft_tokenizer(input, i))
+		// if we have encountered quotes, on met tout dans un data->content
+		if (input[j] == '\'' || input[j] == '\"')
+		{
+			c = input[j];
+			while (input[++j] != c)
+				;
+			j++;
 			addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), NULL));
-		i = j;
-		// Si input existe toujours => on est arrivé au token, sinon y'a plus de
-		// tokens et we are at the end of the input
-		if (input[i])
-			ft_add_token(&data, input, &i);
+		}
 		else
+		{
+			// it's either a token or end of input
+			// donc on mets tout ce qu'il y avait avant dans data->content
+			if (input[i] && !ft_tokenizer(input, i))
+				addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), NULL));
+			// Si input existe toujours => on est arrivé au token, sinon y'a plus de
+			// tokens et we are at the end of the input
+		}
+		i = j;
+		if (input[i] && ft_tokenizer(input, i))
+			ft_add_token(&data, input, &i);
+		else if (!input[i])
 			break ;
 	}
 	return (data);
@@ -127,7 +140,10 @@ void	ft_quotes(t_data *data)
 					j = i;
 					// find the next simple quote which closes
 					while ((data->content)[j] != c)
+					{
+						printf("current %c\n", (data->content)[j]);
 						j++;
+					}
 					// joining what we had of res and the quotes contenu without
 					// the quotes
 					res = ft_strjoin(res, ft_substr(data->content, i, j - i));
