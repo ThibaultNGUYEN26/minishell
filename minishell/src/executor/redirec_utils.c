@@ -6,7 +6,7 @@
 /*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/10/09 21:53:25 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:03:05 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void    ft_redirec_files(t_cmd *cmd, t_files *file)
 {
     t_data  *redirec_head;
 	
+	file->output = STDOUT_FILENO;
     if (cmd->redirections != NULL)
 	{
 		redirec_head = cmd->redirections;
