@@ -86,12 +86,12 @@ static int	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, 
 	return (1);
 }
 
-static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split)
+static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split, t_data *head)
 {
-	int	k;
-	int	j;
-	int	ancien;
-	int	test;
+	int		k;
+	int		j;
+	int		ancien;
+	int		test;
 	
 	k = 0;
 	j = 0;
@@ -134,7 +134,17 @@ static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split)
 	// if there echo is not just before, it means we have -n donc il faut skip les espaces
 	while (((*data)->content)[i] == '\f' || ((*data)->content)[i] == '\t' || ((*data)->content)[i] == '\n' || ((*data)->content)[i] == '\r' || ((*data)->content)[i] == '\v' || ((*data)->content)[i] == ' ')
 		i++;
-	cmd->command[j++] = ft_substr((*data)->content, i, ft_strlen((*data)->content) - i);
+	cmd->command[j] = ft_substr((*data)->content, i, ft_strlen((*data)->content) - i);
+	char	*temp;
+	while ((*data)->next != head && (*data)->next->token == 5)
+	{
+		(*data) = (*data)->next;
+		temp = ft_strdup(cmd->command[j]);
+		free(cmd->command[j]);
+		cmd->command[j] = ft_strjoin2(temp, (*data)->content);
+		free(temp);
+	}
+	j++;
 	return (j);
 }
 
@@ -173,10 +183,13 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 			i = 0;
 			split = ft_split((*data)->content, "\f\t\n\r\v ");
 			if (ft_strcmp(split[0], "echo") == 0)
-				j = ft_echo_errors(data, cmd, i, split);
+				j = ft_echo_errors(data, cmd, i, split, head);
 			else
 				while (split[i])
+				{
+					printf("on ajoute *%s*\n", split[i]);
 					cmd->command[j++] = ft_strdup(split[i++]);
+				}
 			i = 0;
 			while (split[i])
 				free(split[i++]);

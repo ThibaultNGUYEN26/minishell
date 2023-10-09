@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:20 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:27:12 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	}
 	else if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
+	if (access(cmd->command[0], X_OK) == 0)
+		if (execve(cmd->command[0], cmd->command, NULL) == -1)
+			exit(EXIT_FAILURE);
 	path = ft_find_path((*bash)->envp);
 	if (!path)
 	{

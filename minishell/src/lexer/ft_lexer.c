@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:20 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:25:34 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ t_data	*ft_lexer(char *input)
 	t_data	*data;
 	char	c;
 
-	i = -1;
+	i = 0;
 	data = NULL;
-	while (++i < ft_strlen(input))
+	while (i < ft_strlen(input))
 	{
 		// j commence initialement à i
 		j = i;
+		printf("2 input[j] : %c\n", input[j]);
 		// Tant qu'on est pas à token ou que la chaine existe, on incrémente j
 		while (input[j] && !ft_tokenizer(input, j) && input[j] != '\"' && input[j] != '\'')
 			j++;
@@ -80,6 +81,7 @@ t_data	*ft_lexer(char *input)
 			while (input[++j] != c)
 				;
 			j++;
+			printf("1 input[j] : %c\n", input[j]);
 			addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), NULL));
 		}
 		else
@@ -93,10 +95,15 @@ t_data	*ft_lexer(char *input)
 		}
 		i = j;
 		if (input[i] && ft_tokenizer(input, i))
+		{
 			ft_add_token(&data, input, &i);
+			i++;	
+		}
 		else if (!input[i])
 			break ;
 	}
+	printf("DATA AFTER LEXER\n");
+	ft_print_data(data);
 	return (data);
 }
 
@@ -140,10 +147,7 @@ void	ft_quotes(t_data *data)
 					j = i;
 					// find the next simple quote which closes
 					while ((data->content)[j] != c)
-					{
-						printf("current %c\n", (data->content)[j]);
 						j++;
-					}
 					// joining what we had of res and the quotes contenu without
 					// the quotes
 					res = ft_strjoin(res, ft_substr(data->content, i, j - i));
