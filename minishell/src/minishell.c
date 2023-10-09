@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 20:01:38 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ static void	ft_minishell_loop(t_bashvar **bash)
 		// input = readline("minishell$> ");
 		if (!input)
 		{
+			exit_code = 0;
 			printf("exit\n");
 			break ;
 		}

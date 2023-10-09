@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/10/08 13:43:38 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/09 19:09:22 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,15 @@ static void	ft_output(t_cmd *cmd, t_files *file, int append)
 
 static void	ft_input(t_cmd *cmd, t_files *file)
 {
-	if (file->input != -2)
-		close(file->input);
-	file->input = open((cmd->redirections)->next->content, O_RDONLY, 0777);
-	(cmd)->redirections = (cmd)->redirections->next;
-	if (file->input == -1)
-		ft_open_errors((cmd->redirections)->content);
+	if (file->input != -1)
+	{	
+		if (file->input != -2)
+			close(file->input);
+		file->input = open((cmd->redirections)->next->content, O_RDONLY, 0777);
+		(cmd)->redirections = (cmd)->redirections->next;
+		if (file->input == -1)
+			ft_open_errors((cmd->redirections)->content);
+	}
 }
 
 void    ft_redirec_files(t_cmd *cmd, t_files *file)
@@ -66,7 +69,14 @@ void    ft_redirec_files(t_cmd *cmd, t_files *file)
 			if ((cmd->redirections)->token == 1)
 				ft_input(cmd, file);
 			else if ((cmd->redirections)->token == 4)
-				ft_here_doc((cmd->redirections)->next->content, file);
+			{
+				if (file->input != -1)
+				{
+					if (file->input != -2)
+						close(file->input);
+					file->input = cmd->heredoc_file;
+				}
+			}
 			else if ((cmd->redirections)->token == 2)
 				ft_output(cmd, file, 0);
 			else if ((cmd->redirections)->token == 3)

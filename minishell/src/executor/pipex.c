@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 12:27:12 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/09 20:34:52 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	ft_child(int n, int *pfd, t_files *file)
 {
 	// close the read end of the pipe in the child process to be sure that the child does not read from it (because it belongs to the parent)
 	close(pfd[0]);
+	// if file->input == -3, we have a heredoc winner and its the input
 	// if the input file is other than the standard input, we duplicate its content into the standard input and close the original one
 	if (file->input != STDIN_FILENO)
 	{
@@ -81,6 +82,7 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 			{
 				if (execve(command, cmd->command, NULL) == -1)
 				{
+					exit_code = 126;
 					free(command);
 					exit(EXIT_FAILURE);
 				}
@@ -90,6 +92,7 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 		}
 		ft_putstr_fd(cmd->command[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
+		exit_code = 127;
 		exit(EXIT_FAILURE);
 	}
 }
@@ -105,6 +108,9 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	// Check if there is a redirections at the first command so we can fill the file.input or file.output
 	// Create process of child and the pipes
 	ft_redirec_files(cmd, file);
+	ft_putstr_fd("id du input at the start of the pipeline : ", 2);
+	ft_putstr_fd(ft_itoa(file->input), 2);
+	ft_putstr_fd("\n", 2);
 	pid = create_process(pfd, 0);
 	if (pid == 0)
 	{
@@ -117,6 +123,7 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	{
 		close(pfd[1]);
 		close(file->input);
+		close(cmd->heredoc_file);
 		number = file->argc;
 		// if last command, we wait for the other children
 		if (n == 1)
@@ -128,7 +135,7 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 				dup2(file->output, STDOUT_FILENO);
 			(cmd->builtin)(cmd, bash);
 		}
-		// Pour passer à la prochaine commande, on doit rediriger le input et output vers les read et write ends of the pipe
+		// Pour passer à la prochaine commande, on doit rediriger le input vers les read ends of the pipe
 		if (file->input == -1)
 			file->input = dup(pfd[0]);
 		else
@@ -162,6 +169,7 @@ void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
         if (cmd == head)
             break;
     }
+	ft_assign_hd(cmd);
 	// file->argc helps us keep track of the original number of commands
 	file->argc = count_cmd;
 	file->input = -2;

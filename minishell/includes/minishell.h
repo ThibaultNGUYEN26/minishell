@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:23:55 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ typedef struct s_cmd
 	char			**command;
 	int				(*builtin)(struct s_cmd *, struct s_bashvar **);
 	t_data			*redirections;
+	int				heredoc_file;
+	int				error;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-	int				error;
-	int				exit_code;
 }	t_cmd;
 
 /* ----- BASHVAR ----- */
@@ -114,7 +114,8 @@ int		ft_unset(t_cmd *cmd, t_bashvar **bash);
 void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
 /* pipex_utils.c */
 int		create_process(int *pfd, int pid);
-void	ft_here_doc(char *delimiter, t_files *file);
+void	ft_here_doc(char *delimiter, int *input);
+void	ft_assign_hd(t_cmd *cmd);
 /* ft_redirec_files.c */
 void    ft_redirec_files(t_cmd *cmd, t_files *file);
 char	**ft_find_path(char **envp);

@@ -187,7 +187,7 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 			else
 				while (split[i])
 				{
-					printf("on ajoute *%s*\n", split[i]);
+					// printf("on ajoute *%s*\n", split[i]);
 					cmd->command[j++] = ft_strdup(split[i++]);
 				}
 			i = 0;
@@ -222,7 +222,7 @@ t_cmd	*ft_parser(t_data **data)
 			cmd = head_cmd;
 		else
 			cmd = (cmd)->next;
-		printf("HEAD PIPE : %s %d\n", (*data)->content, (*data)->token);
+		// printf("HEAD PIPE : %s %d\n", (*data)->content, (*data)->token);
 		// While not pipe and didn't come back to the beggggginnnning de la liste chainee
 		while ((*data)->token != 0)
 		{

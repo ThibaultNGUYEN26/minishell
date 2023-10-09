@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:55 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/20 04:28:52 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 19:15:03 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 			free(unset_value[i++]);
 		free(unset_value);
 	}
+	exit_code = 0;
 	return (EXIT_SUCCESS);
 }

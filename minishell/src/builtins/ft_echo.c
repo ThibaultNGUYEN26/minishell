@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:41:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:22 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 19:13:41 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ int	ft_echo(t_cmd *cmd, t_bashvar **bash)
 			break ;
 	}
 	ft_print(cmd->command, STDOUT_FILENO, newline_var, j);
+	exit_code = 0;
 	return (EXIT_SUCCESS);
 }
