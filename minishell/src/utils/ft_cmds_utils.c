@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:22 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:50:53 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_free_cmd(t_cmd *cmd)
 		while (cmd->command && cmd->command[i])
 			free(cmd->command[i++]);
 		free(cmd->command);
+		if (cmd->redirections)
+			ft_free_stack(cmd->redirections);
 		cmd = cmd->next;
 		free(cmd->prev);
 	}

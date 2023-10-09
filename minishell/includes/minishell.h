@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 14:23:55 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:35:10 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,9 @@ void	ft_print_data(t_data *data);
 
 /* ----- LIBFT ----- */
 long long	ft_atoi(const char *str);
-char		*ft_itoa(int n);
+int			ft_isalnum(int c);
 int			ft_isalpha(char *s);
+char		*ft_itoa(int n);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_count_words(char *str, char *charset);

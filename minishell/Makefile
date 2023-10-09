@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/10/08 11:36:01 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/10/09 23:35:25 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,9 @@ SRCS		=	bashvar/ft_bash.c \
 				lexer/ft_lexer.c \
 				parser/ft_parser.c \
 				libft/ft_atoi.c \
-				libft/ft_itoa.c \
+				libft/ft_isalnum.c \
 				libft/ft_isalpha.c \
+				libft/ft_itoa.c \
 				libft/ft_putstr_fd.c \
 				libft/ft_putchar_fd.c \
 				libft/ft_split.c \

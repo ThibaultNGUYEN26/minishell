@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dollar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:44:33 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 14:12:33 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/10 00:38:03 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static void	ft_equal(char **envp, char **res, char *dollar, int j)
 {
 	char	*temp;
+	int		i;
 
+	i = 0;
 	temp = NULL;
 	while (envp[j]
 		&& ft_strncmp(envp[j], dollar, ft_strchr(envp[j], '=')))
@@ -40,10 +42,12 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 {
 	char	*res;
 	char	*dollar;
+	char	*temp;
 	int		j;
 	int		i;
 
 	i = 0;
+	temp = NULL;
 	// get how many $ there are and save the last position
 	j = ft_strchr(data->content, '$') + 1;
 	// on met ce qu'il y avait avant le dollar dans res
@@ -95,7 +99,8 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 					if (data->content[i] == '$')
 					{
 						i++;
-						res = ft_strjoin(res, "$");
+						temp = ft_strdup("$");
+						res = ft_strjoin(res, temp);
 					}
 				}
 			}

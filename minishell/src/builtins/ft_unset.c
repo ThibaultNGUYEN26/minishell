@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:55 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 19:15:03 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:02:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 	int		i;
 	int		j;
 	int		k;
+	char	*str;
 	int		test;
 	char	**unset_value;
 	
 	k = 0;
+	str = NULL;
 	while (cmd->command[++k])
 	{
 		i = -1;
@@ -63,11 +65,13 @@ int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 			{
 				if ((*bash)->envp[i][j] == '=')
 				{
-					if (ft_strcmp(unset_value[0], ft_substr((*bash)->envp[i], 0, j)) == 0)
+					str = ft_substr((*bash)->envp[i], 0, j);
+					if (ft_strcmp(unset_value[0], str) == 0)
 					{
 						ft_delete(unset_value[0], bash, i);
 						test = 1;
 					}
+					free(str);
 					break ;
 				}
 				j++;

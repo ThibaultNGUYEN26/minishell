@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:40 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 19:50:13 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:50:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,19 @@ static void	ft_add(char *export_value, t_bashvar ***bash)
 	(*(*bash))->envp = temp;
 }
 
+static int	ft_check_key(char *command)
+{
+	int	i;
+
+	i = -1;
+	if (command[0] == '=')
+		return (0);
+	while (command[++i] != '=')
+		if (!ft_isalnum(command[i]))
+			return (0);
+	return (1);
+}
+
 int	ft_export(t_cmd *cmd, t_bashvar **bash)
 {
 	int		i;
@@ -90,7 +103,7 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 	while (cmd->command[++k])
 	{
 		i = -1;
-		if (cmd->command[k][0] == '=' || ft_strchr(cmd->command[k], '=') == -1 || ft_strchr(cmd->command[k], '_') != -1)
+		if (!ft_check_key(cmd->command[k]))
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", cmd->command[k]);
 			exit_code = 1;

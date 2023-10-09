@@ -21,7 +21,6 @@ pwd
 ls | pwd
 pwd | ls
 echo coucou
-coucou
 wc -l
 echo coucou >> outfile
 cat outfile
@@ -53,6 +52,13 @@ echo "$PWD"
 echo '$PWD'
 echo $?
 pwd oi
+pwd -l
+pwd -L
+pwd -P
+pwd -LP
+pwd -PL
+pwd -LLLPPP
+pwd -LFWFW
 export A-
 export hello
 export HELLO=123 A
@@ -109,23 +115,28 @@ echo hi |  "|"
 >>>
 << <
 cat    <| ls
+echo '$'
+echo "$"
+echo "$hvreu" a
+$EMPTY ls
+ls | < input echo coucou | << riri
+export HELLO="123" A-
 
 
 NOT WORKING TESTS :
-
-ls | < input echo coucou | << riri
-bash : execute heredoc then error message no such file or directory for input
-minishell : no such file or directory then display heredoc and readline on the same line waiting for a new command
-
-echo '$'
-echo "$"
-bash : print $
-minishell : nothing
 
 export HELLO="123 A-"
 bash : add HELLO=123 A- to env
 minishell : minishell: export: `A-': not a valid identifier and add HELLO=123 to env
 
-echo "$hvreu" a
+coucou
+command not found
+bash: exit_code = 127
+minishell : exit_code = 0
 
-$EMPTY ls
+
+
+==> update du soir
+- il faut revoir les builtins et enlever tout ce quíl nétait pas a gerer et qui a ete fait
+- il faut enlever les cas du dollar et verifier quíl ;arche encore
+- il faut reparer l'exit code dans léxecutable
