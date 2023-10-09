@@ -63,15 +63,12 @@ void	ft_here_doc(char *delimiter, int *input)
 	if (pid == 0)
 	{
 		close(pfd[0]);
-		ft_putstr_fd("In the child of the Heredoc\n", 2);
 		ft_child_heredoc(pfd, delimiter);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
 		close(pfd[1]);
-		/* 	if (file->input != -1)
-			close(file->input); */
 		*input = dup(pfd[0]);
 		close(pfd[0]);
 		waitpid(pid, &status, 0);
@@ -89,15 +86,12 @@ void	ft_assign_hd(t_cmd *cmd)
 		if (cmd->redirections)
 		{
 			redirec_head = cmd->redirections;
-			cmd->heredoc_file = -2;
 			while (1)
 			{
 				if ((cmd->redirections)->token == 4)
 				{
-					if (cmd->heredoc_file != -2) 
-						close(cmd->heredoc_file);
+					close(cmd->heredoc_file);
 					ft_here_doc((cmd->redirections)->next->content, &(cmd->heredoc_file));
-					printf("id du heredoc at the assignment : %d\n", cmd->heredoc_file);
 				}
 				cmd->redirections = cmd->redirections->next;
 				if (cmd->redirections == redirec_head)
