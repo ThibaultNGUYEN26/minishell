@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/10/11 16:48:14 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:47:34 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	ft_output(t_cmd *cmd, t_files *file, int append)
 static void	ft_input(t_cmd *cmd, t_files *file)
 {
 	if (file->input != -1)
-	{	
+	{
 		if (file->input != STDIN_FILENO)
 			close(file->input);
 		file->input = open((cmd->redirections)->next->content, O_RDONLY, 0777);
@@ -57,12 +57,12 @@ static void	ft_input(t_cmd *cmd, t_files *file)
 	}
 }
 
-void    ft_redirec_files(t_cmd *cmd, t_files *file)
+void	ft_redirec_files(t_cmd *cmd, t_files *file)
 {
-    t_data  *redirec_head;
-	
+	t_data	*redirec_head;
+
 	file->output = STDOUT_FILENO;
-    if (cmd->redirections != NULL)
+	if (cmd->redirections != NULL)
 	{
 		redirec_head = cmd->redirections;
 		while (1)

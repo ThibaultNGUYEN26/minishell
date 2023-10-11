@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/11 17:56:45 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:30:23 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ int	ft_pwd(t_cmd *cmd, t_bashvar **bash)
 		printf("%s\n", (*bash)->pwd);
 	}
 	else
+	{
 		free(str);
+		exit(ft_exec_error("execve"));
+	}
 	free(str);
 	return (0);
 }

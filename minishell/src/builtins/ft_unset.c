@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:55 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/11 22:14:22 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:52:27 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 	int		test;
 	int		exit_code_test;
 	char	*unset_value;
-	
+
 	k = 0;
 	str = NULL;
 	i = -1;

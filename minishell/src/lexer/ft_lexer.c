@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 13:49:07 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:50:38 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_data	*ft_lexer(char *input)
 		if (input[i] && ft_tokenizer(input, i))
 		{
 			ft_add_token(&data, input, &i);
-			i++;	
+			i++;
 		}
 		else if (!input[i])
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:56:05 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 21:06:17 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:42:02 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
-static void sigquit_handler(int sig)
+static void	sigquit_handler(int sig)
 {
-	(void)sig;
 	struct termios	sa;
 
+	(void)sig;
 	tcgetattr(STDIN_FILENO, &sa);
 	sa.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &sa);

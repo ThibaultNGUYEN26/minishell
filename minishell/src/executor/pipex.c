@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/11 23:18:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:49:56 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	ft_child(int n, int *pfd, t_files *file)
 		close(pfd[1]);
 	}
 	if (file->input == -1)
-		exit(EXIT_FAILURE);
+		exit(exit_code);
 }
 
 /* Function that will execute the commands with its options and the env path so we will need it to take as argument :
@@ -51,22 +51,22 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 
 	i = 0;
 	command = NULL;
-	if (cmd->builtin != NULL && file->argc != 1)
-	{
-		exit((cmd->builtin)(cmd, bash));
-		//exit(EXIT_SUCCESS);
-	}
-	else if (cmd->builtin != NULL && file->argc == 1)
+	// if there is only one command and it's a builtin, it's in the parent
+	if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
+	// if it's a builtin in a pipe, we execute it and exit
+	if (cmd->builtin != NULL && file->argc != 1)
+		exit((cmd->builtin)(cmd, bash));
+	// if the command given is already in its path, we execute it and exit
 	if (access(cmd->command[0], X_OK) == 0)
 		if (execve(cmd->command[0], cmd->command, NULL) == -1)
-			exit(EXIT_FAILURE);
+			exit(ft_exec_error("execve"));
 	path = ft_find_path((*bash)->envp);
 	if (!path)
 	{
 		if (access(cmd->command[0], X_OK) == 0)
 			if (execve(command, cmd->command, NULL) == -1)
-				exit(EXIT_FAILURE);
+				exit(ft_exec_error("execve"));
 	}
 	else
 	{
@@ -78,21 +78,14 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 			command = ft_strjoin2(temp, cmd->command[0]);
 			free(temp);
 			if (access(command, X_OK) == 0)
-			{
 				if (execve(command, cmd->command, NULL) == -1)
-				{
-					exit_code = 126;
-					free(command);
-					exit(EXIT_FAILURE);
-				}
-			}
+					exit(ft_exec_error("execve"));
 			free(command);
 			i++;
 		}
 		ft_putstr_fd(cmd->command[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit_code = 127;
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 
@@ -122,7 +115,6 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 		close(file->input);
 		number = file->argc;
 		file->pid[file->argc - n] = pid;
-		// if last command, we wait for the other children
 		if (n == 1)
 		{
 			i = 0;
@@ -151,27 +143,27 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 }
 
 /* The "main" of the execution part */
-void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
+void	ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
 {
 	t_cmd	*head_cmd;
-    t_files	*file;
-    t_cmd   *head;
-    int     count_cmd;
+	t_files	*file;
+	t_cmd	*head;
+	int		count_cmd;
 
 	head_cmd = cmd;
 	file = malloc(1 * sizeof(t_files));
 	if (!file)
 		return ;
-    // count_cmd is the number of commands there are
-    count_cmd = 0;
-    head = cmd;
-    while (1)
-    {
-        count_cmd++;
-        cmd = cmd->next;
-        if (cmd == head)
-            break;
-    }
+	// count_cmd is the number of commands there are
+	count_cmd = 0;
+	head = cmd;
+	while (1)
+	{
+		count_cmd++;
+		cmd = cmd->next;
+		if (cmd == head)
+			break ;
+	}
 	ft_assign_hd(cmd);
 	// file->argc helps us keep track of the original number of commands
 	file->argc = count_cmd;

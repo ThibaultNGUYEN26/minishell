@@ -41,7 +41,7 @@ static int	ft_redirection_parser(t_data **head_data, t_data **data, t_cmd *cmd, 
 	char	*temp;
 	int		i;
 	int		j;
-	
+
 	// If redirection
 	if ((*data)->token != 5)
 	{
@@ -90,9 +90,10 @@ static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split, t_data
 {
 	int		k;
 	int		j;
-	int		ancien;
 	int		test;
-	
+	char	*temp;
+	int		ancien;
+
 	k = 0;
 	j = 0;
 	test = 0;
@@ -135,7 +136,6 @@ static int	ft_echo_errors(t_data **data, t_cmd *cmd, int i, char **split, t_data
 	while (((*data)->content)[i] == '\f' || ((*data)->content)[i] == '\t' || ((*data)->content)[i] == '\n' || ((*data)->content)[i] == '\r' || ((*data)->content)[i] == '\v' || ((*data)->content)[i] == ' ')
 		i++;
 	cmd->command[j] = ft_substr((*data)->content, i, ft_strlen((*data)->content) - i);
-	char	*temp;
 	while ((*data)->next != head && (*data)->next->token == 5)
 	{
 		(*data) = (*data)->next;
@@ -186,10 +186,7 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 				j = ft_echo_errors(data, cmd, i, split, head);
 			else
 				while (split[i])
-				{
-					// printf("on ajoute *%s*\n", split[i]);
 					cmd->command[j++] = ft_strdup(split[i++]);
-				}
 			i = 0;
 			while (split[i])
 				free(split[i++]);
@@ -197,7 +194,7 @@ static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
 		}
 		*data = (*data)->next;
 		if ((*data) == after_pipe)
-			break;
+			break ;
 	}
 	cmd->command[j] = NULL;
 }
@@ -209,7 +206,7 @@ t_cmd	*ft_parser(t_data **data)
 	t_data	*after_pipe;
 	t_cmd	*head_cmd;
 	t_cmd	*cmd;
-	
+
 	cmd = NULL;
 	head_data = *data;
 	head_pipe = head_data;
@@ -254,7 +251,7 @@ t_cmd	*ft_parser(t_data **data)
 			(*data) = (after_pipe)->next;
 		head_pipe = (*data);
 		if ((*data) == head_data)
-			break;
+			break ;
 	}
 	// Si data n'existe plus, no need to put it back where it once was
 	if ((*data) != NULL && (*data)->exit_code != 1 && (*data)->exit_code != 2)

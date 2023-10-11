@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:29 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/11 19:44:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 00:53:14 by rchbouki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	ft_env(t_cmd *cmd, t_bashvar **bash)
 {
-	(void)cmd;
 	int		i;
 	char	*str;
 
+	(void)cmd;
 	i = 0;
 	str = NULL;
 	if (cmd->command[1] && cmd->command[1][0] == '-')

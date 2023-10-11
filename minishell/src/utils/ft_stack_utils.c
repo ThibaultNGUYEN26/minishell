@@ -94,7 +94,7 @@ void	ft_delete_element(t_data **data)
 	if ((*data) == (*data)->next)
 	{
 		ft_free_stack((*data));
-		(*data) =  NULL;
+		(*data) = NULL;
 	}
 	else
 	{
