@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/10/09 23:35:25 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/10/11 21:48:19 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ OBJECTS		=	./bin
 INCLUDES	=	./includes
 
 SRCS		=	bashvar/ft_bash.c \
+				builtins/ft_builtins_error.c \
 				builtins/ft_builtins.c \
 				builtins/ft_cd.c \
 				builtins/ft_echo.c \
@@ -35,7 +36,7 @@ SRCS		=	bashvar/ft_bash.c \
 				parser/ft_parser.c \
 				libft/ft_atoi.c \
 				libft/ft_isalnum.c \
-				libft/ft_isalpha.c \
+				libft/ft_isnumeric.c \
 				libft/ft_itoa.c \
 				libft/ft_putstr_fd.c \
 				libft/ft_putchar_fd.c \
@@ -110,15 +111,15 @@ fclean: clean
 re: fclean all
 
 r:
-	make > /dev/null && ./minishell
+	make; ./minishell
 
 v:
-	make > /dev/null && valgrind ./minishell
+	make; valgrind ./minishell
 
-run: re
-	./minishell
+run:
+	make re; ./minishell
 
-vrun: re
-	valgrind ./minishell
+vrun:
+	make re; valgrind ./minishell
 
 .PHONY: all clean fclean re r v run vrun

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 23:35:10 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:04:58 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_files
 	int	saved_output;
 	int	saved_error;
 	int	argc;
+	int	*pid;
 }	t_files;
 
 typedef struct s_cmd
@@ -140,7 +141,7 @@ void	ft_print_data(t_data *data);
 /* ----- LIBFT ----- */
 long long	ft_atoi(const char *str);
 int			ft_isalnum(int c);
-int			ft_isalpha(char *s);
+int			ft_isnumeric(char *str);
 char		*ft_itoa(int n);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putchar_fd(char c, int fd);

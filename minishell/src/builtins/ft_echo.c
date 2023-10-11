@@ -6,13 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:41:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 19:13:41 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:18:50 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_print(char **str, int output, int newline_var, int i)
+static void	ft_print(char **str, int newline_var, int i)
 {
 	int		j;
 	char	*temp;
@@ -28,25 +28,25 @@ static void	ft_print(char **str, int output, int newline_var, int i)
 			if (ft_strncmp((str[i]) + j, "$?", 2) == 0)
 			{
 				temp = ft_itoa(exit_code);
-				ft_putstr_fd(temp, output);
+				ft_putstr_fd(temp, STDOUT_FILENO);
 				free(temp);
 				dollar = 1;
 				j += 2;
 			}
 			else
 			{
-				ft_putchar_fd((str[i][j]), output);
+				ft_putchar_fd((str[i][j]), STDOUT_FILENO);
 				j++;
 			}
 		}
 		i++;
 		if (str[i])
-			ft_putstr_fd(" ", output);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 	if (dollar == 1)
 		exit_code = 0;
 	if (newline_var == 0)
-		ft_putstr_fd("\n", output);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 int	ft_echo(t_cmd *cmd, t_bashvar **bash)
@@ -71,7 +71,7 @@ int	ft_echo(t_cmd *cmd, t_bashvar **bash)
 		else
 			break ;
 	}
-	ft_print(cmd->command, STDOUT_FILENO, newline_var, j);
+	ft_print(cmd->command, newline_var, j);
 	exit_code = 0;
 	return (EXIT_SUCCESS);
 }

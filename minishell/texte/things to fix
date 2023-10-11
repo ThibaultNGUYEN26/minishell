@@ -135,8 +135,19 @@ bash: exit_code = 127
 minishell : exit_code = 0
 
 
+BUILTINS TESTS WITHOUT PIPES :
+
+CD OK
+ECHO OK
+ENV OK
+EXIT OK
+EXPORT OK
+PWD OK
+UNSET OK
 
 ==> update du soir
 - il faut revoir les builtins et enlever tout ce quíl nétait pas a gerer et qui a ete fait
 - il faut enlever les cas du dollar et verifier quíl ;arche encore
 - il faut reparer l'exit code dans léxecutable
+
+

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 22:24:18 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:18:30 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	command = NULL;
 	if (cmd->builtin != NULL && file->argc != 1)
 	{
-		(cmd->builtin)(cmd, bash);
-		exit(EXIT_SUCCESS);
+		exit((cmd->builtin)(cmd, bash));
+		//exit(EXIT_SUCCESS);
 	}
 	else if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
@@ -101,6 +101,7 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 {
 	int		pfd[2];
 	int		pid;
+	int		i;
 	int		status;
 	int		number;
 
@@ -120,15 +121,22 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 		close(pfd[1]);
 		close(file->input);
 		number = file->argc;
+		file->pid[file->argc - n] = pid;
 		// if last command, we wait for the other children
 		if (n == 1)
-			while (file->argc--)
-				waitpid(-1, &status, 0);
+		{
+			i = 0;
+			while (i < file->argc)
+				waitpid(file->pid[i++], &status, 0);
+			if (WIFEXITED(status) && file->argc != 1)
+				exit_code = WEXITSTATUS(status);
+		}
 		if (number == 1 && cmd->builtin != NULL && file->input != -1)
 		{
 			if (file->output != -2)
 				dup2(file->output, STDOUT_FILENO);
-			(cmd->builtin)(cmd, bash);
+			exit_code = (cmd->builtin)(cmd, bash);
+			return ;
 		}
 		// Pour passer à la prochaine commande, on doit rediriger le input vers les read ends of the pipe
 		if (file->input == -1)
@@ -171,9 +179,13 @@ void    ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
 	file->output = STDOUT_FILENO;
 	file->saved_input = dup(STDIN_FILENO);
 	file->saved_output = dup(STDOUT_FILENO);
+	file->pid = malloc(sizeof(int) * count_cmd);
+	if (!file->pid)
+		return ;
 	ft_pipeline(count_cmd, cmd, bash, file);
 	dup2(file->saved_input, STDIN_FILENO);
 	dup2(file->saved_output, STDOUT_FILENO);
 	cmd = head_cmd;
+	free(file->pid);
 	free(file);
 }

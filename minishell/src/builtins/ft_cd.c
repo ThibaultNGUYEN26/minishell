@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:14:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 20:14:27 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 21:27:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,33 @@ static void	ft_replace(char *var, char *new, t_bashvar **bash)
 
 int	ft_cd(t_cmd *cmd, t_bashvar **bash)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = 0;
+	str = NULL;
 	while (cmd->command[i])
 		i++;
+	if (cmd->command[1] && ft_strcmp(cmd->command[1], "-") == 0)
+	{
+		if (!cmd->command[1][1])
+		{
+			ft_pwd(cmd, bash);
+			return (0);
+		}
+	}
+	else if (cmd->command[1] && cmd->command[1][0] == '-' && cmd->command[1][1] != '\0')
+	{
+		str = ft_strjoin(ft_strdup("minishell: cd: -"), ft_substr(cmd->command[1], 1, 1));
+		str = ft_strjoin(str, ft_strdup(": invalid option\n"));
+		ft_putstr_fd(str, 2);
+		free(str);
+		return (2);
+	}
 	if (i > 2)
 	{
-		exit_code = 1;
 		printf("minishell: cd: too many arguments\n");
-		return (EXIT_FAILURE);
-	}
-	if (!cmd->command[1])
-		return (EXIT_SUCCESS);
-	if (ft_strcmp(cmd->command[1], "-") == 0)
-	{
-		ft_pwd(cmd, bash);
-		exit_code = 0;
-		return (EXIT_SUCCESS);
+		return (1);
 	}
 	/* Change bash->old_pwd with bash->pwd */
 	free((*bash)->old_pwd);
@@ -64,18 +73,16 @@ int	ft_cd(t_cmd *cmd, t_bashvar **bash)
 	/* Changes the current working directory of the calling process to cmd->command[1] */
 	if (chdir(cmd->command[1]) != 0)
 	{
-		exit_code = 1;
 		printf("minishell: cd: %s: %s\n", cmd->command[1], strerror(errno));
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	/* Change bash->pwd with the current directory */
 	if (!getcwd((*bash)->pwd, 4096))
 	{
-		exit_code = 1;
-		perror("getcwd: ");
-		return (EXIT_FAILURE);
+		// return(ft_builtins_error("cd: "));
+		perror("cd: ");
+		return (1);
 	}
 	ft_replace("PWD=", (*bash)->pwd, bash);
-	exit_code = 0;
-	return(EXIT_SUCCESS);
+	return(0);
 }

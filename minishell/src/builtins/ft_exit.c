@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 14:08:20 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 21:49:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ int	ft_exit(t_cmd *cmd, t_bashvar **bash)
 	if (i > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		exit_code = 1;
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	if (i == 2)
 	{
-		if ((ft_strcmp(cmd->command[1], "-1") != 0) && (!ft_isalpha(cmd->command[1]) || ft_atoi(cmd->command[1]) == -1))
+		if ((ft_strcmp(cmd->command[1], "-1") != 0) && (!ft_isnumeric(cmd->command[1]) || ft_atoi(cmd->command[1]) == -1))
 		{
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->command[1], STDERR_FILENO);

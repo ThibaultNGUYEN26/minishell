@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_isnumeric.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/19 09:26:23 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 09:33:04 by thibnguy         ###   ########.fr       */
+/*   Created: 2023/10/11 21:47:54 by thibnguy          #+#    #+#             */
+/*   Updated: 2023/10/11 21:50:38 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_isalpha(char *s)
+int	ft_isnumeric(char *str)
 {
-	while (*s)
-	{
-		if ((*s >= 'a' && *s <= 'z') || (*s >= 'A' && *s <= 'Z'))
-			s++;
-		else
-			return (1);
-	}
-	return (0);
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+	return (1);
 }
+

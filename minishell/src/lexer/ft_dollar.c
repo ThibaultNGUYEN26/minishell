@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:44:33 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/10 00:38:03 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:30:42 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static void	ft_equal(char **envp, char **res, char *dollar, int j)
 {
 	char	*temp;
-	int		i;
 
-	i = 0;
 	temp = NULL;
 	while (envp[j]
 		&& ft_strncmp(envp[j], dollar, ft_strchr(envp[j], '=')))

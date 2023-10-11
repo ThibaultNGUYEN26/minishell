@@ -6,56 +6,34 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 23:24:22 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:56:45 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_lp_errors(char *option)
-{
-	int	i;
-
-	i = 1;
-	if (option[0] == '-')
-	{	
-		while (option[i] == 'L' || option[i] == 'P')
-			i++;
-		if (!option[i])
-			return (-1);
-		else
-			return (i);
-	}
-	return (-1);
-}
-
 int	ft_pwd(t_cmd *cmd, t_bashvar **bash)
 {
 	char	*str;
-	char	*temp;
-	int		i;
 
-	if (cmd->command[1])
-		i = ft_lp_errors(cmd->command[1]);
-	else
-		i = -1;
 	str = NULL;
-	temp = NULL;
-	if (i != -1)
+	if (cmd->command[1] && cmd->command[1][0] == '-' && cmd->command[1][1] != '\0')
 	{
-		temp = ft_substr(cmd->command[1], i, 1);
-		str = ft_strjoin2("minishell: pwd: -", temp);
-		free(temp);
-		temp = ft_strdup(": invalid option\n");
-		str = ft_strjoin(str, temp);
-		temp = ft_strdup("pwd: usage: pwd [-LP]\n");
-		str = ft_strjoin(str, temp);
+		str = ft_strjoin(ft_strdup("minishell: pwd: -"), ft_substr(cmd->command[1], 1, 1));
+		str = ft_strjoin(str, ft_strdup(": invalid option\n"));
 		ft_putstr_fd(str, 2);
 		free(str);
-		exit_code = 2;
-		return (EXIT_FAILURE);
+		return (2);
 	}
-	printf("%s\n", (*bash)->pwd);
-	exit_code = 0;
-	return (EXIT_SUCCESS);
+	str = malloc(sizeof(char) * PATH_MAX);
+	if (getcwd(str, (size_t)PATH_MAX) != NULL)
+	{
+		free((*bash)->pwd);
+		(*bash)->pwd = ft_strdup(str);
+		printf("%s\n", (*bash)->pwd);
+	}
+	else
+		free(str);
+	free(str);
+	return (0);
 }

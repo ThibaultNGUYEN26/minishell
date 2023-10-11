@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:40 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 23:50:11 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/11 22:13:40 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ static void	ft_replace(char **export_value, t_bashvar ***bash)
 		{
 			str = ft_strdup(export_value[0]);
 			res = ft_strjoin2(str, "=");
-			free(str);
-			str = res;
-			res = ft_strjoin2(str, export_value[1]);
+			if (export_value[1])
+			{
+				free(str);
+				str = res;
+				res = ft_strjoin2(str, export_value[1]);
+			}
 			free((*(*bash))->envp[i]);
 			(*(*bash))->envp[i] = ft_strdup(res);
 			if (ft_strcmp(export_value[0], "PWD") == 0)
@@ -80,7 +83,7 @@ static int	ft_check_key(char *command)
 	if (command[0] == '=')
 		return (0);
 	while (command[++i] != '=')
-		if (!ft_isalnum(command[i]))
+		if (!ft_isalnum(command[i]) && command[i] != '_')
 			return (0);
 	return (1);
 }
@@ -91,6 +94,7 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 	int		j;
 	int		k;
 	int		test;
+	int		exit_code_test;
 	char	**export_value;
 	char	*str;
 	
@@ -100,18 +104,31 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 	*/
 	/* il faut checker si PWD ou OLD_PWD ont été changés pour bash->pwd et bash->old_pwd */
 	k = 0;
+	if (cmd->command[1] && cmd->command[1][0] == '-' && cmd->command[1][1] != '\0')
+	{
+		str = ft_strjoin(ft_strdup("minishell: export: -"), ft_substr(cmd->command[1], 1, 1));
+		str = ft_strjoin(str, ft_strdup(": invalid option\n"));
+		ft_putstr_fd(str, 2);
+		free(str);
+		return (2);
+	}
+	exit_code_test = 0;
 	while (cmd->command[++k])
 	{
 		i = -1;
-		if (!ft_check_key(cmd->command[k]))
+		if (!ft_check_key(cmd->command[k]) && ft_strchr(cmd->command[k], '=') != -1)
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", cmd->command[k]);
+			str = ft_strjoin(ft_strdup("minishell: export: `"), ft_substr(cmd->command[k], 0, ft_strlen(cmd->command[k])));
+			str = ft_strjoin(str, ft_strdup("': not a valid identifier\n"));
+			ft_putstr_fd(str, 2);
+			free(str);
 			exit_code = 1;
+			exit_code_test = 1;
 		}
 		else
 		{
 			if (ft_strchr(cmd->command[k], '=') == -1)
-				break ;
+				continue ;
 			export_value = ft_split(cmd->command[k], "=");
 			while ((*bash)->envp[++i])
 			{
@@ -140,8 +157,9 @@ int	ft_export(t_cmd *cmd, t_bashvar **bash)
 			while (export_value[i])
 				free(export_value[i++]);
 			free(export_value);
+			if (!exit_code_test)
+				exit_code = 0;
 		}
 	}
-	exit_code = 0;
-	return (EXIT_SUCCESS);
+	return (exit_code);
 }
