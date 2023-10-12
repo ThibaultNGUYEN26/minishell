@@ -80,7 +80,7 @@ $%truc = %truc (ou $^ ou $= ou $+ ou $, ou $. ou $/)
 $USER$ = thibnguy$
 $\truc = $truc (ou $~)
 
-free exit_code = [3, 125]
+free g_exit_code = [3, 125]
 
 _____________________________________________________________________________________
 

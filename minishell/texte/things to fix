@@ -1,7 +1,7 @@
 THINGS TO FIX
 
 - echo $"riri" = riri donc il faut gérer ce cas ASAP
--> Si il y'a des doubles quotes well closed AND un dollar juste avant : exit_code = 4
+-> Si il y'a des doubles quotes well closed AND un dollar juste avant : g_exit_code = 4
 
 
 - > /oui = permission denied
@@ -109,8 +109,8 @@ echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
 echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
 echo 'aspas ->"'
 echo "aspas ->'"
-echo 'exit_code ->$? user ->$USER home -> $HOME'
-echo "exit_code ->$? user ->$USER home -> $HOME"
+echo 'g_exit_code ->$? user ->$USER home -> $HOME'
+echo "g_exit_code ->$? user ->$USER home -> $HOME"
 echo hi |  "|"
 >>>
 << <
@@ -131,8 +131,8 @@ minishell : minishell: export: `A-': not a valid identifier and add HELLO=123 to
 
 coucou
 command not found
-bash: exit_code = 127
-minishell : exit_code = 0
+bash: g_exit_code = 127
+minishell : g_exit_code = 0
 
 
 BUILTINS TESTS WITHOUT PIPES :

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:50:38 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:16:46 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	*/
 static int	ft_tokenizer(char *input, int i)
 {
-	if (ft_strncmp(input + i, ">>", 2) == 0 || ft_strncmp(input + i, "<<", 2) == 0)
+	if (ft_strncmp(input + i, ">>", 2) == 0 || !ft_strncmp(input + i, "<<", 2))
 		return (1);
 	if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		return (1);
@@ -68,12 +68,10 @@ t_data	*ft_lexer(char *input)
 	data = NULL;
 	while (i < ft_strlen(input))
 	{
-		// j commence initialement à i
 		j = i;
-		// Tant qu'on est pas à token ou que la chaine existe, on incrémente j
-		while (input[j] && !ft_tokenizer(input, j) && input[j] != '\"' && input[j] != '\'')
+		while (input[j] && !ft_tokenizer(input, j) && input[j] != '\"'
+			&& input[j] != '\'')
 			j++;
-		// if we have encountered quotes, on met tout dans un data->content
 		if (input[j] == '\'' || input[j] == '\"')
 		{
 			c = input[j];
@@ -84,14 +82,14 @@ t_data	*ft_lexer(char *input)
 		}
 		else if (input[i] && !ft_tokenizer(input, i))
 		{
-			// it's either a token or end of input
-			// donc on mets tout ce qu'il y avait avant dans data->content
-			if (ft_tokenizer(input, j) && (input[j - 1] == ' ' || input[j - 1] == '\n' || input[j - 1] == '\r' || input[j - 1] == '\t'))
-				addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i - 1), NULL));
+			if (ft_tokenizer(input, j) && (input[j - 1] == ' ' \
+				|| input[j - 1] == '\n' || input[j - 1] == '\r' \
+				|| input[j - 1] == '\t'))
+				addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i - 1) \
+					, NULL));
 			else
-				addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), NULL));
-			// Si input existe toujours => on est arrivé au token, sinon y'a plus de
-			// tokens et we are at the end of the input
+				addlast_node(&data, ft_new_stack(ft_substr(input, i, j - i), \
+					NULL));
 		}
 		i = j;
 		if (input[i] && ft_tokenizer(input, i))
@@ -117,7 +115,6 @@ void	ft_quotes(t_data *data)
 	while (1)
 	{
 		res = ft_strdup("");
-		// if it's not a token and there ARE quotes and they are well closed
 		if (data->token == 5 && (ft_strchr(data->content, '\'') != -1 \
 			|| ft_strchr(data->content, '\"') != -1) && data->exit_code != 2)
 		{
@@ -128,26 +125,21 @@ void	ft_quotes(t_data *data)
 				while ((data->content)[i] != '\'' && (data->content)[i] != '\"' \
 					&& (data->content)[i])
 					i++;
-				// if the quote is not the first thing we encounter in content,
-				//we save in res what was before 
 				if (i != j)
 				{
-					// Si il y'a un dollar juste avant les quotes bien fermes, we save only la string et NI le dollar NI les quotes
 					if (i != 0 && (data->content)[i - 1] == '$')
-						res = ft_strjoin(res, ft_substr(data->content, j, i - j - 1));
+						res = ft_strjoin(res, ft_substr(data->content, j, \
+							i - j - 1));
 					else
-						res = ft_strjoin(res, ft_substr(data->content, j, i - j));
+						res = ft_strjoin(res, ft_substr(data->content, j, \
+							i - j));
 				}
-				// if we aren't at the end of content it means there are quotes
 				if ((data->content)[i] == '\'' || (data->content)[i] == '\"')
 				{
 					c = (data->content)[i++];
 					j = i;
-					// find the next simple quote which closes
 					while ((data->content)[j] != c)
 						j++;
-					// joining what we had of res and the quotes contenu without
-					// the quotes
 					res = ft_strjoin(res, ft_substr(data->content, i, j - i));
 					i = ++j;
 				}

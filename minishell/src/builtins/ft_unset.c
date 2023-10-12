@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:55 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:52:27 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:48:47 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,75 +37,88 @@ static void	ft_delete(char *unset_value, t_bashvar **bash, int i)
 
 static int	ft_check_value(char *command)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = -1;
+	str = NULL;
 	while (command[++i])
+	{
 		if (!ft_isalnum(command[i]) && command[i] != '_')
+		{
+			str = ft_strjoin(ft_strdup("minishell: unset: `"), \
+				ft_substr(command, 0, ft_strlen(command)));
+			str = ft_strjoin(str, ft_strdup("': not a valid identifier\n"));
+			ft_putstr_fd(str, 2);
+			free(str);
+			g_exit_code = 1;
 			return (0);
+		}
+	}
 	return (1);
+}
+
+static int	ft_check_option(char *command)
+{
+	char	*str;
+
+	str = NULL;
+	if (command && command[0] == '-'
+		&& command[1] != '\0')
+	{
+		str = ft_strjoin(ft_strdup("minishell: unset: -"), \
+			ft_substr(command, 1, 1));
+		str = ft_strjoin(str, ft_strdup(": invalid option\n"));
+		ft_putstr_fd(str, 2);
+		free(str);
+		return (1);
+	}
+	return (0);
+}
+
+static void	ft_exec_unset(t_cmd *cmd, t_bashvar **bash, int *exit_code, int k)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while ((*bash)->envp[++i])
+	{
+		j = 0;
+		while ((*bash)->envp[i][j])
+		{
+			if ((*bash)->envp[i][j] == '=')
+			{
+				if (ft_strncmp((*bash)->envp[i], cmd->command[k], j) == 0)
+				{
+					ft_delete(cmd->command[k], bash, i);
+					if (!exit_code)
+						g_exit_code = 0;
+				}
+				break ;
+			}
+			j++;
+		}
+	}
 }
 
 int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 {
-	int		i;
-	int		j;
 	int		k;
-	char	*str;
-	int		test;
 	int		exit_code_test;
-	char	*unset_value;
 
 	k = 0;
-	str = NULL;
-	i = -1;
 	exit_code_test = 0;
 	while (cmd->command[++k])
 	{
-		if (cmd->command[k] && cmd->command[k][0] == '-' && cmd->command[k][1] != '\0')
-		{
-			str = ft_strjoin(ft_strdup("minishell: unset: -"), ft_substr(cmd->command[k], 1, 1));
-			str = ft_strjoin(str, ft_strdup(": invalid option\n"));
-			ft_putstr_fd(str, 2);
-			free(str);
+		if (ft_check_option(cmd->command[k]))
 			return (2);
-		}
 		if (!ft_check_value(cmd->command[k]))
 		{
-			str = ft_strjoin(ft_strdup("minishell: unset: `"), ft_substr(cmd->command[k], 0, ft_strlen(cmd->command[k])));
-			str = ft_strjoin(str, ft_strdup("': not a valid identifier\n"));
-			ft_putstr_fd(str, 2);
-			free(str);
-			exit_code = 1;
 			exit_code_test = 1;
 			continue ;
 		}
-		i = -1;
-		unset_value = cmd->command[k];
-		while ((*bash)->envp[++i])
-		{
-			test = 0;
-			j = 0;
-			while ((*bash)->envp[i][j])
-			{
-				if ((*bash)->envp[i][j] == '=')
-				{
-					str = ft_substr((*bash)->envp[i], 0, j);
-					if (ft_strncmp((*bash)->envp[i], unset_value, j) == 0)
-					{
-						ft_delete(unset_value, bash, i);
-						test = 1;
-						if (!exit_code_test)
-							exit_code = 0;
-					}
-					free(str);
-					break ;
-				}
-				j++;
-			}
-			if (test == 1)
-				break ;
-		}
+		ft_exec_unset(cmd, bash, &exit_code_test, k);
 	}
-	return (exit_code);
+	return (g_exit_code);
 }

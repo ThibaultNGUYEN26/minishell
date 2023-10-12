@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:20:43 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:39:06 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:23:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #  define BUFFER_SIZE 1
 # endif
 
-extern int	exit_code;
+extern int	g_exit_code;
 # define PATH_MAX 4096
 
 #endif

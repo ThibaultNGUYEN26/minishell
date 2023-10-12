@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/01 09:59:21 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 22:47:222 by thibnguy         ###   ########.fr       */
+/*   Created: 2023/10/12 19:01:41 by thibnguy          #+#    #+#             */
+/*   Updated: 2023/10/12 19:58:55 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	addlast_node(t_data **stack, t_data *new_data)
 void	ft_delete_element(t_data **data)
 {
 	t_data	*temp;
-	// Si il ne reste plus qu'un seul element : on free data et data = NULL
+
 	if ((*data) == (*data)->next)
 	{
 		ft_free_stack((*data));
@@ -149,7 +149,7 @@ void	ft_print_data(t_data *data)
 	i = 0;
 	while (1 && data)
 	{
-		printf("[%d] content : %s, token : %d, exit_code : %d\n", i, \
+		printf("[%d] content : %s, token : %d, g_exit_code : %d\n", i, \
 			(data)->content, (data)->token, (data)->exit_code);
 		if ((data)->next == head)
 			break ;

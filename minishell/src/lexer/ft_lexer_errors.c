@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:15:00 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:51:17 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:46:10 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	ft_quotes_input(char *input)
 				i++;
 			if (!input[i])
 			{
-				printf("minishell: unexpected EOF while looking for matching `%c'\nminishell: syntax error: unexpected end of file\n", c);
-				exit_code = 2;
+				printf("minishell: unexpected EOF while looking for matching `\
+					%c'\nminishell: syntax error: unexpected end of file\n", c);
+				g_exit_code = 2;
 				return (1);
 			}
 		}
@@ -59,8 +60,10 @@ static	int	ft_check_quotes(t_data *data, int i)
 					i++;
 				if (!(data->content)[i])
 				{
-					printf("minishell: unexpected EOF while looking for matching `%c'\nminishell: syntax error: unexpected end of file\n", c);
-					exit_code = 2;
+					printf("minishell: unexpected EOF while looking for matching \
+`%c'\nminishell: syntax error: unexpected end of file\n", \
+						c);
+					g_exit_code = 2;
 					return (1);
 				}
 			}
@@ -110,22 +113,28 @@ static int	ft_check_filecharacters(t_data *data)
 			if (ft_count_words(data->content, "\f\t\n\r\v ") == 0)
 			{
 				data->exit_code = 1;
-				exit_code = 1;
+				g_exit_code = 1;
 				if (data->next->token != 5)
 				{
 					if (data->next->token == 0)
-						ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected \
+token '|'\n", 2);
 					else if (data->next->token == 1)
-						ft_putstr_fd("minishell: syntax error near unexpected token '<'\n", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected \
+token '<'\n", 2);
 					else if (data->next->token == 2)
-						ft_putstr_fd("minishell: syntax error near unexpected token '>'\n", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected \
+token '>'\n", 2);
 					else if (data->next->token == 3)
-						ft_putstr_fd("minishell: syntax error near unexpected token '>>'\n", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected \
+token '>>'\n", 2);
 					else if (data->next->token == 4)
-						ft_putstr_fd("minishell: syntax error near unexpected token '<<'\n", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected \
+token '<<'\n", 2);
 				}
 				else
-					ft_putstr_fd("minishell: syntax error near unexpected token 'newline'\n", 2);
+					ft_putstr_fd("minishell: syntax error near unexpected token \
+'newline'\n", 2);
 				return (1);
 			}
 		}
@@ -135,15 +144,20 @@ static int	ft_check_filecharacters(t_data *data)
 		if (data->token != 5)
 		{
 			if (data->token == 0)
-				ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected token '|'\
+\n", 2);
 			else if (data->token == 1)
-				ft_putstr_fd("minishell: syntax error near unexpected token '<'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected token '<'\
+\n", 2);
 			else if (data->token == 2)
-				ft_putstr_fd("minishell: syntax error near unexpected token '>'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected token '>'\
+\n", 2);
 			else if (data->token == 3)
-				ft_putstr_fd("minishell: syntax error near unexpected token '>>'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected token '>>'\
+\n", 2);
 			else if (data->token == 4)
-				ft_putstr_fd("minishell: syntax error near unexpected token '<<'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected token '<<'\
+\n", 2);
 			return (1);
 		}
 	}
@@ -164,22 +178,20 @@ int	ft_redirect_error(t_data *data)
 	{
 		if (data->content == NULL && data->token != 5 && data->token != 0)
 		{
-			// if there is nothing apres, there is a problem
 			if (data->next == head)
 				break ;
 			data = (data)->next;
-			// if there is a content, imagine its a token ? on va avoir des seg 
-			//fault sur NULL
 			if (ft_check_filecharacters(data))
 			{
 				data = head;
 				return (1);
 			}
 		}
-		if ((data->token == 0 && head == data) || (data->token == 0 && (data)->next == head))
+		if ((data->token == 0 && head == data) || (data->token == 0 \
+			&& (data)->next == head))
 		{
 			ft_putstr_fd("minishell: syntax error near expected token `|'\n", 2);
-			exit_code = 2;
+			g_exit_code = 2;
 			data = head;
 			return (1);
 		}

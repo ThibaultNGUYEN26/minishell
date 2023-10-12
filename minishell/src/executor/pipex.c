@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:49:56 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 21:25:55 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 static void	ft_child(int n, int *pfd, t_files *file)
 {
-	// close the read end of the pipe in the child process to be sure that the child does not read from it (because it belongs to the parent)
 	close(pfd[0]);
-	// if the input file is other than the standard input, we duplicate its content into the standard input and close the original one
 	if (file->input != STDIN_FILENO)
 	{
 		dup2(file->input, STDIN_FILENO);
 		close(file->input);
 	}
-	// if the file output is other than the standard output, we duplicate it into the standard output and close the original file
 	if (file->output != STDOUT_FILENO)
 	{
 		dup2(file->output, STDOUT_FILENO);
@@ -34,14 +31,17 @@ static void	ft_child(int n, int *pfd, t_files *file)
 		close(pfd[1]);
 	}
 	if (file->input == -1)
-		exit(exit_code);
+		exit(g_exit_code);
 }
 
-/* Function that will execute the commands with its options and the env path so we will need it to take as argument :
+/* Function that will execute the commands with its options and the env path so
+we will need it to take as argument :
 	- the cmd->command 2D Array 
 	- bash->envp 
-	And we will need to check if it's builtin or not, so that we execute the builtin instead 
-=> cmd will be the string carrying the path it belongs to with a / at the end with the command */
+	And we will need to check if it's builtin or not, so that we execute the
+	builtin instead 
+=> cmd will be the string carrying the path it belongs to with a / at the end
+with the command */
 static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 {
 	int		i;
@@ -51,13 +51,10 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 
 	i = 0;
 	command = NULL;
-	// if there is only one command and it's a builtin, it's in the parent
 	if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
-	// if it's a builtin in a pipe, we execute it and exit
 	if (cmd->builtin != NULL && file->argc != 1)
 		exit((cmd->builtin)(cmd, bash));
-	// if the command given is already in its path, we execute it and exit
 	if (access(cmd->command[0], X_OK) == 0)
 		if (execve(cmd->command[0], cmd->command, NULL) == -1)
 			exit(ft_exec_error("execve"));
@@ -85,11 +82,13 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 		}
 		ft_putstr_fd(cmd->command[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
+		g_exit_code = 127;
+		exit(g_exit_code);
 	}
 }
 
-/* ft_pipeline is the recursive function that will create the children and execute the commands */
+/* ft_pipeline is the recursive function that will create the children and
+execute the commands */
 static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 {
 	int		pfd[2];
@@ -98,9 +97,7 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	int		status;
 	int		number;
 
-	// Check if there is a redirectionsso we can fill the file.input or file.output
 	ft_redirec_files(cmd, file);
-	// Create process of child and the pipes
 	pid = create_process(pfd, 0);
 	if (pid == 0)
 	{
@@ -120,17 +117,16 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 			i = 0;
 			while (i < file->argc)
 				waitpid(file->pid[i++], &status, 0);
-			if (WIFEXITED(status) && file->argc != 1)
-				exit_code = WEXITSTATUS(status);
+			if (WIFEXITED(status) && WEXITSTATUS(status))
+				g_exit_code = WEXITSTATUS(status);
 		}
 		if (number == 1 && cmd->builtin != NULL && file->input != -1)
 		{
 			if (file->output != -2)
 				dup2(file->output, STDOUT_FILENO);
-			exit_code = (cmd->builtin)(cmd, bash);
+			g_exit_code = (cmd->builtin)(cmd, bash);
 			return ;
 		}
-		// Pour passer à la prochaine commande, on doit rediriger le input vers les read ends of the pipe
 		if (file->input == -1)
 			file->input = dup(pfd[0]);
 		else
@@ -154,7 +150,6 @@ void	ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
 	file = malloc(1 * sizeof(t_files));
 	if (!file)
 		return ;
-	// count_cmd is the number of commands there are
 	count_cmd = 0;
 	head = cmd;
 	while (1)
@@ -165,7 +160,6 @@ void	ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
 			break ;
 	}
 	ft_assign_hd(cmd);
-	// file->argc helps us keep track of the original number of commands
 	file->argc = count_cmd;
 	file->input = STDIN_FILENO;
 	file->output = STDOUT_FILENO;

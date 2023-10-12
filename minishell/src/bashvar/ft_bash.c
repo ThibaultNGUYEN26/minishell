@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:39:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 19:42:40 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:29:14 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ft_bash(t_bashvar **bash, char **envp)
 	while (envp[++i])
 	{
 		((*bash)->envp)[j++] = ft_strdup(envp[i]);
-		// Si on est dans la ligne de PWD on remplit notre variable pwd
 		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
 			(*bash)->pwd = ft_substr(envp[i], 4, ft_strlen(envp[i]) - 4);
 		else if (ft_strncmp(envp[i], "OLDPWD=", 7) == 0)

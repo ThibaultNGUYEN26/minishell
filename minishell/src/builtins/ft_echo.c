@@ -3,21 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:41:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:52:57 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:03:24 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static int	ft_print_exit_code(char **str, int i, int j)
+{
+	char	*temp;
+
+	if (ft_strncmp((str[i]) + j, "$?", 2) == 0)
+	{
+		temp = ft_itoa(g_exit_code);
+		ft_putstr_fd(temp, STDOUT_FILENO);
+		free(temp);
+		return (1);
+	}
+	return (0);
+}
+
+static void	ft_end_print(int dollar, int newline_var)
+{
+	if (dollar == 1)
+		g_exit_code = 0;
+	if (newline_var == 0)
+		ft_putstr_fd("\n", STDOUT_FILENO);
+}
+
 static void	ft_print(char **str, int newline_var, int i)
 {
 	int		j;
-	char	*temp;
 	int		dollar;
-
 
 	dollar = 0;
 	while (str[i])
@@ -25,28 +45,20 @@ static void	ft_print(char **str, int newline_var, int i)
 		j = 0;
 		while (str[i][j])
 		{
-			if (ft_strncmp((str[i]) + j, "$?", 2) == 0)
+			if (ft_print_exit_code(str, i, j))
 			{
-				temp = ft_itoa(exit_code);
-				ft_putstr_fd(temp, STDOUT_FILENO);
-				free(temp);
-				dollar = 1;
 				j += 2;
+				dollar = 1;
+				continue ;
 			}
 			else
-			{
-				ft_putchar_fd((str[i][j]), STDOUT_FILENO);
-				j++;
-			}
+				ft_putchar_fd((str[i][j++]), STDOUT_FILENO);
 		}
 		i++;
 		if (str[i])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
-	if (dollar == 1)
-		exit_code = 0;
-	if (newline_var == 0)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+	ft_end_print(dollar, newline_var);
 }
 
 int	ft_echo(t_cmd *cmd, t_bashvar **bash)
@@ -58,7 +70,8 @@ int	ft_echo(t_cmd *cmd, t_bashvar **bash)
 	j = 1;
 	newline_var = 0;
 	(void)bash;
-	while (cmd->command[j] && cmd->command[j][0] == '-' && cmd->command[j][1] == 'n')
+	while (cmd->command[j] && cmd->command[j][0] == '-'
+		&& cmd->command[j][1] == 'n')
 	{
 		i = 0;
 		while (cmd->command[j][++i] == 'n')
@@ -72,6 +85,6 @@ int	ft_echo(t_cmd *cmd, t_bashvar **bash)
 			break ;
 	}
 	ft_print(cmd->command, newline_var, j);
-	exit_code = 0;
+	g_exit_code = 0;
 	return (EXIT_SUCCESS);
 }

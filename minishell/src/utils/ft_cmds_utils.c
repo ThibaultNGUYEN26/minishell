@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/09 22:50:53 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 21:01:11 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,8 @@ void	ft_print_cmd(t_cmd *cmd)
 	i = 0;
 	while (1)
 	{
-		// print l'element
 		printf("[%d]	:\n", i);
 		j = 0;
-		// print la commande en tableaux 2D
 		printf("[command] : {");
 		if (!cmd->command)
 			printf("NULL\n");

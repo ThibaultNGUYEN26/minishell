@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:56:05 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:42:02 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:23:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	sigint_handler(int sig)
 {
 	(void)sig;
-	exit_code = 130;
+	g_exit_code = 130;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	write(STDOUT_FILENO, "\n", 1);

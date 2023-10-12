@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:41:03 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/12 23:00:42 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ void		ft_bash(t_bashvar **bash, char **envp);
 void		ft_free_bash(t_bashvar **bash);
 
 /* ----- LEXER ----- */
+/* ft_dollar_utils */
+int			ft_check_dollar(char c, char **res, int i);
+int			ft_norminette(int *i, int *j, t_data *data, char **res);
+void		ft_dollar_init(t_data *data, int *i, int *j, char **res);
+int			ft_question_mark(char *data, char **res, int i, int j);
 /* ft_dollar */
 void		ft_dollar(t_data *data, char **envp);
 /* ft_lexer_errors */
@@ -106,22 +111,26 @@ int			ft_cd(t_cmd *cmd, t_bashvar **bash);
 int			ft_echo(t_cmd *cmd, t_bashvar **bash);
 int			ft_env(t_cmd *cmd, t_bashvar **bash);
 int			ft_exit(t_cmd *cmd, t_bashvar **bash);
+void		ft_replace(char **export_value, t_bashvar ***bash);
+void		ft_add(char *export_value, t_bashvar ***bash);
 int			ft_export(t_cmd *cmd, t_bashvar **bash);
 int			ft_pwd(t_cmd *cmd, t_bashvar **bash);
 int			ft_unset(t_cmd *cmd, t_bashvar **bash);
 
 /* ------ EXECUTOR ----- */
-/* pipex.c */
-void		ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
+/* ft_exec_error.c */
+int			ft_exec_error(char *cmd);
+/* ft_heredoc.c */
+void		ft_here_doc(char *delimiter, int *input);
 /* pipex_utils.c */
 int			create_process(int *pfd, int pid);
 void		ft_here_doc(char *delimiter, int *input);
 void		ft_assign_hd(t_cmd *cmd);
+/* pipex.c */
+void		ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
 /* ft_redirec_files.c */
 void		ft_redirec_files(t_cmd *cmd, t_files *file);
 char		**ft_find_path(char **envp);
-/* int    ft_exec_error.c */
-int			ft_exec_error(char *cmd);
 
 /* ------ SIGNALS ----- */
 void		ft_signals(void);

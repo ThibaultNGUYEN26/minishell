@@ -6,13 +6,13 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/11 23:18:55 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 22:12:45 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	exit_code = 0;
+int	g_exit_code = 0;
 
 /**
   * Print welcome text at program's launch.
@@ -59,11 +59,6 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 		return ;
 	data = ft_lexer(input);
 	ft_quotes(data);
-	/* if (ft_quotes_error(data))
-	{
-		ft_free_stack(data);
-		return ;
-	}*/
 	if (ft_redirect_error(data))
 	{
 		ft_free_stack(data);
@@ -79,8 +74,6 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 		ft_free_cmd(cmd);
 		return ;
 	}
-	// if data->exit_code == 1 ou == 2 à ce niveau du code it means invalid file
-	//after redirection donc as if CTRL-C donc il ne faut PAS faire l'executable
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
@@ -105,14 +98,13 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	while (1)
 	{
 		input = NULL;
-		if (exit_code == 0)
+		if (g_exit_code == 0)
 			input = readline("\033[1;32m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
 		else
 			input = readline("\033[31m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
-		// input = readline("minishell$> ");
 		if (!input)
 		{
-			exit_code = 0;
+			g_exit_code = 0;
 			printf("exit\n");
 			break ;
 		}

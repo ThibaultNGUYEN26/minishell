@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/10/12 00:26:41 by rchbouki         ###   ########.fr        #
+#    Updated: 2023/10/12 23:00:54 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,15 +21,18 @@ SRCS		=	bashvar/ft_bash.c \
 				builtins/ft_echo.c \
 				builtins/ft_env.c \
 				builtins/ft_exit.c \
+				builtins/ft_export_utils.c \
 				builtins/ft_export.c \
 				builtins/ft_pwd.c \
 				builtins/ft_unset.c \
 				executor/pipex.c \
-				executor/pipex_utils.c \
 				executor/ft_exec_error.c \
+				executor/ft_heredoc.c \
+				executor/pipex_utils.c \
 				executor/redirec_utils.c \
 				get_next_line/get_next_line.c \
 				get_next_line/get_next_line_utils.c \
+				lexer/ft_dollar_utils.c \
 				lexer/ft_dollar.c \
 				lexer/ft_lexer_errors.c \
 				lexer/ft_lexer.c \
