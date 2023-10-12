@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:56:05 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 17:23:35 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 23:20:23 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ static void	sigquit_handler(int sig)
 	tcgetattr(STDIN_FILENO, &sa);
 	sa.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &sa);
+}
+
+void	ft_heredoc_handler(int sig)
+{
+	(void)sig;
+	rl_replace_line("", STDIN_FILENO);
+	write(STDIN_FILENO, "\n", 1);
+	rl_on_new_line();
+	g_exit_code = 1;
+	exit(1);
 }
 
 void	ft_signals(void)

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 21:09:37 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 21:19:33 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 23:20:33 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,19 @@ static char	*ft_line_heredoc(char *line)
 	return (str);
 }
 
-static void	ft_signal_heredoc(char *line, char *str, char *delimiter)
+static int	ft_signal_heredoc(char *line, char *str, char *delimiter)
 {
 	if (!line)
 	{
 		str = ft_strjoin(ft_strdup("minishell: warning: here-document delimited \
-			by end-of-file (wanted `"), \
+by end-of-file (wanted `"), \
 			ft_substr(delimiter, 0, ft_strlen(delimiter)));
 		str = ft_strjoin(str, ft_strdup("')\n"));
 		ft_putstr_fd(str, 2);
 		free(str);
-		return ;
+		return (1);
 	}
+	return (0);
 }
 
 static void	ft_child_heredoc(int *pfd, char *delimiter)
@@ -40,10 +41,12 @@ static void	ft_child_heredoc(int *pfd, char *delimiter)
 	char	*line;
 	char	*str;
 
+	signal(SIGINT, &ft_heredoc_handler);
 	ft_putstr_fd("heredoc> ", 2);
 	line = get_next_line(STDIN_FILENO);
 	str = NULL;
-	ft_signal_heredoc(line, str, delimiter);
+	if (ft_signal_heredoc(line, str, delimiter))
+		return ;
 	str = ft_line_heredoc(line);
 	while (ft_strcmp(str, delimiter) != 0)
 	{

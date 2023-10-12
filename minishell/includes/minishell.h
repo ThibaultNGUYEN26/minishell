@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 23:00:42 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/12 23:20:43 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void		ft_redirec_files(t_cmd *cmd, t_files *file);
 char		**ft_find_path(char **envp);
 
 /* ------ SIGNALS ----- */
+void		ft_heredoc_handler(int sig);
 void		ft_signals(void);
 
 /* ----- UTILS ----- */
