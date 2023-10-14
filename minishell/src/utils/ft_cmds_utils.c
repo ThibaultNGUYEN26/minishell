@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 21:01:11 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:46:30 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 /**
   * Malloc a linked list.
-  * @param content 
-  * @param token
-  * @returns new
+  * @param void
+  * @returns t_cmd *
   */
 t_cmd	*ft_new_cmd(void)
 {
@@ -35,8 +34,8 @@ t_cmd	*ft_new_cmd(void)
 
 /**
   * Add element at end of linked list.
-  * @param stack
-  * @param new_data
+  * @param t_cmd.**stack
+  * @param t_cmd.**new_data
   * @returns void
   */
 void	addlast_cmd(t_cmd **stack, t_cmd *new_cmd)
@@ -56,8 +55,8 @@ void	addlast_cmd(t_cmd **stack, t_cmd *new_cmd)
 
 /**
   * Free linked list.
-  * @param void 
-  * @returns data
+  * @param t_cmd.*cmd
+  * @returns void
   */
 void	ft_free_cmd(t_cmd *cmd)
 {
@@ -88,8 +87,8 @@ void	ft_free_cmd(t_cmd *cmd)
 
 /**
   * Print linked list.
-  * @param void
-  * @returns data
+  * @param t_cmd.*cmd
+  * @returns void
   */
 void	ft_print_cmd(t_cmd *cmd)
 {

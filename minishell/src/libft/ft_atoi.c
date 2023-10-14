@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 19:14:55 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 20:28:29 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 12:27:01 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Parses a string as a long long integer
+  * @param const.char.*str
+  * @returns long long
+  */
 static long long	ft_parse_atoi(const char *str)
 {
 	long long	res;
@@ -25,6 +30,11 @@ static long long	ft_parse_atoi(const char *str)
 	return (-1);
 }
 
+/**
+  * Converts a string as a long long integer
+  * @param const.char.*str
+  * @returns long long
+  */
 long long	ft_atoi(const char *str)
 {
 	int			i;

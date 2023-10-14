@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:40 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 20:31:38 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:24:08 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Checks if command is a valid environment variable key
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_key(char *command)
 {
 	int	i;
@@ -25,6 +30,11 @@ static int	ft_check_key(char *command)
 	return (1);
 }
 
+/**
+  * Checks if the command has any options
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_options(char *command)
 {
 	char	*str;
@@ -43,6 +53,11 @@ static int	ft_check_options(char *command)
 	return (0);
 }
 
+/**
+  * Checks if the command is a valid environment variable
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_args(char *command)
 {
 	char	*str;
@@ -62,35 +77,49 @@ static int	ft_check_args(char *command)
 	return (0);
 }
 
+/**
+  * Compares the keys of environment variables in the bash structure with a new
+  * cmd and its associated export_value
+  * @param t_bashvar.**bash
+  * @param char.*cmd
+  * @param int.i
+  * @param char.**export_value
+  * @returns void
+  */
 static void	ft_keycmp(t_bashvar **bash, char *cmd, int i, char **export_value)
 {
 	char	*str;
 	int		j;
 
 	str = NULL;
-	while ((*bash)->envp[++i])
+	if ((*bash)->envp)
 	{
-		j = 0;
-		while ((*bash)->envp[i][j])
+		while ((*bash)->envp[++i])
 		{
-			if ((*bash)->envp[i][j] == '=')
+			j = 0;
+			while ((*bash)->envp[i][j])
 			{
-				str = ft_substr((*bash)->envp[i], 0, j);
-				if (ft_strcmp(export_value[0], str) == 0)
+				if ((*bash)->envp[i][j] == '=')
 				{
+					str = ft_substr((*bash)->envp[i], 0, j);
+					if (ft_strcmp(export_value[0], str) == 0)
+						return (free(str), ft_replace(export_value, &bash));
 					free(str);
-					ft_replace(export_value, &bash);
-					return ;
+					break ;
 				}
-				free(str);
-				break ;
+				j++;
 			}
-			j++;
 		}
 	}
 	ft_add(cmd, &bash);
 }
 
+/**
+  * Sets or modified environment variables
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_export(t_cmd *cmd, t_bashvar **bash)
 {
 	int		i;

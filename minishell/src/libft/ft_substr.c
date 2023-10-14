@@ -6,12 +6,19 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:42:28 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/26 18:58:51 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 13:02:26 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Extracts a substring from s starting from start to len and puts it in tab[]
+  * @param char.*s
+  * @param int.start
+  * @param int.len
+  * @returns char *
+  */
 char	*ft_substr(char *s, int start, int len)
 {
 	int		i;

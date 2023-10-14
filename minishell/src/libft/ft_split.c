@@ -6,12 +6,19 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:57:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 18:55:15 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 12:57:50 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Duplicates a portion of src from start to end
+  * @param char.*str
+  * @param int.start
+  * @param int.end
+  * @returns char *
+  */
 static char	*ft_strndup(char *src, int start, int end)
 {
 	char	*res;
@@ -30,6 +37,12 @@ static char	*ft_strndup(char *src, int start, int end)
 	return (res);
 }
 
+/**
+  * Checks if c is the charset
+  * @param char.c
+  * @param char.*charset
+  * @returns int
+  */
 static int	ft_is_charset(char c, char *charset)
 {
 	int	j;
@@ -47,6 +60,12 @@ static int	ft_is_charset(char c, char *charset)
 	return (0);
 }
 
+/**
+  * Counts numbers of words in str
+  * @param char.*str
+  * @param char.*charset
+  * @returns int
+  */
 int	ft_count_words(char *str, char *charset)
 {
 	int	i;
@@ -68,6 +87,13 @@ int	ft_count_words(char *str, char *charset)
 	return (nb_charset);
 }
 
+/**
+  * Split str with the charset
+  * @param char.*str
+  * @param char.*charset
+  * @param char.**tab_var
+  * @returns void
+  */
 static void	ft_write_split(char *str, char *charset, char **tab_var)
 {
 	int	i;
@@ -91,6 +117,12 @@ static void	ft_write_split(char *str, char *charset, char **tab_var)
 	}
 }
 
+/**
+  * Split str with the charset and put it in tab_var[]
+  * @param char.*str
+  * @param char.*charset
+  * @returns char **
+  */
 char	**ft_split(char *str, char *charset)
 {
 	char	**tab_var;

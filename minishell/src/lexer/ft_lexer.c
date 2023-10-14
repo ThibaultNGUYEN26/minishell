@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:16:46 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 12:00:42 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /**
 	* Define what token is.
-	* @param input
-	* @param i
+	* @param char.*input
+	* @param int.i
 	* @returns int
 	*/
 static int	ft_tokenizer(char *input, int i)
@@ -29,9 +29,9 @@ static int	ft_tokenizer(char *input, int i)
 
 /**
 	* Add the token to data
-	* @param data
-	* @param input
-	* @param i
+	* @param t_data.**data
+	* @param char.*input
+	* @param char.*i
 	* @returns void
 	*/
 static void	ft_add_token(t_data **data, char *input, int *i)
@@ -53,9 +53,8 @@ static void	ft_add_token(t_data **data, char *input, int *i)
 
 /**
 	* Define list where all keywords are stocked.
-	* @param input
-	* @param envp
-	* @returns data
+	* @param char.*input
+	* @returns t_data *
 	*/
 t_data	*ft_lexer(char *input)
 {

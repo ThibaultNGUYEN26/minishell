@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:46 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 18:48:35 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:41:33 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Checks if the command has any options
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_option(char *command)
 {
 	char	*str;
@@ -30,6 +35,12 @@ static int	ft_check_option(char *command)
 	return (0);
 }
 
+/**
+  * Displays the current working directory
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_pwd(t_cmd *cmd, t_bashvar **bash)
 {
 	char	*str;

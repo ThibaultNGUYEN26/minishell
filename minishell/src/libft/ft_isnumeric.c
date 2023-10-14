@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isnumeric.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:47:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 00:37:58 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/14 12:28:26 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Checks if the string contains only numbers
+  * @param char.*str
+  * @returns int
+  */
 int	ft_isnumeric(char *str)
 {
 	int	i;

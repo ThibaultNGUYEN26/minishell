@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:39:38 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:42:16 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:53:43 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Extracts a single line from the all_lines buffer
+  * @param char.*all_lines
+  * @returns char *
+  */
 static char	*get_entire_line(char *all_lines)
 {
 	size_t	i;
@@ -37,6 +42,11 @@ static char	*get_entire_line(char *all_lines)
 	return (res);
 }
 
+/**
+  * Retrieves the remaining content of all_lines buffer after the '\n'
+  * @param char.*all_lines
+  * @returns char *
+  */
 static char	*get_rest(char *all_lines)
 {
 	int		i;
@@ -56,6 +66,13 @@ static char	*get_rest(char *all_lines)
 	return (stash);
 }
 
+/**
+  * Read data from the file descriptor and apprends it to row
+  * @param int.fd
+  * @param char.*buf
+  * @param char.*row
+  * @returns char *
+  */
 static char	*get_all_lines(int fd, char *buf, char *row)
 {
 	int		nb_letters;
@@ -82,6 +99,11 @@ static char	*get_all_lines(int fd, char *buf, char *row)
 	return (row);
 }
 
+/**
+  * Reading lines from a file descriptor and return the entire line
+  * @param const.int.fd
+  * @returns char *
+  */
 char	*get_next_line(const int fd)
 {
 	char		*all_lines;

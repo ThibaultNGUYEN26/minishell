@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:01:41 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:58:55 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 21:02:59 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 /**
   * Malloc a linked list.
-  * @param content 
-  * @param token
-  * @returns new
+  * @param char.*content 
+  * @param char.*token
+  * @returns t_data *
   */
 t_data	*ft_new_stack(char *content, char *token)
 {
@@ -47,7 +47,11 @@ t_data	*ft_new_stack(char *content, char *token)
 	return (free(token), new);
 }
 
-/* Function returning a copy of the data passed as a paramater */
+/**
+  * Function returning a copy of the data passed as a paramater
+  * @param t_data.*data
+  * @returns t_data *
+  */
 t_data	*ft_data_copy(t_data *data)
 {
 	t_data	*new_data;
@@ -63,8 +67,8 @@ t_data	*ft_data_copy(t_data *data)
 
 /**
   * Add element at end of linked list.
-  * @param stack
-  * @param new_data
+  * @param t_data.**stack
+  * @param t_data.*new_data
   * @returns void
   */
 void	addlast_node(t_data **stack, t_data *new_data)
@@ -84,12 +88,15 @@ void	addlast_node(t_data **stack, t_data *new_data)
 
 /**
   * Delete data from its linked list.
-  * @param **data
+  * @param t_data.**data
   * @returns void
   */
 void	ft_delete_element(t_data **data)
 {
 	t_data	*temp;
+
+	// << riri > output
+	// riri > output
 
 	if ((*data) == (*data)->next)
 	{
@@ -99,9 +106,9 @@ void	ft_delete_element(t_data **data)
 	else
 	{
 		temp = (*data);
-		(*data) = (*data)->prev;
-		(*data)->next = (*data)->next->next;
-		((*data)->next)->prev = (*data);
+		(*data) = (*data)->next;
+		(*data)->prev = (*data)->prev->prev;
+		((*data)->prev)->next = (*data);
 		free((temp)->content);
 		free((temp));
 	}
@@ -109,8 +116,8 @@ void	ft_delete_element(t_data **data)
 
 /**
   * Free linked list.
-  * @param void 
-  * @returns data
+  * @param t_data.*dat
+  * @returns void
   */
 void	ft_free_stack(t_data *data)
 {
@@ -137,8 +144,8 @@ void	ft_free_stack(t_data *data)
 
 /**
   * Print linked list.
-  * @param void
-  * @returns data
+  * @param t_data.*data
+  * @returns void
   */
 void	ft_print_data(t_data *data)
 {

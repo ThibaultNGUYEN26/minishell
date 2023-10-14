@@ -6,12 +6,19 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:22:02 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/10/12 20:14:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 19:06:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+	* Handles output redirection for a command by opening a file for writing
+	* @param t_cmd.*cmd
+	* @param t_files.*file
+	* @param int.append
+	* @returns void
+	*/
 static void	ft_output(t_cmd *cmd, t_files *file, int append)
 {
 	if (file->output != STDOUT_FILENO)
@@ -27,6 +34,12 @@ static void	ft_output(t_cmd *cmd, t_files *file, int append)
 		ft_exec_error((cmd->redirections)->content);
 }
 
+/**
+	* Handles input redirection for a command by opening a file for reading
+	* @param t_cmd.*cmd
+	* @param t_files.*file
+	* @returns void
+	*/
 static void	ft_input(t_cmd *cmd, t_files *file)
 {
 	if (file->input != -1)
@@ -40,6 +53,14 @@ static void	ft_input(t_cmd *cmd, t_files *file)
 	}
 }
 
+/**
+	* Manages all redirections for a command by iterating through a list of
+	* redirections
+	* @param t_cmd.*cmd
+	* @param t_files.*files
+	* @param t_data.*redirec_head
+	* @returns void
+	*/
 static void	ft_redirec_cmd(t_cmd *cmd, t_files *file, t_data *redirec_head)
 {
 	while (1)
@@ -67,6 +88,12 @@ static void	ft_redirec_cmd(t_cmd *cmd, t_files *file, t_data *redirec_head)
 	}
 }
 
+/**
+	* Manages redirections for a command
+	* @param t_cmd.*cmd
+	* @param t_files.*file
+	* @returns void
+	*/
 void	ft_redirec_files(t_cmd *cmd, t_files *file)
 {
 	t_data	*redirec_head;
@@ -79,6 +106,12 @@ void	ft_redirec_files(t_cmd *cmd, t_files *file)
 	}
 }
 
+/**
+	* Searches for the 'PATH' environment variable in an array of environment
+	* variables
+	* @param char.**envp
+	* @returns char **
+	*/
 char	**ft_find_path(char **envp)
 {
 	char	**path;

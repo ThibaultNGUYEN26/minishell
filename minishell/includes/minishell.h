@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 23:20:43 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:46:34 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <limits.h>
 # include <termios.h>
 # include <signal.h>
+# include <stdbool.h>
 # include "colors.h"
 # include "defines.h"
 
@@ -96,6 +97,8 @@ void		ft_dollar(t_data *data, char **envp);
 int			ft_quotes_input(char *input);
 int			ft_quotes_error(t_data *data);
 int			ft_redirect_error(t_data *data);
+/* ft_lexer_file_errors */
+int			ft_check_filecharacters(t_data *data);
 /* ft_lexer */
 t_data		*ft_lexer(char *input);
 void		ft_quotes(t_data *data);
@@ -115,6 +118,7 @@ void		ft_replace(char **export_value, t_bashvar ***bash);
 void		ft_add(char *export_value, t_bashvar ***bash);
 int			ft_export(t_cmd *cmd, t_bashvar **bash);
 int			ft_pwd(t_cmd *cmd, t_bashvar **bash);
+int			ft_thibnguy(t_cmd *cmd, t_bashvar **bash);
 int			ft_unset(t_cmd *cmd, t_bashvar **bash);
 
 /* ------ EXECUTOR ----- */
@@ -124,7 +128,6 @@ int			ft_exec_error(char *cmd);
 void		ft_here_doc(char *delimiter, int *input);
 /* pipex_utils.c */
 int			create_process(int *pfd, int pid);
-void		ft_here_doc(char *delimiter, int *input);
 void		ft_assign_hd(t_cmd *cmd);
 /* pipex.c */
 void		ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
@@ -133,6 +136,8 @@ void		ft_redirec_files(t_cmd *cmd, t_files *file);
 char		**ft_find_path(char **envp);
 
 /* ------ SIGNALS ----- */
+bool		get_hd_bool(bool set, bool value);
+void		sigint_handler(int sig);
 void		ft_heredoc_handler(int sig);
 void		ft_signals(void);
 

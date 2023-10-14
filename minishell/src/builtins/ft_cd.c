@@ -6,12 +6,43 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:14:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 18:17:49 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 13:14:14 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Checks if the command has any options
+  * @param char.*command
+  * @returns int
+  */
+static int	ft_check_option(char *command)
+{
+	char	*str;
+
+	str = NULL;
+	if (command && command[0] == '-'
+		&& command[1] != '\0')
+	{
+		str = ft_strjoin(ft_strdup("minishell: cd: -"), \
+			ft_substr(command, 1, 1));
+		str = ft_strjoin(str, ft_strdup(": invalid option\n"));
+		ft_putstr_fd(str, 2);
+		free(str);
+		return (1);
+	}
+	return (0);
+}
+
+/**
+  * Updates the environment variable that stores the current working directory
+  * with new path
+  * @param char.*var
+  * @param char.*new
+  * @param t_bashvar.**bash
+  * @returns void
+  */
 static void	ft_replace_pwd(char *var, char *new, t_bashvar **bash)
 {
 	char	*res;
@@ -36,40 +67,54 @@ static void	ft_replace_pwd(char *var, char *new, t_bashvar **bash)
 	}
 }
 
-static int	ft_check_option(char *command)
-{
-	char	*str;
-
-	str = NULL;
-	if (command && command[0] == '-'
-		&& command[1] != '\0')
-	{
-		str = ft_strjoin(ft_strdup("minishell: cd: -"), \
-			ft_substr(command, 1, 1));
-		str = ft_strjoin(str, ft_strdup(": invalid option\n"));
-		ft_putstr_fd(str, 2);
-		free(str);
-		return (1);
-	}
-	return (0);
-}
-
-static int	ft_change_directory(t_cmd *cmd, t_bashvar **bash)
+/**
+  * Updates the environment variable with the previous working directory
+  * @param t_bashvar.**bash
+  * @returns void
+  */
+static void	ft_change_oldpwd(t_bashvar **bash)
 {
 	free((*bash)->old_pwd);
 	(*bash)->old_pwd = ft_strdup((*bash)->pwd);
 	ft_replace_pwd("OLDPWD=", (*bash)->old_pwd, bash);
+}
+
+/**
+  * Changes the current working directory and update the PWD environment variable
+  * with the new path
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
+static int	ft_change_directory(t_cmd *cmd, t_bashvar **bash)
+{
+	if ((*bash)->envp)
+		ft_change_oldpwd(bash);
 	if (chdir(cmd->command[1]) != 0)
 	{
 		printf("minishell: cd: %s: %s\n", cmd->command[1], strerror(errno));
 		return (1);
 	}
-	if (!getcwd((*bash)->pwd, 4096))
-		return (ft_exec_error("cd: "));
-	ft_replace_pwd("PWD=", (*bash)->pwd, bash);
+	if ((*bash)->pwd)
+		free((*bash)->pwd);
+	(*bash)->pwd = malloc(sizeof(char) * 4096);
+	if (!(*bash)->pwd)
+		return (1);
+	getcwd((*bash)->pwd, 4096);
+	if (!(*bash)->pwd)
+		return (free((*bash)->pwd), ft_exec_error("cd :"));
+	if ((*bash)->envp)
+		ft_replace_pwd("PWD=", (*bash)->pwd, bash);
 	return (0);
 }
 
+/**
+  * Checks special case like 'cd -' and calls ft_change_directory to change the
+  * directory
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_cd(t_cmd *cmd, t_bashvar **bash)
 {
 	int		i;

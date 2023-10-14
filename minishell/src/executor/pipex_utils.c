@@ -6,12 +6,18 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:07:01 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 21:18:22 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 19:36:26 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+	* Creates process using fork
+	* @param int.*pfd
+	* @param int.pid
+	* @returns int
+	*/
 int	create_process(int *pfd, int pid)
 {
 	if (pipe(pfd) < 0)
@@ -22,6 +28,12 @@ int	create_process(int *pfd, int pid)
 	return (pid);
 }
 
+/**
+	* Checks if the heredoc token is in cmd
+	* @param t_cmd.*cmd
+	* @param t_data.*data
+	* @returns void
+	*/
 static void	ft_if_heredoc(t_cmd *cmd, t_data *redirec_head)
 {
 	while (1)
@@ -38,6 +50,11 @@ static void	ft_if_heredoc(t_cmd *cmd, t_data *redirec_head)
 	}
 }
 
+/**
+	* Checks if the heredoc token is in cmd
+	* @param t_cmd.*cmd
+	* @returns void
+	*/
 void	ft_assign_hd(t_cmd *cmd)
 {
 	t_cmd	*head;

@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:41:37 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/19 18:20:58 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/14 13:00:21 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Copies s in a new allocated tab[]
+  * @param char.*s
+  * @returns char *
+  */
 char	*ft_strdup(char *s)
 {
 	int		i;

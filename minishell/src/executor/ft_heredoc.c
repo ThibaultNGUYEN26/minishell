@@ -6,23 +6,23 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 21:09:37 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 23:20:33 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:42:36 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*ft_line_heredoc(char *line)
+/**
+	* Ctrl+d in heredoc
+	* @param char.*line
+	* @param char.*delimiter
+	* @returns int
+	*/
+static int	ft_signal_heredoc(char *line, char *delimiter)
 {
 	char	*str;
 
-	str = ft_strdup(line);
-	str[ft_strlen(str) - 1] = '\0';
-	return (str);
-}
-
-static int	ft_signal_heredoc(char *line, char *str, char *delimiter)
-{
+	str = NULL;
 	if (!line)
 	{
 		str = ft_strjoin(ft_strdup("minishell: warning: here-document delimited \
@@ -36,32 +36,33 @@ by end-of-file (wanted `"), \
 	return (0);
 }
 
+/**
+	* Execute heredoc
+	* @param int.*pfd
+	* @param char.*delimiter
+	* @returns void
+	*/
 static void	ft_child_heredoc(int *pfd, char *delimiter)
 {
 	char	*line;
-	char	*str;
 
+	line = NULL;
 	signal(SIGINT, &ft_heredoc_handler);
-	ft_putstr_fd("heredoc> ", 2);
-	line = get_next_line(STDIN_FILENO);
-	str = NULL;
-	if (ft_signal_heredoc(line, str, delimiter))
-		return ;
-	str = ft_line_heredoc(line);
-	while (ft_strcmp(str, delimiter) != 0)
+	while (1)
 	{
-		ft_putstr_fd("heredoc> ", 2);
-		write(pfd[1], line, ft_strlen(line));
-		free(line);
-		line = get_next_line(STDIN_FILENO);
-		free(str);
-		str = ft_line_heredoc(line);
+		line = readline("\033[94mheredoc▸\033[0m ");
+		if (ft_signal_heredoc(line, delimiter) || !ft_strcmp(line, delimiter))
+			return ;
 	}
-	free(str);
-	free(line);
 	close(pfd[1]);
 }
 
+/**
+	* Manages heredoc
+	* @param char.*delimiter
+	* @param int.*input
+	* @returns void
+	*/
 void	ft_here_doc(char *delimiter, int *input)
 {
 	int		status;
@@ -73,7 +74,7 @@ void	ft_here_doc(char *delimiter, int *input)
 	{
 		close(pfd[0]);
 		ft_child_heredoc(pfd, delimiter);
-		exit(EXIT_SUCCESS);
+		exit(g_exit_code);
 	}
 	else
 	{
@@ -81,5 +82,7 @@ void	ft_here_doc(char *delimiter, int *input)
 		*input = dup(pfd[0]);
 		close(pfd[0]);
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_code = WEXITSTATUS(status);
 	}
 }

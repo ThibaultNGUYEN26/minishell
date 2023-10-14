@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 17:33:45 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/08 23:05:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:50:53 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Returns a pointer to a builtin function
+  * @param char.*command
+  * @returns int
+  */
 static int	(*ft_builtins_status(char *command))(t_cmd *cmd, t_bashvar **bash)
 {
 	if (command)
@@ -30,6 +35,8 @@ static int	(*ft_builtins_status(char *command))(t_cmd *cmd, t_bashvar **bash)
 			return (ft_unset);
 		else if (ft_strcmp(command, "exit") == 0)
 			return (ft_exit);
+		else if (ft_strcmp(command, "thibnguy") == 0)
+			return (ft_thibnguy);
 		else
 			return (NULL);
 	}
@@ -37,6 +44,12 @@ static int	(*ft_builtins_status(char *command))(t_cmd *cmd, t_bashvar **bash)
 		return (NULL);
 }
 
+/**
+  * Put the result of ft_builtins_status in cmd structure
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns void
+  */
 void	ft_builtin(t_cmd *cmd, t_bashvar **bash)
 {
 	t_cmd	*head;

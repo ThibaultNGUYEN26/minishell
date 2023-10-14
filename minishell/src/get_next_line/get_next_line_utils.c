@@ -6,12 +6,18 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:39:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/09/05 19:42:14 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:50:04 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Searches for the first occurence of the character c in the string s
+  * @param char.*s
+  * @param int.c
+  * @returns char *
+  */
 char	*ft_strchr2(char *s, int c)
 {
 	int	i;
@@ -23,6 +29,12 @@ char	*ft_strchr2(char *s, int c)
 	return ((char *)s + i);
 }
 
+/**
+  * String concatenation by taking s1 and s2
+  * @param char.*s1
+  * @param char.*s2
+  * @returns char *
+  */
 char	*ft_strjoin2(char *s1, char *s2)
 {
 	int		i;

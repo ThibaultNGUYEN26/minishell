@@ -6,12 +6,19 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:55 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 20:48:47 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:47:06 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Removes an environment variable from the bash structure
+  * @param char.*unset_value
+  * @param t_bashvar.**bash
+  * @param int.i
+  * @returns void
+  */
 static void	ft_delete(char *unset_value, t_bashvar **bash, int i)
 {
 	free((*bash)->envp[i]);
@@ -35,6 +42,11 @@ static void	ft_delete(char *unset_value, t_bashvar **bash, int i)
 	}
 }
 
+/**
+  * Checks if the command has a valid environment variable name
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_value(char *command)
 {
 	int		i;
@@ -58,6 +70,11 @@ static int	ft_check_value(char *command)
 	return (1);
 }
 
+/**
+  * Checks if the command has any options
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_option(char *command)
 {
 	char	*str;
@@ -76,6 +93,14 @@ static int	ft_check_option(char *command)
 	return (0);
 }
 
+/**
+  * Execute the unset command for a given variable name
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @param int.*exit_code
+  * @param int.k
+  * @returns void
+  */
 static void	ft_exec_unset(t_cmd *cmd, t_bashvar **bash, int *exit_code, int k)
 {
 	int	i;
@@ -102,6 +127,12 @@ static void	ft_exec_unset(t_cmd *cmd, t_bashvar **bash, int *exit_code, int k)
 	}
 }
 
+/**
+  * Removes environment variables from the bash structure
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 {
 	int		k;
@@ -109,6 +140,7 @@ int	ft_unset(t_cmd *cmd, t_bashvar **bash)
 
 	k = 0;
 	exit_code_test = 0;
+	g_exit_code = 0;
 	while (cmd->command[++k])
 	{
 		if (ft_check_option(cmd->command[k]))

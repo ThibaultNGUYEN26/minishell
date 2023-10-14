@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:29 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 18:10:17 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 12:52:04 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Checks if the command has any options
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_option(char *command)
 {
 	char	*str;
@@ -29,6 +34,12 @@ static int	ft_check_option(char *command)
 	return (0);
 }
 
+/**
+  * Displays the environment variables
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_env(t_cmd *cmd, t_bashvar **bash)
 {
 	int		i;
@@ -48,7 +59,8 @@ int	ft_env(t_cmd *cmd, t_bashvar **bash)
 		free(str);
 		return (126);
 	}
-	while ((*bash)->envp[i])
-		printf("%s\n", (*bash)->envp[i++]);
+	if ((*bash)->envp)
+		while ((*bash)->envp[i])
+			printf("%s\n", (*bash)->envp[i++]);
 	return (0);
 }

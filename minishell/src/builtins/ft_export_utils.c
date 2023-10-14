@@ -6,12 +6,20 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:15:39 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 18:46:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 19:14:27 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Updates the PWD and OLDPWD values in the bash structure according to export
+  * command
+  * @param t_bashvar.***bash
+  * @param char.*res
+  * @param char.**export
+  * @returns void
+  */
 static	void	ft_replace_pwd(t_bashvar ***bash, char *res, char **export)
 {
 	if (ft_strcmp(export[0], "PWD") == 0)
@@ -26,6 +34,12 @@ static	void	ft_replace_pwd(t_bashvar ***bash, char *res, char **export)
 	}
 }
 
+/**
+  * Replaces and existing environment variable in the bash structure
+  * @param char.**export
+  * @param t_bashvar.***bash
+  * @returns void
+  */
 void	ft_replace(char **export, t_bashvar ***bash)
 {
 	char	*res;
@@ -55,25 +69,58 @@ void	ft_replace(char **export, t_bashvar ***bash)
 	}
 }
 
+/**
+  * Appends a new environment variable to a list of environment variable
+  * @param t_bashvar.***bash
+  * @param char.**temp
+  * @param char.*export
+  * @param int.*i
+  * @returns void
+  */
+static void	ft_add_export(t_bashvar ***bash, char **temp, char *export, int *i)
+{
+	temp = malloc(sizeof(char *) * 2);
+	if (!temp)
+		return ;
+	*i += 1;
+	temp[*i] = ft_strdup(export);
+	*i += 1;
+	temp[*i] = NULL;
+	(*(*bash))->envp = temp;
+	free(temp);
+}
+
+/**
+  * Adds a new environment variable to the bash structure
+  * @param char.*export_value
+  * @param t_bashvar.***bash
+  * @returns void
+  */
 void	ft_add(char *export_value, t_bashvar ***bash)
 {
 	int		i;
 	char	**temp;
 
 	i = -1;
-	while ((*(*bash))->envp[++i])
-		;
-	temp = malloc(sizeof(char *) * (i + 2));
-	if (!temp)
-		return ;
-	i = -1;
-	while ((*(*bash))->envp[++i])
-		temp[i] = ft_strdup((*(*bash))->envp[i]);
-	temp[i++] = ft_strdup(export_value);
-	temp[i] = NULL;
-	i = 0;
-	while ((*(*bash))->envp[i])
-		free((*(*bash))->envp[i++]);
-	free((*(*bash))->envp);
-	(*(*bash))->envp = temp;
+	temp = NULL;
+	if ((*(*bash))->envp)
+	{
+		while ((*(*bash))->envp[++i])
+			;
+		temp = malloc(sizeof(char *) * (i + 2));
+		if (!temp)
+			return ;
+		i = -1;
+		while ((*(*bash))->envp[++i])
+			temp[i] = ft_strdup((*(*bash))->envp[i]);
+		temp[i++] = ft_strdup(export_value);
+		temp[i] = NULL;
+		i = 0;
+		while ((*(*bash))->envp[i])
+			free((*(*bash))->envp[i++]);
+		free((*(*bash))->envp);
+		(*(*bash))->envp = temp;
+	}
+	else
+		ft_add_export(bash, temp, export_value, &i);
 }

@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchbouki <rchbouki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:50:43 by rchbouki          #+#    #+#             */
-/*   Updated: 2023/10/05 18:55:42 by rchbouki         ###   ########.fr       */
+/*   Updated: 2023/10/14 12:44:44 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Copy a string from src to dst, it copies up to dstsize - 1
+  * @param char.*dst
+  * @param char.*src
+  * @param size_t.dstsize
+  * @returns size_t
+  */
 static size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 {
 	size_t	i;
@@ -29,6 +36,11 @@ static size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 	return (ft_strlen(src));
 }
 
+/**
+  * Calculates the number of digits in n
+  * @param int.n
+  * @returns int
+  */
 static int	ft_size(int n)
 {
 	int	len;
@@ -50,6 +62,13 @@ static int	ft_size(int n)
 	return (len);
 }
 
+/**
+  * Reverses a string of a given size, swaps from the beginning and end of the
+  * string until it reaches the middle
+  * @param char.*str
+  * @param int.size
+  * @returns char *
+  */
 static char	*ft_revstr(char *str, int size)
 {
 	int	rev;
@@ -69,6 +88,12 @@ static char	*ft_revstr(char *str, int size)
 	return (str);
 }
 
+/**
+  * Handles special cases when converting an integer to a string
+  * @param char.*src
+  * @param int.n
+  * @returns char *
+  */
 static char	*ft_exc(char *str, int n)
 {
 	if (n == 0)
@@ -78,6 +103,11 @@ static char	*ft_exc(char *str, int n)
 	return (str);
 }
 
+/**
+  * Converts a string into an integer
+  * @param int.n
+  * @returns char *
+  */
 char	*ft_itoa(int n)
 {
 	int		i;

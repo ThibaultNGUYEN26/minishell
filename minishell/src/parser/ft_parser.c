@@ -6,14 +6,18 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:34:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 20:09:29 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 22:40:13 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* Si file invalid ou pas de file
-	==> on free, on arrete tout et on repart à la minishell loop */
+/**
+	* Checks if file is invalid or no file, free and mainloop again
+	* @param t_data.**data
+	* @param t_data.*head_data
+	* @returns int
+	*/
 static int	ft_invalid_redirec(t_data **data, t_data *head_data)
 {
 	if (((*data)->next)->exit_code == 1)
@@ -52,7 +56,7 @@ static int	ft_redirec(t_data **head, t_data **data, t_cmd *cmd, t_data **pipe)
 		if (*pipe == *data)
 			*pipe = (*data)->next;
 		ft_delete_element(data);
-		(*data) = (*data)->next;
+		//(*data) = (*data)->next;
 		s = ft_split((*data)->content, "\f\t\n\r\v ");
 		addlast_node(&(cmd->redirections), ft_new_stack(ft_strdup(s[0]), NULL));
 		j = ft_count_words((*data)->content, "\f\t\n\r\v ");
@@ -231,8 +235,9 @@ t_cmd	*ft_parser(t_data **data)
 			}
 			if ((*data) == NULL)
 				break ;
-			(*data) = (*data)->next;
-			if ((*data) == head_data || (*data)->next == (*data))
+			if ((*data)->token == 5)
+				(*data) = (*data)->next;
+			if ((*data)->next == head_data || (*data)->next == (*data))
 				break ;
 		}
 		if ((*data) == NULL || (*data)->exit_code != 0)

@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:30:51 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 21:33:16 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:58:29 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+	* Manages exit_code
+	* @param char.*temp
+	* @returns char *
+	*/
 static char	*ft_exit_code1(char *temp)
 {
 	char	*str;
@@ -35,6 +40,11 @@ static char	*ft_exit_code1(char *temp)
 	return (str);
 }
 
+/**
+	* Manages exit_code
+	* @param char.*temp
+	* @returns char *
+	*/
 static char	*ft_exit_code2(char *temp)
 {
 	char	*str;
@@ -53,6 +63,11 @@ static char	*ft_exit_code2(char *temp)
 	return (str);
 }
 
+/**
+	* Manages error messages and exit_code
+	* @param char.*temp
+	* @returns int
+	*/
 int	ft_exec_error(char *cmd)
 {
 	char	*str;
@@ -64,6 +79,8 @@ int	ft_exec_error(char *cmd)
 	str = ft_exit_code1(temp);
 	if (str == NULL)
 		str = ft_exit_code2(temp);
+	if (str == NULL)
+		g_exit_code = 0;
 	ft_putstr_fd(str, 2);
 	free(temp);
 	free(str);

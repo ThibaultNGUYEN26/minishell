@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 22:12:45 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:50:30 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	g_exit_code = 0;
 /**
   * Print welcome text at program's launch.
   * @param void 
-  * @returns 0 file open success | 1 file open failed
+  * @returns int
   */
 int	ft_welcome(void)
 {
@@ -44,8 +44,8 @@ int	ft_welcome(void)
 
 /**
   * Input catcher and run lexer
-  * @param input
-  * @param envp
+  * @param char.*input
+  * @param t_bashvar.**bash
   * @returns void
   */
 static void	ft_catch_input(char *input, t_bashvar **bash)
@@ -86,27 +86,28 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 
 /**
   * Loop the user input and catch signals from it + history functionality.
-  * @param envp
+  * @param t_bashvar.**bash
   * @returns void
   */
 static void	ft_minishell_loop(t_bashvar **bash)
 {
 	char	*input;
 
-	(void)bash;
+	input = NULL;
 	ft_signals();
 	while (1)
 	{
-		input = NULL;
+		get_hd_bool(true, false);
 		if (g_exit_code == 0)
-			input = readline("\033[1;32m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
+			input = readline(RL_DEFAULT);
 		else
-			input = readline("\033[31m➜ \033[1;32mminishell\033[94m$▸\033[0m ");
+			input = readline(RL_ERROR);
+		get_hd_bool(true, true);
 		if (!input)
 		{
 			g_exit_code = 0;
 			printf("exit\n");
-			break ;
+			return ;
 		}
 		add_history(input);
 		ft_catch_input(input, bash);

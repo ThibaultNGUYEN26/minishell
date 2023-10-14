@@ -6,12 +6,20 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:44:33 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 22:59:40 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:56:26 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+	* Manage all expender case of $
+	* @param char.**envp
+	* @param int.i
+	* @param int.j
+	* @param t_data.*data
+	* @returns char *
+	*/
 static char	*ft_equal(char **envp, int i, int j, t_data *data)
 {
 	char	*res;
@@ -32,8 +40,8 @@ static char	*ft_equal(char **envp, int i, int j, t_data *data)
 
 /**
 	* Manage all expender case of $
-	* @param data
-	* @param envp
+	* @param t_data.*data
+	* @param char.**envp
 	* @returns char *
 	*/
 static char	*ft_dollar_utils(t_data *data, char **envp)
@@ -65,8 +73,8 @@ static char	*ft_dollar_utils(t_data *data, char **envp)
 
 /**
 	* Check if there is a dollar in command
-	* @param data
-	* @param envp
+	* @param t_data.*data
+	* @param char.**envp
 	* @returns void
 	*/
 void	ft_dollar(t_data *data, char **envp)

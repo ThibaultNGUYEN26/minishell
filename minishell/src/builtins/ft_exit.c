@@ -6,12 +6,17 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:18:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 18:12:58 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:39:10 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Checks if the arguments are not numeric
+  * @param char.*command
+  * @returns int
+  */
 static int	ft_check_args(char *command)
 {
 	if ((ft_strcmp(command, "-1") != 0)
@@ -27,6 +32,12 @@ static int	ft_check_args(char *command)
 	return (0);
 }
 
+/**
+  * Exit the program and calulates exit code % 256 for a long long sized argument
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_exit(t_cmd *cmd, t_bashvar **bash)
 {
 	int	i;

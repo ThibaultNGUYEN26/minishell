@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/12 21:25:55 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:37:18 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 
 	i = 0;
 	command = NULL;
+	path = NULL;
 	if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
 	if (cmd->builtin != NULL && file->argc != 1)
@@ -58,12 +59,17 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	if (access(cmd->command[0], X_OK) == 0)
 		if (execve(cmd->command[0], cmd->command, NULL) == -1)
 			exit(ft_exec_error("execve"));
-	path = ft_find_path((*bash)->envp);
+	if ((*bash)->envp)
+		path = ft_find_path((*bash)->envp);
 	if (!path)
 	{
 		if (access(cmd->command[0], X_OK) == 0)
+		{
 			if (execve(command, cmd->command, NULL) == -1)
 				exit(ft_exec_error("execve"));
+		}
+		else
+			exit(EXIT_FAILURE);
 	}
 	else
 	{
@@ -95,7 +101,6 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	int		pid;
 	int		i;
 	int		status;
-	int		number;
 
 	ft_redirec_files(cmd, file);
 	pid = create_process(pfd, 0);
@@ -110,22 +115,23 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	{
 		close(pfd[1]);
 		close(file->input);
-		number = file->argc;
-		file->pid[file->argc - n] = pid;
-		if (n == 1)
-		{
-			i = 0;
-			while (i < file->argc)
-				waitpid(file->pid[i++], &status, 0);
-			if (WIFEXITED(status) && WEXITSTATUS(status))
-				g_exit_code = WEXITSTATUS(status);
-		}
-		if (number == 1 && cmd->builtin != NULL && file->input != -1)
+		if (file->argc == 1 && cmd->builtin != NULL && file->input != -1)
 		{
 			if (file->output != -2)
 				dup2(file->output, STDOUT_FILENO);
 			g_exit_code = (cmd->builtin)(cmd, bash);
 			return ;
+		}
+		file->pid[file->argc - n] = pid;
+		if (n == 1 && cmd->command)
+		{
+			i = 0;
+			while (i < file->argc)
+				waitpid(file->pid[i++], &status, 0);
+			if (g_exit_code != 0 && !WEXITSTATUS(status))
+				g_exit_code = 0;
+			else if (WIFEXITED(status) && WEXITSTATUS(status))
+				g_exit_code = WEXITSTATUS(status);
 		}
 		if (file->input == -1)
 			file->input = dup(pfd[0]);
@@ -136,6 +142,22 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 		if (n != 0)
 			ft_pipeline(n, cmd->next, bash, file);
 	}
+}
+
+static int	ft_init_file(t_files *file, int count, t_cmd *cmd, t_bashvar **bash)
+{
+	file->argc = count;
+	file->input = STDIN_FILENO;
+	file->output = STDOUT_FILENO;
+	file->saved_input = dup(STDIN_FILENO);
+	file->saved_output = dup(STDOUT_FILENO);
+	file->pid = malloc(sizeof(int) * count);
+	if (!file->pid)
+		return (0);
+	ft_pipeline(count, cmd, bash, file);
+	dup2(file->saved_input, STDIN_FILENO);
+	dup2(file->saved_output, STDOUT_FILENO);
+	return (1);
 }
 
 /* The "main" of the execution part */
@@ -160,17 +182,8 @@ void	ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
 			break ;
 	}
 	ft_assign_hd(cmd);
-	file->argc = count_cmd;
-	file->input = STDIN_FILENO;
-	file->output = STDOUT_FILENO;
-	file->saved_input = dup(STDIN_FILENO);
-	file->saved_output = dup(STDOUT_FILENO);
-	file->pid = malloc(sizeof(int) * count_cmd);
-	if (!file->pid)
+	if (!ft_init_file(file, count_cmd, cmd, bash))
 		return ;
-	ft_pipeline(count_cmd, cmd, bash, file);
-	dup2(file->saved_input, STDIN_FILENO);
-	dup2(file->saved_output, STDOUT_FILENO);
 	cmd = head_cmd;
 	free(file->pid);
 	free(file);
