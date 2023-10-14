@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 21:09:37 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 20:42:36 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:28:23 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static void	ft_child_heredoc(int *pfd, char *delimiter)
 	{
 		line = readline("\033[94mheredoc▸\033[0m ");
 		if (ft_signal_heredoc(line, delimiter) || !ft_strcmp(line, delimiter))
-			return ;
+			return (free(line));
+		write(pfd[1], line, ft_strlen(line));
+		write(pfd[1], "\n", 1);
+		free(line);
 	}
 	close(pfd[1]);
 }

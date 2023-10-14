@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:34:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 22:40:13 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 22:48:42 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,10 +235,10 @@ t_cmd	*ft_parser(t_data **data)
 			}
 			if ((*data) == NULL)
 				break ;
-			if ((*data)->token == 5)
-				(*data) = (*data)->next;
 			if ((*data)->next == head_data || (*data)->next == (*data))
 				break ;
+			if ((*data)->token == 5)
+				(*data) = (*data)->next;
 		}
 		if ((*data) == NULL || (*data)->exit_code != 0)
 		{
