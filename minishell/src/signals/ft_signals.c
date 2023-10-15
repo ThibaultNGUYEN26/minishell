@@ -6,12 +6,20 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:56:05 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 20:52:13 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:25:38 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+	* Gets or sets the value of a static boolean variable by providing a set
+	* flag and value to assign to the variable, primarily used to manage a
+	* persistent boolean state across function calls
+	* @param bool set
+	* @param bool value
+	* @returns bool
+	*/
 bool	get_hd_bool(bool set, bool value)
 {
 	static bool	hd_bool = false;

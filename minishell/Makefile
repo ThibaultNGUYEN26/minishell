@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/10/15 11:16:43 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/10/15 16:33:06 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,12 @@ SRCS		=	bashvar/ft_bash.c \
 				lexer/ft_lexer_file_errors.c \
 				lexer/ft_lexer.c \
 				lexer/ft_quotes.c \
-				parser/ft_parser.c \
+				parser/ft_echo_utils.c \
+				parser/ft_parser_echo.c \
+				parser/ft_parser_init.c \
+				parser/ft_parser_redirec.c \
 				parser/ft_parser_utils.c \
+				parser/ft_parser.c \
 				libft/ft_atoi.c \
 				libft/ft_isalnum.c \
 				libft/ft_isnumeric.c \
@@ -63,7 +67,7 @@ SRCS		=	bashvar/ft_bash.c \
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g #-fsanitize=address
 CINCLUDES	=	-I ${INCLUDES}
 
 BLACK		=	"\033[1;30m"

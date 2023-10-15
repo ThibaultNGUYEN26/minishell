@@ -6,12 +6,20 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/15 00:21:28 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:23:35 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+  * Handles the setup of file descriptors for input and output redirection in
+  * the child process
+  * @param int.n
+  * @param int.*pfd
+  * @param t_files.*file
+  * @returns void
+  */
 static void	ft_child(int n, int *pfd, t_files *file)
 {
 	close(pfd[0]);
@@ -34,14 +42,13 @@ static void	ft_child(int n, int *pfd, t_files *file)
 		exit(g_exit_code);
 }
 
-/* Function that will execute the commands with its options and the env path so
-we will need it to take as argument :
-	- the cmd->command 2D Array 
-	- bash->envp 
-	And we will need to check if it's builtin or not, so that we execute the
-	builtin instead 
-=> cmd will be the string carrying the path it belongs to with a / at the end
-with the command */
+/**
+  * Executes command, either as a builtin command or an external executable
+  * @param t_files.*file
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns void
+  */
 static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 {
 	char	**path;
@@ -61,8 +68,15 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	ft_execve_utils(path, cmd);
 }
 
-/* ft_pipeline is the recursive function that will create the children and
-execute the commands */
+/**
+  * Manages the execution of a pipeline of commands, creating process for each
+  * command, handling input and output redirection, and executing the commands
+  * @param int.n
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @param t_files.*file
+  * @returns void
+  */
 static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 {
 	int		pfd[2];
@@ -92,6 +106,16 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 	}
 }
 
+/**
+  * Initializes file descriptors and manages the execution of a series of
+  * commands, setting up input and output redirection, executing the commands in
+  * a pipeline, and restoring the standard input and output
+  * @param t_files.*file
+  * @param int.count
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 static int	ft_init_file(t_files *file, int count, t_cmd *cmd, t_bashvar **bash)
 {
 	file->argc = count;
@@ -108,7 +132,14 @@ static int	ft_init_file(t_files *file, int count, t_cmd *cmd, t_bashvar **bash)
 	return (1);
 }
 
-/* The "main" of the execution part */
+/**
+  * Coordinates the handling and execution of multiple commands by determining
+  * the number of commands in the list , assigning the head command,
+  * initializing the file descriptors, and executing the commands
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns void
+  */
 void	ft_handle_cmd(t_cmd *cmd, t_bashvar **bash)
 {
 	t_cmd	*head_cmd;

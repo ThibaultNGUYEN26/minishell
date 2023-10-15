@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:14:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 13:14:14 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:17:16 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ static int	ft_change_directory(t_cmd *cmd, t_bashvar **bash)
 	(*bash)->pwd = malloc(sizeof(char) * 4096);
 	if (!(*bash)->pwd)
 		return (1);
-	getcwd((*bash)->pwd, 4096);
-	if (!(*bash)->pwd)
+	if (!getcwd((*bash)->pwd, 4096) || !(*bash)->pwd)
 		return (free((*bash)->pwd), ft_exec_error("cd :"));
 	if ((*bash)->envp)
 		ft_replace_pwd("PWD=", (*bash)->pwd, bash);

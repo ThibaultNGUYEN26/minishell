@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:01:41 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 23:30:47 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 16:37:06 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,28 +137,4 @@ void	ft_free_stack(t_data *data)
 	free(data->content);
 	free(data);
 	data = NULL;
-}
-
-/**
-  * Print linked list.
-  * @param t_data.*data
-  * @returns void
-  */
-void	ft_print_data(t_data *data)
-{
-	t_data	*head;
-	int		i;
-
-	head = data;
-	i = 0;
-	while (1 && data)
-	{
-		printf("[%d] content : %s, token : %d, g_exit_code : %d\n", i, \
-			(data)->content, (data)->token, (data)->exit_code);
-		if ((data)->next == head)
-			break ;
-		data = (data)->next;
-		i++;
-	}
-	data = head;
 }

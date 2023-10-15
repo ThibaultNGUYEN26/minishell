@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:08 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 20:50:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 16:37:57 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,17 @@ static void	ft_catch_input(char *input, t_bashvar **bash)
 	data = ft_lexer(input);
 	ft_quotes(data);
 	if (ft_redirect_error(data))
-	{
-		ft_free_stack(data);
-		return ;
-	}
+		return (ft_free_stack(data));
 	ft_dollar(data, (*bash)->envp);
-	printf("STRUCTURE DU LEXER :\n");
-	ft_print_data(data);
 	cmd = ft_parser(&data);
 	if (cmd->error == 1)
 	{
 		ft_free_stack(data);
-		ft_free_cmd(cmd);
-		return ;
+		return (ft_free_cmd(cmd));
 	}
 	if (data != NULL)
 		ft_free_stack(data);
 	ft_builtin(cmd, bash);
-	printf("STRUCTURE DU PARSER :\n");
-	ft_print_cmd(cmd);
-	printf("EXECUTION INCOMING\n");
 	ft_handle_cmd(cmd, bash);
 	ft_free_cmd(cmd);
 }
@@ -115,6 +106,14 @@ static void	ft_minishell_loop(t_bashvar **bash)
 	}
 }
 
+/**
+  * Entry point of the program that initializes the shell environment, displays
+  * a welcome message, enters a shell loop, and cleans up allocated resources
+  * @param int.argc
+  * @param char.*argv[]
+  * @param char.**envp
+  * @returns int
+  */
 int	main(int argc, char *argv[], char **envp)
 {
 	t_bashvar	*bash;

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:41:26 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 20:46:30 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 16:36:38 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,42 +83,4 @@ void	ft_free_cmd(t_cmd *cmd)
 	if (cmd->redirections)
 		ft_free_stack(cmd->redirections);
 	free(cmd);
-}
-
-/**
-  * Print linked list.
-  * @param t_cmd.*cmd
-  * @returns void
-  */
-void	ft_print_cmd(t_cmd *cmd)
-{
-	t_cmd	*head;
-	int		i;
-	int		j;
-
-	head = cmd;
-	i = 0;
-	while (1)
-	{
-		printf("[%d]	:\n", i);
-		j = 0;
-		printf("[command] : {");
-		if (!cmd->command)
-			printf("NULL\n");
-		else
-			while (cmd->command[j])
-				printf("%s, ", cmd->command[j++]);
-		printf("}\n[redirection] : \n");
-		ft_print_data(cmd->redirections);
-		printf("are there any builtins in this command ?\n");
-		if (cmd->builtin)
-			printf("Yes !\n");
-		else
-			printf("No\n");
-		if ((cmd)->next == head)
-			break ;
-		cmd = (cmd)->next;
-		i++;
-	}
-	cmd = head;
 }

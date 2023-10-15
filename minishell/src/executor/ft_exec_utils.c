@@ -6,12 +6,19 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 23:54:58 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/15 00:20:05 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:15:33 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/**
+  * Constructs the full path of an executable command by concatenating the path
+  * and the cmd strings
+  * @param char.*path
+  * @param char.*cmd
+  * @returns char *
+  */
 static char	*ft_find_cmd(char *path, char *cmd)
 {
 	char	*command;
@@ -25,6 +32,12 @@ static char	*ft_find_cmd(char *path, char *cmd)
 	return (command);
 }
 
+/**
+  * Attempts to execute a command when no path is provided by checking if it's
+  * executable
+  * @param char.*cmd
+  * @returns void
+  */
 static void	ft_no_path(t_cmd *cmd)
 {
 	char	*command;
@@ -39,6 +52,13 @@ static void	ft_no_path(t_cmd *cmd)
 		exit(EXIT_FAILURE);
 }
 
+/**
+  * Searches for an executable command in the provided path array and attemps to
+  * execute it
+  * @param char.**path
+  * @param t_cmd.*cmd
+  * @returns void
+  */
 void	ft_execve_utils(char **path, t_cmd *cmd)
 {
 	char	*command;
@@ -64,6 +84,13 @@ void	ft_execve_utils(char **path, t_cmd *cmd)
 	}	
 }
 
+/**
+  * Handles the execution of builtin commands in the parent process
+  * @param t_files.*file
+  * @param t_cmd.*cmd
+  * @param t_bashvar.**bash
+  * @returns int
+  */
 int	ft_builtin_parent(t_files *file, t_cmd *cmd, t_bashvar **bash)
 {
 	close(file->input);
@@ -77,6 +104,15 @@ int	ft_builtin_parent(t_files *file, t_cmd *cmd, t_bashvar **bash)
 	return (0);
 }
 
+/**
+  * Manages the execution of commands in the parent process by waiting for
+  * child processes to complete and updating the global exit code variable
+  * @param t_files.*file
+  * @param int.n
+  * @param int.pid
+  * @param t_cmd.*cmd
+  * @returns void
+  */
 void	ft_parent_exec(t_files *file, int n, int pid, t_cmd *cmd)
 {
 	int	i;

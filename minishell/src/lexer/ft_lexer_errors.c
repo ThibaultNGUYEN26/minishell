@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:15:00 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 18:55:21 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 15:31:49 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_quotes_input(char *input)
 			if (!input[i])
 			{
 				printf("minishell: unexpected EOF while looking for matching `\
-					%c'\nminishell: syntax error: unexpected end of file\n", c);
+%c'\nminishell: syntax error: unexpected end of file\n", c);
 				g_exit_code = 2;
 				return (1);
 			}

@@ -1,8 +1,0 @@
-au lieu de faire   :  builtin_arr = mini_echo  ou builtin_arr = mini_cd ou ....
-en comparant avant avec ft_strcmp
-
-int    (builtin(str))(t_simple cmds)
-{
-    if ft_strcmp()
-        cmd->builtin = mini_echo;
-}

@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 19:53:32 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 23:47:16 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 16:55:18 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_tokenizer(char *input, int i)
 	* Add the token to data
 	* @param t_data.**data
 	* @param char.*input
-	* @param char.*i
+	* @param int.*i
 	* @returns void
 	*/
 static void	ft_add_token(t_data **data, char *input, int *i)
@@ -51,6 +51,16 @@ static void	ft_add_token(t_data **data, char *input, int *i)
 	}
 }
 
+/**
+	* Scans the input string for tokens, single and double quotes, and
+	* constructs data nodes based on the extracted substrings and their
+	* respective delimiters
+	* @param t_data.**data
+	* @param char.*input
+	* @param int.*i
+	* @param int.*j
+	* @returns void
+	*/
 static void	ft_lexer_utils(t_data **data, char *input, int *i, int *j)
 {
 	char	c;

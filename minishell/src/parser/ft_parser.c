@@ -6,207 +6,97 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:34:57 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/15 11:15:13 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:48:22 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /**
-	* Checks if file is invalid or no file, free and mainloop again
-	* @param t_data.**data
-	* @param t_data.*head_data
-	* @returns int
-	*/
-static int	ft_invalid_redirec(t_data **data, t_data *head_data)
+  * Checks the validity of a data element in a linked list
+  * @param t_data.**data
+  * @param t_data.*head_data
+  * @returns int
+  */
+static int	ft_check_data_element(t_data **data, t_data **head_data)
 {
-	if (((*data)->next)->exit_code == 1)
-	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
-		(*data) = head_data;
-		(*data)->exit_code = 2;
-		g_exit_code = 2;
-		return (1);
-	}
-	if ((*data)->next == head_data)
-	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
-		(*data) = head_data;
-		(*data)->exit_code = 2;
-		g_exit_code = 2;
-		return (1);
-	}
-	return (0);
+	if ((*data) == NULL)
+		return (0);
+	if ((*data)->token == 5)
+		(*data) = (*data)->next;
+	if ((*data) == *head_data || (*data)->next == (*data))
+		return (0);
+	return (1);
 }
 
-static int	ft_redirec(t_data **head, t_data **data, t_cmd *cmd, t_data **pipe)
+/**
+  * After parses command from input, updates the data pointer to point to the
+  * next data element
+  * @param t_data.**data
+  * @param t_data.*head_data
+  * @returns int
+  */
+static void	ft_update(t_data **data, t_data *after, t_data *head, t_cmd *cmd)
 {
-	char	**s;
-	char	*temp;
-	int		i;
-	int		j;
+	ft_command_parser(cmd, data, after);
+	if (after == head)
+		(*data) = after;
+	else
+		(*data) = (after)->next;
+}
 
-	if ((*data)->token != 5)
+/**
+  * Processes a command by iteratively handling redirections and checking the
+  * validity of data elements
+  * @param t_cmd.*cmd
+  * @param t_data.**data
+  * @param t_data.*head_data
+  * @param t_data.*head_pipe
+  * @returns int
+  */
+static int	ft_check_redirec(t_cmd *cmd, t_data **data, t_data **h, t_data **p)
+{
+	int	test;
+
+	while ((*data)->token != 0)
 	{
-		if (ft_invalid_redirec(data, *head))
+		test = ft_redirec(h, data, cmd, p);
+		if (!test)
+		{
+			cmd->error = 1;
 			return (0);
-		addlast_node(&(cmd->redirections), ft_data_copy(*data));
-		if ((*data) == *head)
-			*head = (*data)->next;
-		if (*pipe == *data)
-			*pipe = (*data)->next;
-		ft_delete_element(data);
-		//(*data) = (*data)->next;
-		s = ft_split((*data)->content, "\f\t\n\r\v ");
-		addlast_node(&(cmd->redirections), ft_new_stack(ft_strdup(s[0]), NULL));
-		j = ft_count_words((*data)->content, "\f\t\n\r\v ");
-		if (j == 1)
-		{
-			if ((*data) == *head)
-				*head = (*data)->next;
-			if (*pipe == *data)
-				*pipe = (*data)->next;
-			ft_delete_element(data);
 		}
-		else
-		{
-			temp = ft_substr((*data)->content, ft_strlen(s[0]) + 1, \
-				ft_strlen((*data)->content) - ft_strlen(s[0]) + 1);
-			free((*data)->content);
-			(*data)->content = ft_strdup(temp);
-			free(temp);
-		}
-		i = 0;
-		while (i < j)
-			free(s[i++]);
-		free(s);
+		else if (test == 2)
+			break ;
+		if (!ft_check_data_element(data, h))
+			break ;
 	}
 	return (1);
 }
 
-static int	ft_echo_error(t_data **data, t_cmd *cmd, int i, char **split, t_data *head)
+/**
+  * Sets the data pointer back to the head data element and updates the cmd
+  * pointer to the head command element
+  * @param t_data.**data
+  * @param t_data.**h_data
+  * @param t_cmd.**cmd
+  * @param t_cmd.**h_cmd
+  * @returns void
+  */
+static void	ft_move(t_data **data, t_data **h_data, t_cmd **cmd, t_cmd **h_cmd)
 {
-	int		k;
-	int		j;
-	int		test;
-	char	*temp;
-	int		ancien;
-
-	k = 0;
-	j = 0;
-	test = 0;
-	cmd->command[j++] = ft_strdup(split[k++]);
-	while (ft_strncmp((*data)->content + i, "echo", 3) != 0)
-		i++;
-	i += 4;
-	while (1)
-	{
-		while (((*data)->content)[i] != '-' && (((*data)->content)[i] == '\f' \
-			|| ((*data)->content)[i] == '\t' || ((*data)->content)[i] == '\n' \
-			|| ((*data)->content)[i] == '\r' || ((*data)->content)[i] == '\v' \
-			|| ((*data)->content)[i] == ' '))
-			i++;
-		if (((*data)->content)[i] == '-')
-		{
-			ancien = i;
-			i++;
-			if (((*data)->content)[i] != 'n')
-			{
-				cmd->command[j++] = ft_substr((*data)->content, ancien, \
-					ft_strlen((*data)->content) - ancien);
-				test = 1;
-				break ;
-			}
-			while (((*data)->content)[i] == 'n')
-				i++;
-			if (((*data)->content)[i] == '\f' || ((*data)->content)[i] == '\t' \
-				|| ((*data)->content)[i] == '\n' \
-				|| ((*data)->content)[i] == '\r' \
-				|| ((*data)->content)[i] == '\v' \
-				|| ((*data)->content)[i] == ' ')
-				cmd->command[j++] = ft_strdup(split[k++]);
-			else
-			{
-				cmd->command[j++] = ft_substr((*data)->content, ancien, \
-					ft_strlen((*data)->content) - ancien);
-				test = 1;
-				break ;
-			}
-		}
-		else
-			break ;
-	}
-	if (test == 1)
-		return (j);
-	while (((*data)->content)[i] == '\f' || ((*data)->content)[i] == '\t' \
-		|| ((*data)->content)[i] == '\n' || ((*data)->content)[i] == '\r' \
-		|| ((*data)->content)[i] == '\v' || ((*data)->content)[i] == ' ')
-		i++;
-	cmd->command[j] = ft_substr((*data)->content, i, \
-		ft_strlen((*data)->content) - i);
-	while ((*data)->next != head && (*data)->next->token == 5)
-	{
-		(*data) = (*data)->next;
-		temp = ft_strdup(cmd->command[j]);
-		free(cmd->command[j]);
-		cmd->command[j] = ft_strjoin2(temp, (*data)->content);
-		free(temp);
-	}
-	j++;
-	return (j);
+	if ((*data) != NULL && (*data)->exit_code != 1 && (*data)->exit_code != 2)
+		(*data) = *h_data;
+	*cmd = *h_cmd;
 }
 
-static void	ft_command_parser(t_cmd *cmd, t_data **data, t_data *after_pipe)
-{
-	char	**split;
-	t_data	*head;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	head = *data;
-	while (1)
-	{
-		i += ft_count_words((*data)->content, "\f\t\n\r\v ");
-		*data = (*data)->next;
-		if ((*data) == after_pipe)
-			break ;
-	}
-	if (i == 0)
-	{
-		cmd->command = NULL;
-		return ;
-	}
-	cmd->command = malloc(sizeof(char *) * (i + 2));
-	if (!cmd->command)
-		return ;
-	(*data) = head;
-	while (1)
-	{
-		if (ft_count_words((*data)->content, "\f\t\n\r\v ") != 0)
-		{
-			i = 0;
-			split = ft_split((*data)->content, "\f\t\n\r\v ");
-			if (ft_strcmp(split[0], "echo") == 0)
-				j = ft_echo_error(data, cmd, i, split, after_pipe);
-			else
-				while (split[i])
-					cmd->command[j++] = ft_strdup(split[i++]);
-			i = 0;
-			while (split[i])
-				free(split[i++]);
-			free(split);
-		}
-		if ((*data) == after_pipe)
-			break ;
-		*data = (*data)->next;
-		if ((*data) == after_pipe)
-			break ;
-	}
-	cmd->command[j] = NULL;
-}
-
+/**
+  * Parses a command strcture by initializing data and command pointers,
+  * creating and updating command elements. checking for redirections and
+  * elements
+  * @param t_data.**data
+  * @returns t_cmd *
+  */
 t_cmd	*ft_parser(t_data **data)
 {
 	t_data	*head_data;
@@ -215,49 +105,21 @@ t_cmd	*ft_parser(t_data **data)
 	t_cmd	*head_cmd;
 	t_cmd	*cmd;
 
-	cmd = NULL;
-	head_data = *data;
-	head_pipe = head_data;
-	head_cmd = cmd;
+	ft_cmd_init(&cmd, &head_cmd);
+	ft_data_init(data, &head_data, &head_pipe);
 	while (1)
 	{
-		addlast_cmd(&head_cmd, ft_new_cmd());
-		if (cmd == NULL)
-			cmd = head_cmd;
-		else
-			cmd = (cmd)->next;
-		while ((*data)->token != 0)
-		{
-			if (!ft_redirec(&head_data, data, cmd, &head_pipe))
-			{
-				cmd->error = 1;
-				return (cmd);
-			}
-			if ((*data) == NULL)
-				break ;
-			if ((*data)->next == head_data || (*data)->next == (*data))
-				break ;
-			if ((*data)->token == 5)
-				(*data) = (*data)->next;
-		}
-		if ((*data) == NULL || (*data)->exit_code != 0)
-		{
-			cmd->command = NULL;
+		ft_create_cmd(&cmd, &head_cmd);
+		if (!ft_check_redirec(cmd, data, &head_data, &head_pipe))
+			return (cmd);
+		if (!ft_check_element(data, cmd))
 			break ;
-		}
-		after_pipe = (*data);
-		(*data) = head_pipe;
-		ft_command_parser(cmd, data, after_pipe);
-		if (after_pipe == head_data)
-			(*data) = after_pipe;
-		else
-			(*data) = (after_pipe)->next;
+		ft_update_ptr(data, &after_pipe, &head_pipe);
+		ft_update(data, after_pipe, head_data, cmd);
 		head_pipe = (*data);
 		if ((*data) == head_data)
 			break ;
 	}
-	if ((*data) != NULL && (*data)->exit_code != 1 && (*data)->exit_code != 2)
-		(*data) = head_data;
-	cmd = head_cmd;
+	ft_move(data, &head_data, &cmd, &head_cmd);
 	return (cmd);
 }
