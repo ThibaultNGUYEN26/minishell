@@ -6,7 +6,7 @@
 #    By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 17:51:35 by thibnguy          #+#    #+#              #
-#    Updated: 2023/10/14 22:45:03 by thibnguy         ###   ########.fr        #
+#    Updated: 2023/10/15 11:16:43 by thibnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		=	bashvar/ft_bash.c \
 				executor/ft_heredoc.c \
 				executor/pipex_utils.c \
 				executor/redirec_utils.c \
+				executor/ft_exec_utils.c \
 				get_next_line/get_next_line.c \
 				get_next_line/get_next_line_utils.c \
 				lexer/ft_dollar_utils.c \
@@ -38,7 +39,9 @@ SRCS		=	bashvar/ft_bash.c \
 				lexer/ft_lexer_errors.c \
 				lexer/ft_lexer_file_errors.c \
 				lexer/ft_lexer.c \
+				lexer/ft_quotes.c \
 				parser/ft_parser.c \
+				parser/ft_parser_utils.c \
 				libft/ft_atoi.c \
 				libft/ft_isalnum.c \
 				libft/ft_isnumeric.c \
@@ -115,16 +118,4 @@ fclean: clean
 
 re: fclean all
 
-r:
-	make; ./minishell
-
-v:
-	make; valgrind ./minishell
-
-run:
-	make re; ./minishell
-
-vrun:
-	make re; valgrind ./minishell
-
-.PHONY: all clean fclean re r v run vrun
+.PHONY: all clean fclean re

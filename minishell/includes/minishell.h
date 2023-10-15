@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:52:35 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 20:46:34 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 11:17:45 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,13 @@ int			ft_redirect_error(t_data *data);
 int			ft_check_filecharacters(t_data *data);
 /* ft_lexer */
 t_data		*ft_lexer(char *input);
+/* ft_quotes.c */
 void		ft_quotes(t_data *data);
 
 /* ----- PARSER ----- */
 /* ft_parser */
-t_cmd		*ft_parser(t_data **my_data);
+t_cmd		*ft_parser(t_data **data);
+
 
 /* ----- BUILTINS ----- */
 /* ft_builtins */
@@ -134,6 +136,10 @@ void		ft_handle_cmd(t_cmd *cmd, t_bashvar **bash);
 /* ft_redirec_files.c */
 void		ft_redirec_files(t_cmd *cmd, t_files *file);
 char		**ft_find_path(char **envp);
+/* ft_exec_utils.c */
+void		ft_execve_utils(char **path, t_cmd *cmd);
+int			ft_builtin_parent(t_files *file, t_cmd *cmd, t_bashvar **bash);
+void		ft_parent_exec(t_files *file, int n, int pid, t_cmd *cmd);
 
 /* ------ SIGNALS ----- */
 bool		get_hd_bool(bool set, bool value);

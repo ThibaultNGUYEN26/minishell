@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:30:54 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 23:10:03 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 00:21:28 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,11 @@ we will need it to take as argument :
 with the command */
 static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 {
-	int		i;
-	char	*command;
-	char	*temp;
 	char	**path;
 
-	i = 0;
-	command = NULL;
 	path = NULL;
+	if (cmd->command == NULL)
+		exit(EXIT_SUCCESS);
 	if (cmd->builtin != NULL && file->argc == 1)
 		exit(EXIT_SUCCESS);
 	if (cmd->builtin != NULL && file->argc != 1)
@@ -61,36 +58,7 @@ static void	ft_exec_cmd(t_files *file, t_cmd *cmd, t_bashvar **bash)
 			exit(ft_exec_error("execve"));
 	if ((*bash)->envp)
 		path = ft_find_path((*bash)->envp);
-	if (!path)
-	{
-		if (access(cmd->command[0], X_OK) == 0)
-		{
-			if (execve(command, cmd->command, NULL) == -1)
-				exit(ft_exec_error("execve"));
-		}
-		else
-			exit(EXIT_FAILURE);
-	}
-	else
-	{
-		while (path[i])
-		{
-			command = ft_strjoin2(path[i], "/");
-			temp = ft_strdup(command);
-			free(command);
-			command = ft_strjoin2(temp, cmd->command[0]);
-			free(temp);
-			if (access(command, X_OK) == 0)
-				if (execve(command, cmd->command, NULL) == -1)
-					exit(ft_exec_error("execve"));
-			free(command);
-			i++;
-		}
-		ft_putstr_fd(cmd->command[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		g_exit_code = 127;
-		exit(g_exit_code);
-	}
+	ft_execve_utils(path, cmd);
 }
 
 /* ft_pipeline is the recursive function that will create the children and
@@ -99,40 +67,20 @@ static void	ft_pipeline(int n, t_cmd *cmd, t_bashvar **bash, t_files *file)
 {
 	int		pfd[2];
 	int		pid;
-	int		i;
-	int		status;
 
 	ft_redirec_files(cmd, file);
 	pid = create_process(pfd, 0);
 	if (pid == 0)
 	{
 		ft_child(n, pfd, file);
-		if (cmd->command == NULL)
-			exit(EXIT_SUCCESS);
 		ft_exec_cmd(file, cmd, bash);
 	}
 	else
 	{
 		close(pfd[1]);
-		close(file->input);
-		if (file->argc == 1 && cmd->builtin != NULL && file->input != -1)
-		{
-			if (file->output != -2)
-				dup2(file->output, STDOUT_FILENO);
-			g_exit_code = (cmd->builtin)(cmd, bash);
+		if (ft_builtin_parent(file, cmd, bash))
 			return ;
-		}
-		file->pid[file->argc - n] = pid;
-		if (n == 1 && cmd->command)
-		{
-			i = 0;
-			while (i < file->argc)
-				waitpid(file->pid[i++], &status, 0);
-			if (g_exit_code != 0 && !WEXITSTATUS(status))
-				g_exit_code = 0;
-			else if (WIFEXITED(status) && WEXITSTATUS(status))
-				g_exit_code = WEXITSTATUS(status);
-		}
+		ft_parent_exec(file, n, pid, cmd);
 		if (file->input == -1)
 			file->input = dup(pfd[0]);
 		else

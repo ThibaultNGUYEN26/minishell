@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:01:41 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 21:02:59 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:30:47 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ void	addlast_node(t_data **stack, t_data *new_data)
 void	ft_delete_element(t_data **data)
 {
 	t_data	*temp;
-
-	// << riri > output
-	// riri > output
 
 	if ((*data) == (*data)->next)
 	{

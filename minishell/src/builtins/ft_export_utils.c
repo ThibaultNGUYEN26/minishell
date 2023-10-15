@@ -6,7 +6,7 @@
 /*   By: thibnguy <thibnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:15:39 by thibnguy          #+#    #+#             */
-/*   Updated: 2023/10/14 19:14:27 by thibnguy         ###   ########.fr       */
+/*   Updated: 2023/10/15 00:11:31 by thibnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ void	ft_replace(char **export, t_bashvar ***bash)
   * @param int.*i
   * @returns void
   */
-static void	ft_add_export(t_bashvar ***bash, char **temp, char *export, int *i)
+static void	ft_add_export(t_bashvar ***bash, char **temp, char *export)
 {
+	int	i;
+
+	i = 0;
 	temp = malloc(sizeof(char *) * 2);
 	if (!temp)
 		return ;
-	*i += 1;
-	temp[*i] = ft_strdup(export);
-	*i += 1;
-	temp[*i] = NULL;
+	temp[i++] = ft_strdup(export);
+	temp[i] = NULL;
 	(*(*bash))->envp = temp;
-	free(temp);
 }
 
 /**
@@ -122,5 +122,5 @@ void	ft_add(char *export_value, t_bashvar ***bash)
 		(*(*bash))->envp = temp;
 	}
 	else
-		ft_add_export(bash, temp, export_value, &i);
+		ft_add_export(bash, temp, export_value);
 }
